@@ -7,6 +7,15 @@
 	color: #666;
 }
 
+.small_width input {
+	background-color: #fff;
+	padding: 3px;
+}
+
+input[type=email] {
+	background-color: #fff;
+}
+
 .screen-reader-only{position:absolute; clip:rect(1px,1px,1px,1px); padding:0; border:0; height:1px; width:1px; overflow:hidden}
 
 .an_h2 {
@@ -18,7 +27,7 @@
 }
 
 footer a:focus, footer a:hover {
-	outline: solid 2px #000080;
+	outline: solid 2px #fff;
 	outline-offset: 2px;
 }
 
@@ -29,4 +38,22 @@ img.blue-border {
 
 .caption {
 	display: block;
+}
+
+.required {
+	display: block;
+	margin-bottom: 1rem;
+	font-size: 15px;
+	color: #000;
+	font-weight: bold;
+}
+
+.required::after {
+	content: '*';
+	color: #c00 !important;
+	font-size: 18px;
+}
+
+.annotate-error {
+	box-shadow: #c00 0px 0px 7px 1px !important;
 }

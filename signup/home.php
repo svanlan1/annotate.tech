@@ -42,10 +42,14 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
       <ul class="right hide-on-med-and-down annotate">
         <li><a class="dropdown-button" href="#!" data-activates="dropdown1"><?php echo $row['userEmail']; ?><i class="material-icons right">arrow_drop_down</i></a></li>
       </ul>      
- <ul id="dropdown1" class="dropdown-content">
-  <li><a href="settings.php">Settings</a></li>
-  <li><a href="logout.php">Logout</a></li>
-</ul> 
+       <ul id="dropdown1" class="dropdown-content">
+        <li>
+          <span class="small black-text"><?php echo $row['userEmail']; ?></span>
+        </li> 
+        <li class="divider"></li>
+        <li><a href="settings.php" class="black-text">Settings</a></li>
+        <li><a href="logout.php" class="black-text">Logout</a></li>
+      </ul> 
       <ul id="nav-mobile" class="side-nav">
         <li>
           <span class="small"><?php echo $row['userEmail']; ?></span>
@@ -160,7 +164,7 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
     </div>
   </div>
-  <footer class="page-footer grey darken-4 white-text light">
+  <footer class="page-footer grey darken-4 white-text lighter">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
