@@ -41,7 +41,7 @@ if(isset($_POST['btn-signup']))
 			$message = "					
 						Hello $uname,
 						<br /><br />
-						Welcome to Coding Cage!<br/>
+						Thank you for signing up to use Annotate!<br/>
 						To complete your registration  please , just click following link<br/>
 						<br /><br />
 						<a href='http://localhost/x/verify.php?id=$id&code=$code'>Click HERE to Activate :)</a>

@@ -65,7 +65,7 @@ if(isset($_POST['btn-login']))
           <input style="margin-left: 1rem;" type="password" id="userPass" class="white black-text" placeholder="Password" name="userPass" />
         </li>
         <li style="margin-left: 1rem;">
-          <button class="btn-large waves-effect waves-light blue darken-3 white-text" name="btn-login">Login</button>
+          <button class="btn-large waves-effect waves-light blue darken-3 white-text" name="btn-login" style="margin-left: 1rem; height: 47px; line-height: 27px;">Login</button>
         </li>    
       </ul>
       </form>
