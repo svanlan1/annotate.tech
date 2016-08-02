@@ -1,0 +1,2 @@
+[01-Aug-2016 09:22:26 America/Chicago] PHP Warning:  mysql_connect(): Access denied for user 'root'@'localhost' (using password: NO) in /home/annotate/public_html/connect.php on line 2
+[01-Aug-2016 10:24:58 America/Chicago] PHP Parse error:  syntax error, unexpected '}' in /home/annotate/public_html/register.php on line 17

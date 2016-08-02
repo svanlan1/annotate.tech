@@ -1,0 +1,32 @@
+.annotate {
+	font-family: 'Open Sans', sans-serif;
+}
+
+.small {
+	font-size: .4em;
+	color: #666;
+}
+
+.screen-reader-only{position:absolute; clip:rect(1px,1px,1px,1px); padding:0; border:0; height:1px; width:1px; overflow:hidden}
+
+.an_h2 {
+
+  font-size: 1.64rem;
+  line-height: 110%;
+  margin: 0.82rem 0 0.656rem 0;
+
+}
+
+footer a:focus, footer a:hover {
+	outline: solid 2px #000080;
+	outline-offset: 2px;
+}
+
+img.blue-border {
+	border-radius: 3px;
+    box-shadow: #eee 1px 1px 1px 10px;
+}
+
+.caption {
+	display: block;
+}

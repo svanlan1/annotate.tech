@@ -1,0 +1,170 @@
+body {
+	/*font-family: 'Open Sans Condensed', sans-serif;*/
+	/*font-family: 'Bad Script', cursive;*/
+	font-family: 'Dosis', sans-serif;
+
+}
+
+a:focus, a:hover {
+	-webkit-box-shadow: 0px 0px 2px 5px rgba(36,66,214,1);
+-moz-box-shadow: 0px 0px 2px 5px rgba(36,66,214,1);
+box-shadow: 0px 0px 2px 5px rgba(36,66,214,1);
+}
+
+h2 {
+	-webkit-box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.75);
+box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.75);
+}
+
+strong {
+	padding: 2px;
+	font-size: 1.3em;
+	display: block;
+}
+
+div.body_area{margin:0 auto; padding:0;}
+
+section {
+	-webkit-box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.35);
+	-moz-box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.35);
+	box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.35);
+	width: 80%;
+	margin: 7px auto;	
+	padding: 10px;
+}
+
+header{
+	padding-left: 2em;
+    border-bottom: solid 1px #ccc;
+    box-shadow: #666 1px 3px 6px;
+    margin: 0;
+    padding-top: 25px;
+	text-align: left;
+	background: #D1D3D4;
+	color: #000;
+}
+
+header h1.marker {
+	text-align: left;
+	border-bottom: 0;
+	font-size: 3em;
+}
+
+header .small {
+	font-size: .4em;
+	color: #666;
+}
+
+header .links {
+	float:right;
+	margin-right: 15px;
+	margin-top: -25px;
+}
+
+header a {
+	color: #666;
+	font-size: 1em;
+	text-transform: lowercase;
+	font-weight: bold;
+}
+
+header a:hover, header a:focus {
+-webkit-box-shadow: 0px 0px 2px 5px rgba(36,66,214,1);
+-moz-box-shadow: 0px 0px 2px 5px rgba(36,66,214,1);
+box-shadow: 0px 0px 2px 5px rgba(36,66,214,1);
+padding: 3px;
+}
+
+
+
+.main_image {
+	text-align: center;
+}
+
+.main_whatis {
+	background: #EBECEC;
+}
+
+.main_whatis h2{
+	width: 100%;
+	margin: 0;
+	font-size: 2.5em;
+	color: #BE4856;
+	text-shadow: 1px 1px 5px rgba(5, 0, 0, 0.5);
+	padding: 5px;
+}
+
+
+
+
+
+.main_howto {
+
+}
+
+.main_howto h2 {
+	width: 100%;
+	font-size: 2.5em;
+	color: #0063AF;
+	text-shadow: 1px 1px 5px rgba(5, 0, 0, 0.5);
+	padding: 5px;
+	margin: 0;
+}
+
+.main_whereto {
+	background: #EBECEC;
+}
+
+.main_whereto h2{
+	width: 100%;
+	text-align: center;
+	margin: 0;
+	font-size: 2.5em;
+	color: #21970a;
+	text-shadow: 1px 1px 5px rgba(5, 0, 0, .5);
+	padding: 5px;
+}
+h2.small {
+	font-size: 1.9em;
+	text-align: center;
+}
+
+.left { padding: 10px; display: inline-block; width: 48%; vertical-align: top; font-size: 1.2em;}
+
+.right { padding: 10px;  display: inline-block; width: 48%; font-size: 1.2em;}
+
+.full {
+	padding: 10px; display: block; width: 95%; font-size: 1.2em;
+}
+
+p.center {
+	text-align: center;
+}
+
+h2.left_head {
+	text-align: left;
+	font-size: 2.5em;
+}
+h2.right_head {
+	text-align: -webkit-center;
+	font-size: 2em;
+}
+
+.button {
+	padding: 10px;
+	border: solid 1px #eee;
+	background-color: #0063AF;
+	color: #fff;
+	font-size: 1em;
+	border-radius: 2px;
+	text-decoration: none;
+	text-transform: uppercase;
+	display: inline-block;
+}
+
+.button:hover, .button:focus {
+-webkit-box-shadow: 0px 0px 2px 5px rgba(36,66,214,1);
+-moz-box-shadow: 0px 0px 2px 5px rgba(36,66,214,1);
+box-shadow: 0px 0px 2px 5px rgba(36,66,214,1);
+}
