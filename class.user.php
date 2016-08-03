@@ -26,17 +26,22 @@ class USER
 		return $stmt;
 	}
 	
-	public function register($uname,$email,$upass,$code)
+	public function register($uname,$email,$upass,$fname,$lname,$code)
 	{
 		try
 		{							
 			$password = md5($upass);
-			$stmt = $this->conn->prepare("INSERT INTO user(username,email,password,tokenCode) 
-			                                             VALUES(:user_name, :user_mail, :user_pass, :active_code)");
+			$date = time();
+			//$date = date('m,d,y');     // 05-16-18, 10-03-01, 1631 1618 6 Satpm01
+			$stmt = $this->conn->prepare("INSERT INTO tbl_users(userName,userEmail,first_name,last_name,userPass,tokenCode,created) 
+			                                             VALUES(:user_name, :user_mail, :first_name, :last_name, :user_pass, :active_code, :created)");
 			$stmt->bindparam(":user_name",$uname);
 			$stmt->bindparam(":user_mail",$email);
+			$stmt->bindparam(":first_name",$fname);
+			$stmt->bindparam(":last_name",$lname);
 			$stmt->bindparam(":user_pass",$password);
 			$stmt->bindparam(":active_code",$code);
+			$stmt->bindparam(":created",$date);
 			$stmt->execute();	
 			return $stmt;
 		}
@@ -50,7 +55,7 @@ class USER
 	{
 		try
 		{
-			$stmt = $this->conn->prepare("SELECT * FROM user WHERE email=:email_id");
+			$stmt = $this->conn->prepare("SELECT * FROM tbl_users WHERE userEmail=:email_id");
 			$stmt->execute(array(":email_id"=>$email));
 			$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
 			
@@ -60,7 +65,7 @@ class USER
 				{
 					if($userRow['userPass']==md5($upass))
 					{
-						$_SESSION['userSession'] = $userRow['username'];
+						$_SESSION['userSession'] = $userRow['userID'];
 						return true;
 					}
 					else
@@ -85,6 +90,23 @@ class USER
 		{
 			echo $ex->getMessage();
 		}
+	}
+
+	public function update($email,$upass,$fName,$lName,$userID)
+	{
+		try
+		{	
+			mysql_connect ("localhost", "annotate_admin", "XtcVsAA1979");
+			mysql_select_db("annotate_main");
+			mysql_query("UPDATE tbl_users SET userEmail = '$email', first_name = '$fName', last_name = '$lName' WHERE userID = '$userID'");
+
+			return true;
+		}
+		catch(PDOException $ex)
+		{
+			echo 'The statement didnt execute';
+		}
+		
 	}
 	
 	
@@ -113,17 +135,18 @@ class USER
 		$mail = new PHPMailer();
 		$mail->IsSMTP(); 
 		$mail->SMTPDebug  = 0;                     
-		$mail->SMTPAuth   = true;                  
-		$mail->SMTPSecure = "ssl";                 
-		$mail->Host       = "smtp.annotate.tech";      
-		$mail->Port       = 465;             
+		$mail->SMTPAuth   = true;                                 
+		$mail->Host       = "mail.annotate.tech";      
+		$mail->Port       = 25;             
 		$mail->AddAddress($email);
 		$mail->Username="auto-confirm@annotate.tech";  
 		$mail->Password="XtcVsAA1979";            
-		$mail->SetFrom('auto-confirm@annotate.tech','Annotate!');
-		$mail->AddReplyTo("auto-confirm@annotate.tech","Annotate");
+		$mail->SetFrom('auto-confirm@annotate.tech','Annotate team');
+		$mail->AddReplyTo("support@annotate.tech","Annotate Support");
 		$mail->Subject    = $subject;
 		$mail->MsgHTML($message);
 		$mail->Send();
-	}	
+		//header("Location: home.php");
+		header('Location: success.php');
+	}		
 }

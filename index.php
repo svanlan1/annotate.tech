@@ -18,6 +18,17 @@ if(isset($_POST['btn-login']))
 		$user_login->redirect('home.php');
 	}
 }
+
+if(isset($_POST['btn-login-mobile']))
+{
+  $email = trim($_POST['muserEmail']);
+  $upass = trim($_POST['muserPass']);
+
+  if($user_login->login($email,$upass))
+  {
+    $user_login->redirect('home.php');
+  }  
+}
 ?>
 
 <!DOCTYPE html>
@@ -40,75 +51,69 @@ if(isset($_POST['btn-login']))
 </head>
 <body onload="a.run();">
   <div class="navbar-fixed">
-  <nav class="white" role="navigation">
-    <div class="nav-wrapper container">
-      <a id="logo-container" href="http://annotate.tech" class="brand-logo annotate">annotate<span class="small">.tech</span></a>
-      <form class="form-signin" method="post">
-      <ul id="nav-mobile" class="side-nav">
-          <li>
-            <h5 style="margin:0; padding: 5px;" class="grey darken-4 white-text lighter annotate">Login</h5>
-          </li>       
-        <li>
-          <label class="screen-reader-only" for="login">Email address</label>
-          <input style="padding-left:1rem;" type="email" id="login" class="white black-text" placeholder="Login/Email address" />
-        </li>
-        <li>
-          <label class="screen-reader-only" for="password">Password</label>
-          <input style="padding-left:1rem;"  type="password" id="password" class="white black-text" placeholder="Password" />
-        </li>
-        <li style="margin-left: 1rem;">
-          <button class="btn-large waves-effect waves-light blue darken-3 white-text" name="btn-login" style="height: 47px; line-height: 27px;">Login</button>
-        </li>
-      </ul>
-      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons grey-text darken-3">menu</i></a>           
-      <ul class="right hide-on-med-and-down annotate">
-        <li>
-          <label class="screen-reader-only" for="userEmail">Email address</label>
-          
-          <?php
-              if(isset($_GET['error']))
-          {
-            ?>
-            <input type="text" id="userEmail" class="white black-text annotate-error" placeholder="Login/Email address" name="userEmail" aria-describedby="login_error" />
+    <nav class="white" role="navigation">
+      <div class="nav-wrapper container">
+        <a id="logo-container" href="http://annotate.tech" class="brand-logo annotate">annotate<span class="small">.tech</span></a>
+        <form class="form-signin" method="post">
+          <ul id="nav-mobile" class="side-nav">
+            <li>
+              <h5 style="margin:0; padding: 5px;" class="grey darken-4 white-text lighter annotate">Login</h5>
+            </li>       
+            <li>
+              <label class="screen-reader-only" for="login">Email address</label>
+              <input style="padding-left:1rem;" type="email" id="login" class="white black-text" placeholder="Login/Email address" name="muserEmail" />
+            </li>
+            <li>
+              <label class="screen-reader-only" for="password">Password</label>
+              <input style="padding-left:1rem;"  type="password" id="password" class="white black-text" placeholder="Password" name="muserPass" />
+            </li>
+            <li style="margin-left: 1rem;">
+              <button class="btn-large waves-effect waves-light blue darken-3 white-text" name="btn-login-mobile" style="height: 47px; line-height: 27px;">Login</button>
+            </li>
+          </ul>
+          <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons grey-text darken-3">menu</i></a>           
+          <ul class="right hide-on-med-and-down annotate">
+            <li>
+              <label class="screen-reader-only" for="userEmail">Email address</label>
+              <?php
+                if(isset($_GET['error']))
+                {
+              ?>
+              <input type="text" id="userEmail" class="white black-text annotate-error tooltipped" style="padding-left: 5px;" data-position="bottom" data-delay="50" data-tooltip="Incorrect email/password" placeholder="Login/Email address" name="userEmail" aria-describedby="login_error" />
               <span class="screen-reader-only" id="login_error"> Incorrect Email/Password.  Please try again</span>
-                  <?php
-          } else {
-            ?>
-              <input type="text" id="userEmail" class="white black-text" placeholder="Login/Email address" name="userEmail" />
-            <?php
-          }
-          ?>           
-        </li>
-        <li>
-          <label class="screen-reader-only" for="userPass">Password</label>
-
-          <?php
-              if(isset($_GET['error']))
-          {
-            ?>
-              <input style="margin-left: 1rem;" type="password" id="userPass" class="white black-text annotate-error" placeholder="Password" name="userPass" aria-describedby="password_error" />
-              <span id="message_toast">Incorrect login or password.  Please try again</span>
-          <?php
-          } else {
-            ?>
-              <input style="margin-left: 1rem;" type="password" id="userPass" class="white black-text" placeholder="Password" name="userPass" />
-            <?php
-          }
-          ?>  
-
-          
-        </li>
-        <li style="margin-left: 1rem;">
-          <button class="btn-large waves-effect waves-light blue darken-3 white-text" name="btn-login" style="margin-left: 1rem; height: 47px; line-height: 27px;">Login</button>
-        </li>   
-        <li>
-          <a href="signup.php">Sign up</a>
-        </li> 
-      </ul>
-      </form>
-
-    </div>
-  </nav>
+              <?php
+                } else {
+              ?>
+              <input type="text" id="userEmail" class="white black-text"  style="padding-left: 5px;" placeholder="Login/Email address" name="userEmail" />
+              <?php
+                }
+              ?>           
+            </li>
+            <li>
+              <label class="screen-reader-only" for="userPass">Password</label>
+              <?php
+                if(isset($_GET['error']))
+                {
+              ?>
+              <input style="margin-left: 1rem; padding-left: 5px;" type="password" id="userPass" class="white black-text annotate-error" placeholder="Password" name="userPass" aria-describedby="password_error" />
+              <?php
+                } else {
+              ?>
+              <input style="margin-left: 1rem; padding-left: 5px;" type="password" id="userPass" class="white black-text" placeholder="Password" name="userPass" />
+              <?php
+                }
+              ?>  
+            </li>
+            <li style="margin-left: 1rem;">
+              <button class="btn-large waves-effect waves-light blue darken-3 white-text" name="btn-login" style="margin-left: 1rem; height: 47px; line-height: 27px;">Login</button>
+            </li>   
+            <li>
+              <a href="signup.php">Sign up</a>
+            </li> 
+          </ul>
+        </form>
+      </div>
+    </nav>
   </div>
 
   <div id="index-banner" class="parallax-container" style="height: 48rem;">
@@ -381,10 +386,7 @@ if(isset($_POST['btn-login']))
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/annotate.js"></script>
-  <script src="js/materialize.js"></script>
-              <script>
-                Materialize.toast($('#message_toast'), 5000);
-              </script>  
+  <script src="js/materialize.js"></script> 
   <script src="js/init.js"></script>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

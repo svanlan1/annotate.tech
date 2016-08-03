@@ -35,3 +35,9 @@ a.isEvenStrict = function (n) {
 a.isThree = function (n) {
   return n == parseFloat(n)? !(n%3) : void 0;
 }
+
+function validate() {
+	event.preventDefault();
+	alert('Hey you fuckers');
+	return false;
+}

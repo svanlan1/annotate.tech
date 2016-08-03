@@ -12,6 +12,23 @@ $stmt = $user_home->runQuery("SELECT * FROM tbl_users WHERE userID=:uid");
 $stmt->execute(array(":uid"=>$_SESSION['userSession']));
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
+if(isset($_POST['btn-update']))
+{
+  $email = trim($_POST['userEmail']);
+  $upass = trim($_POST['userPass']);
+  $fName = trim($_POST['firstName']);
+  $lName = trim($_POST['lastName']);
+  $userID = $row['userID'];
+
+  if($user_home->update($email,$upass,$fName,$lName,$userID))
+  {
+    $user_home->redirect('settings.php?success');
+    echo $fName;
+  } else {
+    $user_home->redirect('settings.php?error');
+  }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -40,22 +57,59 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
         <ul class="right hide-on-med-and-down annotate">
           <li><a class="dropdown-button" href="#!" data-activates="dropdown1"><?php echo $row['userEmail']; ?><i class="material-icons right">arrow_drop_down</i></a></li>
         </ul>      
-        <ul id="dropdown1" class="dropdown-content">
+         <ul id="dropdown1" class="dropdown-content">
           <li>
-            <span class="small black-text"><?php echo $row['userEmail']; ?></span>
+            <span class="small black-text" style="font-size: .9rem;">
+              <div class="chip" style="display: inline; background: none; padding: 0;">
+                <img src="images/user.png" alt=<?php echo $row['first_name'].' '.$row['last_name']; ?> />
+              </div>
+              <?php echo $row['userEmail']; ?>
+            </span>
           </li> 
           <li class="divider"></li>
-          <li><a href="settings.php" class="black-text">Settings</a></li>
-          <li><a href="logout.php" class="black-text">Logout</a></li>
+          <li>
+            <a href="results.php" class="black-text">
+              <div class="chip" style="display: inline; background: none; padding: 0;">
+                <img src="images/marker_128.png" alt="" />
+              </div>
+              Annotations
+              </a>
+            </li>
+          <li>
+            <a class="black-text" href="change_default.php">
+              <div class="chip" style="display: inline; background: none; padding: 0;">
+                <img src="images/pin.png" alt="" style="border-radius: 0;" />
+              </div>
+              Recommendations
+            </a>
+          </li>
+          <li>
+            <a href="settings.php" class="black-text">
+              <div class="chip" style="display: inline; background: none; padding: 0;">
+                <img src="images/settings.png" alt="" style="border-radius: 0;" />
+              </div>              
+              Settings
+            </a>
+          </li>
+          <li>
+            <a href="logout.php" class="black-text">
+              <div class="chip" style="display: inline; background: none; padding: 0;">
+                <img src="images/logout.png" alt="" style="border-radius: 0;" />
+              </div>              
+              Logout
+            </a>
+          </li>
         </ul> 
-        <ul id="nav-mobile" class="side-nav">
-          <li>
-            <span class="small black-text"><?php echo $row['userEmail']; ?></span>
-          </li> 
-          <li class="divider"></li>
-          <li><a href="settings.php" class="black-text">Settings</a></li>
-          <li><a href="logout.php" class="black-text">Logout</a></li>
-        </ul>
+          <ul id="nav-mobile" class="side-nav">
+            <li>
+              <a href="home.php" style="padding-left: 10px;"><span class="small black-text"><?php echo $row['userEmail']; ?></span></a>
+            </li> 
+            <li class="divider"></li>
+            <li><a href="results.php" class="black-text">Annotations</a>
+            <li><a href="change_default.php">Recommendations</a></li>
+            <li><a href="settings.php" class="black-text">Settings</a></li>
+            <li><a href="logout.php" class="black-text">Logout</a></li>
+          </ul>
         <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons grey-text darken-3">menu</i></a>
       </div>
     </nav>
@@ -72,30 +126,37 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
           </div>         
         </div>
       </div>
-      <div class="row">
-        <div class="col s12 left-align">
-         <label for="userEmail" class="required">Email address</label>
-         <input type="email" id="userEmail" value=<?php echo $row['userEmail']; ?> />
+      <form class="form-signin" method="post">
+        <div class="row">
+          <div class="col s12 left-align">
+           <label for="userEmail" class="required">Email address</label>
+           <input type="email" id="userEmail" name="userEmail" value=<?php echo $row['userEmail']; ?> />
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col s12 left-align">
-         <label for="userName" class="required">Username</label>
-         <input type="text" id="userName" value=<?php echo $row['userName']; ?> />
+        <div class="row">
+          <div class="col s12 left-align">
+           <label for="userName" class="required">Username</label>
+           <input type="text" id="userName" name="userName" value=<?php echo $row['userName']; ?> />
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col s12 left-align">
-         <label for="firstName" class="required">First Name</label>
-         <input type="text" id="firstName" value=<?php echo $row['first_name']; ?> />
+        <div class="row">
+          <div class="col s12 left-align">
+           <label for="firstName" class="required">First Name</label>
+           <input type="text" id="firstName" name="firstName" value=<?php echo $row['first_name']; ?> />
+          </div>
+        </div>   
+        <div class="row">
+          <div class="col s12 left-align">
+           <label for="lastName" class="required">Last Name</label>
+           <input type="text" id="lastName" name="lastName" value=<?php echo $row['last_name']; ?> />
+          </div>
         </div>
-      </div>   
-      <div class="row">
-        <div class="col s12 left-align">
-         <label for="lastName" class="required">Last Name</label>
-         <input type="text" id="lastName" value=<?php echo $row['last_name']; ?> />
-        </div>
-      </div>      
+        <div class="row">
+          <div class="col s12 left-align">
+            <button class="btn-large waves-effect waves-light blue darken-3 white-text" name="btn-update" style="height: 47px; line-height: 27px;">Update</button>
+          </div>
+        </div> 
+      </form>     
 
 
     </div>

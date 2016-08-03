@@ -19,7 +19,7 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-  <title>Annotate - <?php echo $row['userEmail']; ?> control panel</title>
+  <title>Annotate - <?php echo $row['userEmail']; ?> - Home</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -34,136 +34,191 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
 </head>
 <body>
   <div class="navbar-fixed">
-
-
-  <nav class="white" role="navigation">
-    <div class="nav-wrapper container">
-      <a id="logo-container" href="http://annotate.tech" class="brand-logo annotate">annotate<span class="small">.tech</span></a>             
-      <ul class="right hide-on-med-and-down annotate">
-        <li><a class="dropdown-button" href="#!" data-activates="dropdown1"><?php echo $row['userEmail']; ?><i class="material-icons right">arrow_drop_down</i></a></li>
-      </ul>      
-       <ul id="dropdown1" class="dropdown-content">
-        <li>
-          <span class="small black-text"><?php echo $row['userEmail']; ?></span>
-        </li> 
-        <li class="divider"></li>
-        <li><a href="settings.php" class="black-text">Settings</a></li>
-        <li><a href="logout.php" class="black-text">Logout</a></li>
-      </ul> 
-      <ul id="nav-mobile" class="side-nav">
-        <li>
-          <span class="small"><?php echo $row['userEmail']; ?></span>
-        </li>
-      </ul>
-      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-    </div>
-  </nav>
-  </div>
-
-  <!--div id="index-banner" class="parallax-container" style="height: 48rem;">
-    <div class="section no-pad-bot">
-      <div class="container">
-
-        <br><br>
-        
-        
-        <div style="width: 303px; height: 178px; border-radius: 5px; border: solid 2px #fff;">          
-          <h1 class="annotate white-text light" id="banner-h1" style="text-shadow: #999 1px 1px 1px; font-size: 3rem;">Thanks for using Annotate</h1>
-          <h5 class="annotate darker" id="banner-h5" style="margin-left: 15px;"><img src="images/marker_128.png" alt="" style="width: 22px;" /><span class="small"><?php echo $row['userEmail']; ?></span></h5>  
-          <div style="width: 297px; height: 173px; opacity: .6; border-radius: 5px; background: #000; position: absolute; display: block;"></div>       
-        </div>
-
-
-        <br><br>
-
+    <nav class="white" role="navigation">
+      <div class="nav-wrapper container">
+        <a id="logo-container" href="http://annotate.tech" class="brand-logo annotate">annotate<span class="small">.tech</span></a>             
+        <ul class="right hide-on-med-and-down annotate">
+          <li><a class="dropdown-button" href="#!" data-activates="dropdown1"><?php echo $row['userEmail']; ?><i class="material-icons right">arrow_drop_down</i></a></li>
+        </ul>      
+         <ul id="dropdown1" class="dropdown-content">
+          <li>
+            <span class="small black-text" style="font-size: .9rem;">
+              <div class="chip" style="display: inline; background: none; padding: 0;">
+                <img src="images/user.png" alt=<?php echo $row['first_name'].' '.$row['last_name']; ?> />
+              </div>
+              <?php echo $row['userEmail']; ?>
+            </span>
+          </li> 
+          <li class="divider"></li>
+          <li>
+            <a href="results.php" class="black-text">
+              <div class="chip" style="display: inline; background: none; padding: 0;">
+                <img src="images/marker_128.png" alt="" />
+              </div>
+              Annotations
+              </a>
+            </li>
+          <li>
+            <a class="black-text" href="change_default.php">
+              <div class="chip" style="display: inline; background: none; padding: 0;">
+                <img src="images/pin.png" alt="" style="border-radius: 0;" />
+              </div>
+              Recommendations
+            </a>
+          </li>
+          <li>
+            <a href="settings.php" class="black-text">
+              <div class="chip" style="display: inline; background: none; padding: 0;">
+                <img src="images/settings.png" alt="" style="border-radius: 0;" />
+              </div>              
+              Settings
+            </a>
+          </li>
+          <li>
+            <a href="logout.php" class="black-text">
+              <div class="chip" style="display: inline; background: none; padding: 0;">
+                <img src="images/logout.png" alt="" style="border-radius: 0;" />
+              </div>              
+              Logout
+            </a>
+          </li>
+        </ul> 
+          <ul id="nav-mobile" class="side-nav">
+            <li>
+              <a href="home.php" style="padding-left: 10px;"><span class="small black-text"><?php echo $row['userEmail']; ?></span></a>
+            </li> 
+            <li class="divider"></li>
+            <li><a href="results.php" class="black-text">Annotations</a>
+            <li><a href="change_default.php">Recommendations</a></li>
+            <li><a href="settings.php" class="black-text">Settings</a></li>
+            <li><a href="logout.php" class="black-text">Logout</a></li>
+          </ul>
+        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons grey-text darken-3">menu</i></a>
       </div>
-    </div>
-    <div class="center">
-      
-    </div>
-    <div class="parallax"><img src="images/annotate_home_banner.jpg" id="main_banner" style="width: 1000px" alt="Annotate!" /></div>
-  </div-->
-
-
-  <div class="container">
-    <div class="section">
-      <!--   Icon Section   -->
-      <div class="row">
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center light-grey-text"><i class="material-icons" aria-hidden="true">screen_share</i><span class="screen-reader-only">What is Annotate!</span></h2>
-            
-
-            <p class="light">Annotate is a full suite of end-to-end tools for any role to use in any stage of your timeline.  Make notes, place emoji pins, highlight text, and highlight elements on the screen to share with other users on your team using <a href="http://annotate.tech">annotate.tech</a></p>
-          </div>
-        </div>
-
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center green-text"><i aria-hidden="true" class="material-icons">done</i><span class="screen-reader-only">Who should use Annotate!</span></h2>
-
-            <p class="light">Developers?  Check.<br />
-              Designers?  Check.<br />
-              Testers?  Check.<br />
-              Everyone can use annotate! You don't need to be a developer or designer to use it. Want to make notes on a page and share it with your friends? Here ya go!</p>
-          </div>
-        </div>
-
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center light-blue-text"><i class="material-icons">settings</i></h2>
-
-            <p class="light">Collaborate with other users on your team to expedite the design and development phase.  Simply share your notations with other members of your group and you're off to the races.</p>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-
-  <div id="what" class="parallax-container valign-wrapper">
-    <div class="section no-pad-bot">
-      <div class="container">
-        <div class="row center">
-          <h2 class="header col s12 light-blue-text text-darken-3 annotate" style="font-size: 2.92rem; color: #fff !important">What is Annotate!</h2>
-
-        </div>
-        <div class="row">
-          <p class="center">
-            Annotate! is a set of tools created to provide a streamlined experienced for users to make notes and other annotations, while quickly and easily collaborating and sharing with others!
-          </p>         
-          <p class="center">
-            With Annotate! you are able to draw boxes around elements, place pins anywhere on the page, add a textual note, and make HTML, CSS, or Accessibility recommendations!
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="parallax blue darken-1"></div>
+    </nav>
   </div>
 
   <div class="container">
     <div class="section">
-
       <div class="row">
         <div class="col s12 center">
-          <h4 class="annotate">Choose from 40 pins to place on the page</h4>
-          <div class="col l4 s16 right-align">         
-            <p class="right-align">
-              Pointing out a specific point on a page can be crucial.  Annotate! gives you 40 pins to choose from to convey exactly what you're thinking.  You can also invert pins and quickly change the size of pins.
-            </p>
-            <p class="right-align">
-              Right clicking on any pin on the page will open the 'Add Notes' dialog.  This gives you the ability to add additional notes and recommendations for a full report that can be generated when you're all finished.
-            </p>
-          </div>
-          <div class="col l8 s12">
-            <img class="blue-border" src="images/pins.gif" alt="" style="margin-left: 25px;" />
-          </div>           
+          <h4 class="annotate">Placeholder</h4>
+          <div class="col l12 s16 left-align">         
+            <!-- start slipsum code -->
+
+            Normally, both your asses would be dead as fucking fried chicken, but you happen to pull this shit while I'm in a transitional period so I don't wanna kill you, I wanna help you. But I can't give you this case, it don't belong to me. Besides, I've already been through too much shit this morning over this case to hand it over to your dumb ass.
+
+            <!-- end slipsum code -->
+          </div>          
         </div>
       </div>
-
     </div>
   </div>
+
+  <div class='container'>
+    <div class='section'>
+      <div class='row'>
+        <div class='m12 s12 col'>
+          <div class='card-panel green accent-4' style='padding: 10px;'>
+            <div class='row'>
+              <div class='col l8 white-text'>
+                <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>check_circle</i>Success!</h5>
+                <h6>We've sent you a confirmation email.  Click on the activation link to get started!</h6>
+              </div>
+              <div class='col l4 right-align'>
+                <br>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
+
+  <div class='container'>
+    <div class='section'>
+      <div class='row'>
+        <div class='m12 s12 col'>
+          <div class='card-panel red accent-4' style='padding: 10px;'>
+            <div class='row'>
+              <div class='col l8 white-text'>
+                <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>error_outline</i>Ruh roh!</h5>
+                <h6>An account with this Email address has already activated.</h6>
+              </div>
+              <div class='col l4 right-align'>
+                <br>
+                <a href='index.php' class='waves-effect waves-light modal-trigger btn btn-large white blue-text darken-4 btn-flat'>Login</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class='container'>
+    <div class='section'>
+      <div class='row'>
+        <div class='m12 s12 col'>
+          <div class='card-panel red accent-4' style='padding: 10px;'>
+            <div class='row'>
+              <div class='col l8 white-text'>
+                <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>error_outline</i>Ruh roh!</h5>
+                <h6>Something went wrong.  Please try signing up again.</h6>
+              </div>
+              <div class='col l4 right-align'>
+                <br>
+                <a href='signup.php' class='waves-effect waves-light modal-trigger btn btn-large white blue-text darken-4 btn-flat'>Sign up</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>        
+
+  <div class="container">
+    <div class="section">
+      <div class="row">
+        <div class="m12 s12 col">
+          <div class="card-panel blue lighten-2" style='padding: 10px;'>
+            <div class="row">
+              <div class="col l8 white-text">
+                <h5>Don't Miss a Thing</h5>
+                <h6>Read the latest updates on Annotate</h6>
+              </div>
+              <div class="col l4 right-align">
+                <br>
+                <a href="latest.php" class="waves-effect waves-light modal-trigger btn btn-large white blue-text darken-4 btn-flat">Let's Go</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="section">
+      <div class="row">
+        <div class="m12 s12 col">
+          <div class="card-panel teal darken-1" style='padding: 10px;'>
+            <div class="row">
+              <div class="col l8 white-text">
+                <h5>View your latest annotations</h5>
+                <h6>All of your annotations in one place.  Edit and share with others.</h6>
+              </div>
+              <div class="col l4 right-align">
+                <br>
+                <a href="latest.php" class="waves-effect waves-light modal-trigger btn btn-large white teal-text btn-flat">View Latest</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <footer class="page-footer grey darken-4 white-text lighter">
     <div class="container">
       <div class="row">

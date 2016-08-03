@@ -49,13 +49,15 @@ if(isset($_POST['btn-signup']))
 						<h1 class='annotate'>Welcome to Annotate!</h1><br/>
 						To complete your registration  please , just click following link<br/>
 						<br /><br />
-						<a class='btn-large waves-effect waves-light blue darken-3 white-text' href='http://annotate.tech/register/verify.php?id=$id&code=$code'>Click here to Activate</a>
+						<a class='btn-large waves-effect waves-light blue darken-3 white-text' href='http://annotate.tech/verify.php?id=$id&code=$code'>Click here to Activate</a>
 						<br /><br />
 						Thanks,";
 						
 			$subject = "Confirm Registration";
 						
 			$reg_user->send_mail($email,$message,$subject);	
+
+
 
 		}
 		else
@@ -70,7 +72,7 @@ if(isset($_POST['btn-signup']))
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-  <title>Annotate!</title>
+  <title>Annotate - Settings</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -85,92 +87,116 @@ if(isset($_POST['btn-signup']))
 </head>
 <body>
   <div class="navbar-fixed">
-  <nav class="white" role="navigation">
-    <div class="nav-wrapper container">
-      <a id="logo-container" href="http://annotate.tech" class="brand-logo annotate">annotate<span class="small">.tech</span></a>
-      <form class="form-signin" method="post">
-          <?php
-          if(isset($_GET['error']))
-      {
-        ?>
-          <div class='alert alert-success'>
-          <button class='close' data-dismiss='alert'>&times;</button>
-          <strong>Wrong Details!</strong> 
-        </div>
+    <nav class="white" role="navigation">
+      <div class="nav-wrapper container">
+        <a id="logo-container" href="http://annotate.tech" class="brand-logo annotate">annotate<span class="small">.tech</span></a>
+        <form class="form-signin" method="post">
+          <ul id="nav-mobile" class="side-nav">
+            <li>
+              <h5 style="margin:0; padding: 5px;" class="grey darken-4 white-text lighter annotate">Login</h5>
+            </li>       
+            <li>
+              <label class="screen-reader-only" for="login">Email address</label>
+              <input style="padding-left:1rem;" type="email" id="login" class="white black-text" placeholder="Login/Email address" name="muserEmail" />
+            </li>
+            <li>
+              <label class="screen-reader-only" for="password">Password</label>
+              <input style="padding-left:1rem;"  type="password" id="password" class="white black-text" placeholder="Password" name="muserPass" />
+            </li>
+            <li style="margin-left: 1rem;">
+              <button class="btn-large waves-effect waves-light blue darken-3 white-text" name="btn-login-mobile" style="height: 47px; line-height: 27px;">Login</button>
+            </li>
+          </ul>
+          <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons grey-text darken-3">menu</i></a>           
+          <ul class="right hide-on-med-and-down annotate">
+            <li>
+              <label class="screen-reader-only" for="userEmail">Email address</label>
               <?php
-      }
-      ?>      
-      <ul class="right hide-on-med-and-down annotate">
-        <li>
-        	<a href="login.php">Login</a>
-        </li>   
-      </ul>
-      </form>
-      <ul id="nav-mobile" class="side-nav">
-        <li>
-			<a href="login.php">Login</a>
-        </li>
-      </ul>
-      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-    </div>
-  </nav>
-  </div>
-
-  <div id="index-banner" class="parallax-container" style="height: 48rem;">
-    <div class="section">
-      <div class="container">
-
-      <div class="row">
-        <br><br>
-        <h1 class="annotate black-text lighter" id="banner-h1" style="text-shadow: #999 1px 1px 1px; font-size: 3rem;">Sign up for an account<span style="font-size: 1rem;">it's free</span></h1>
-		<div class="left-align">
-			<form class="form-signin small_width" method="post">
-	      		<span style="display: block;">
-	      			<label for="username" required class="required">Username</label>
-	      			<input type="text" id="userName" class="black-text" name="txtuname" required />
-	      		</span>
-
-	      		<span style="display: block;">
-	      			<label for="txtfname" required class="required">First name</label>
-	      			<input type="text" id="txtfname" class="black-text" name="txtfname" required />
-	      		</span>	     
-
-	      		<span style="display: block;">
-	      			<label for="txtlname" required class="required">Last name</label>
-	      			<input type="text" id="txtlname" class="black-text" name="txtlname" required />
-	      		</span>	 	      		 		
-
-	      		<span style="display: block;">
-	      			<label for="userEmail" required class="required">Email address</label>
-	      			<input type="email" id="userEmail" class="black-text" name="txtemail" required />
-	      		</span>
-
-	      		<span style="display: block;">
-	      			<label for="password" required class="required">Password</label>
-	      			<input type="password" class="black-text" id="password" name="txtpass" required />
-	      		</span>
-	      		<span style="display: block;">
-	      			<label for="re_enter_pass" required class="required">Re-enter password</label>
-	      			<input type="password" class="black-text" id="re_enter_pass" required />
-	      		</span>	      		
-
-	      		<button class="btn waves-effect waves-light grey darken-3" type="submit" name="btn-signup">Sign Up</button>
-	      		<a class="black-text" href="login.php">Login</a>
-      		</form>
-	    </div>
-</div>
+                if(isset($_GET['error']))
+                {
+              ?>
+              <input type="text" id="userEmail" class="white black-text annotate-error tooltipped" style="padding-left: 5px;" data-position="bottom" data-delay="50" data-tooltip="Incorrect email/password" placeholder="Login/Email address" name="userEmail" aria-describedby="login_error" />
+              <span class="screen-reader-only" id="login_error"> Incorrect Email/Password.  Please try again</span>
+              <?php
+                } else {
+              ?>
+              <input type="text" id="userEmail" class="white black-text"  style="padding-left: 5px;" placeholder="Login/Email address" name="userEmail" />
+              <?php
+                }
+              ?>           
+            </li>
+            <li>
+              <label class="screen-reader-only" for="userPass">Password</label>
+              <?php
+                if(isset($_GET['error']))
+                {
+              ?>
+              <input style="margin-left: 1rem; padding-left: 5px;" type="password" id="userPass" class="white black-text annotate-error" placeholder="Password" name="userPass" aria-describedby="password_error" />
+              <?php
+                } else {
+              ?>
+              <input style="margin-left: 1rem; padding-left: 5px;" type="password" id="userPass" class="white black-text" placeholder="Password" name="userPass" />
+              <?php
+                }
+              ?>  
+            </li>
+            <li style="margin-left: 1rem;">
+              <button class="btn-large waves-effect waves-light blue darken-3 white-text" name="btn-login" style="margin-left: 1rem; height: 47px; line-height: 27px;">Login</button>
+            </li> 
+          </ul>
+        </form>
       </div>
-    </div>
-
-    <div class="parallax"></div>
+    </nav>
   </div>
 
   <div class="section">
   	<div class="container">
-
+      <div class="row">
+        <div class="col l6 s12 left">
+          <h1 class="annotate black-text lighter" id="banner-h1" style="text-shadow: #999 1px 1px 1px; font-size: 3rem;">Why sign up?</h1>
+          Annotate will always be free to use.  The front-end extension will save annotations locally, but these are unstable and easily destroyed.  Signing up for an account saves your annotations to our servers where they'll be safe and sound forever!<br /><br />
+          From the Annotate Dashboard, you'll be able to edit and view all of your saved annotations.
+        </div>
+        <div class="col l4 s12 right">
+          <form class="form-signin small_width" name="annotate_signup" onsubmit="return validate();" method="post">
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="first_name" name="txtfname" type="text" class="validate">
+                <label for="first_name" class="active">First Name</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="last_name" type="text" name="txtlname">
+                <label for="last_name">Last Name</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="txtuname" type="text" name="txtuname">
+                <label for="txtuname">Last Name</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="email" type="email" class="validate" name="txtemail">
+                <label for="email" data-error="Please enter a valid email address" data-success="cool beans" class="active">Email</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="password" type="password" name="txtpass">
+                <label for="password" data-error="You must enter a password" data-success="NOICE" class="validate">Password</label>
+              </div>
+            </div>          
+              <!--input type="submit" name="btn-signup" value="Sign Up" class="btn waves-effect waves-light grey darken-3" /-->
+              <button class="btn waves-effect waves-light grey darken-3" type="submit" name="btn-signup">Sign Up</button>
+              <a class="black-text" href="login.php">Login</a>
+            </form>           
+        </div>
   	</div>
   </div>
-
+  </div>
 
     <footer class="page-footer grey darken-4 white-text lighter">
     <div class="container">

@@ -1,119 +1,42 @@
 <?php
+session_start();
 require_once 'class.user.php';
-$user = new USER();
+$user_login = new USER();
 
-if(empty($_GET['id']) && empty($_GET['code']))
+if($user_login->is_logged_in()!="")
 {
-	$user->redirect('index.php');
+	$user_login->redirect('home.php');
 }
 
-if(isset($_GET['id']) && isset($_GET['code']))
+if(isset($_POST['btn-login']))
 {
-	$id = base64_decode($_GET['id']);
-	$code = $_GET['code'];
-	
-	$statusY = "Y";
-	$statusN = "N";
-	
-	$stmt = $user->runQuery("SELECT userID,userStatus FROM tbl_users WHERE userID=:uID AND tokenCode=:code LIMIT 1");
-	$stmt->execute(array(":uID"=>$id,":code"=>$code));
-	$row=$stmt->fetch(PDO::FETCH_ASSOC);
-	if($stmt->rowCount() > 0)
+	$email = trim($_POST['userEmail']);
+	$upass = trim($_POST['userPass']);
+
+	if($user_login->login($email,$upass))
 	{
-		if($row['userStatus']==$statusN)
-		{
-			$stmt = $user->runQuery("UPDATE tbl_users SET userStatus=:status WHERE userID=:uID");
-			$stmt->bindparam(":status",$statusY);
-			$stmt->bindparam(":uID",$id);
-			$stmt->execute();	
-			
-			$val = 'success';
-			$msg = "
-			  <div class='container'>
-			    <div class='section'>
-			      <div class='row'>
-			        <div class='m12 s12 col'>
-			          <div class='card-panel green lighten-2'>
-			            <div class='row'>
-			              <div class='col l8 white-text'>
-			                <h5>Success!</h5>
-			                <h6>We've sent you a confirmation email.  Click on the activation link to get started!</h6>
-			              </div>
-			              <div class='col l4 right-align'>
-			                <br>
-			                <!--a href='latest.php' class='waves-effect waves-light modal-trigger btn btn-large white blue-text darken-4 btn-flat'>Let's Go</a-->
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-			      </div>
-			    </div>
-			  </div>
-			       ";
-			  header('Location: success.php');	
-		}
-		else
-		{
-			$val = 'already';
-			$msg = "
-			  <div class='container'>
-			    <div class='section'>
-			      <div class='row'>
-			        <div class='m12 s12 col'>
-			          <div class='card-panel red accent-4' style='padding: 10px;'>
-			            <div class='row'>
-			              <div class='col l8 white-text'>
-			                <h5><i class='material-icons' style='margin-right: 1rem; vertical-align: bottom;'>error_outline</i>Whoops!</h5>
-			                <h6>An account with this Email address has already activated.</h6>
-			              </div>
-			              <div class='col l4 right-align'>
-			                <br>
-			                <a href='index.php' class='waves-effect waves-light modal-trigger btn btn-large white blue-text darken-4 btn-flat'>Login</a>
-			              </div>
-			            </div>
-			          </div>
-			        </div>
-			      </div>
-			    </div>
-			  </div> 
-			       ";
-		}
+		$user_login->redirect('home.php');
 	}
-	else
-	{
-		$val = 'none';
-		$msg = "
-		  <div class='container'>
-		    <div class='section'>
-		      <div class='row'>
-		        <div class='m12 s12 col'>
-		          <div class='card-panel red accent-4' style='padding: 10px;'>
-		            <div class='row'>
-		              <div class='col l8 white-text'>
-		                <h5><i class='material-icons' style='margin-right: 1rem; vertical-align: bottom;'>error_outline</i>Ruh roh!</h5>
-		                <h6>Something went wrong.  Please try signing up again.</h6>
-		              </div>
-		              <div class='col l4 right-align'>
-		                <br>
-		                <a href='signup.php' class='waves-effect waves-light modal-trigger btn btn-large white blue-text darken-4 btn-flat'>Sign up</a>
-		              </div>
-		            </div>
-		          </div>
-		        </div>
-		      </div>
-		    </div>
-		  </div>
-			   ";
-	}	
 }
 
+if(isset($_POST['btn-login-mobile']))
+{
+  $email = trim($_POST['muserEmail']);
+  $upass = trim($_POST['muserPass']);
+
+  if($user_login->login($email,$upass))
+  {
+    $user_login->redirect('home.php');
+  }  
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-  <title>Annotate - Account Confirmation</title>
+  <title>Annotate! - Success!</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -126,8 +49,8 @@ if(isset($_GET['id']) && isset($_GET['code']))
       type="image/png" 
       href="images/marker_16_active.png"> 
 </head>
-<body>
-<div class="navbar-fixed">
+<body onload="a.run();">
+  <div class="navbar-fixed">
     <nav class="white" role="navigation">
       <div class="nav-wrapper container">
         <a id="logo-container" href="http://annotate.tech" class="brand-logo annotate">annotate<span class="small">.tech</span></a>
@@ -138,14 +61,14 @@ if(isset($_GET['id']) && isset($_GET['code']))
             </li>       
             <li>
               <label class="screen-reader-only" for="login">Email address</label>
-              <input style="padding-left:1rem;" type="email" id="login" class="white black-text" placeholder="Login/Email address" />
+              <input style="padding-left:1rem;" type="email" id="login" class="white black-text" placeholder="Login/Email address" name="muserEmail" />
             </li>
             <li>
               <label class="screen-reader-only" for="password">Password</label>
-              <input style="padding-left:1rem;"  type="password" id="password" class="white black-text" placeholder="Password" />
+              <input style="padding-left:1rem;"  type="password" id="password" class="white black-text" placeholder="Password" name="muserPass" />
             </li>
             <li style="margin-left: 1rem;">
-              <button class="btn-large waves-effect waves-light blue darken-3 white-text" name="btn-login" style="height: 47px; line-height: 27px;">Login</button>
+              <button class="btn-large waves-effect waves-light blue darken-3 white-text" name="btn-login-mobile" style="height: 47px; line-height: 27px;">Login</button>
             </li>
           </ul>
           <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons grey-text darken-3">menu</i></a>           
@@ -193,23 +116,26 @@ if(isset($_GET['id']) && isset($_GET['code']))
     </nav>
   </div>
 
-  <div class="container">
-    <div class="section">
-      <div class="row">
-        <div class="col s12 center">
-          <h4 class="annotate">Account Confirmation</h4>
-          <div class="col l12 s16 left-align">         
-
-          </div>         
+<div class='container'>
+    <div class='section'>
+      <div class='row'>
+        <div class='m12 s12 col'>
+          <div class='card-panel green accent-4' style='padding: 10px;'>
+            <div class='row'>
+              <div class='col l8 white-text'>
+                <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>check_circle</i>Success!</h5>
+                <h6>We've sent you a confirmation email.  Click on the activation link to get started!</h6>
+              </div>
+              <div class='col l4 right-align'>
+                <br>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-		<?php 
-			echo $msg; 
-		?>    
-
-
     </div>
   </div>
+    
   <footer class="page-footer grey darken-4 white-text lighter">
     <div class="container">
       <div class="row">
@@ -243,7 +169,7 @@ if(isset($_GET['id']) && isset($_GET['code']))
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/annotate.js"></script>
-  <script src="js/materialize.js"></script>
+  <script src="js/materialize.js"></script> 
   <script src="js/init.js"></script>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
