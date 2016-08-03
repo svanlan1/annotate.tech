@@ -1,17 +1,22 @@
 <?php
-session_start();
-require_once 'class.user.php';
-$user_home = new USER();
+  session_start();
+  require_once 'class.user.php';
+  $user_login = new USER();
+  $stmt = $user_login->runQuery("SELECT * FROM tbl_users WHERE userID=:uid");
+  $stmt->execute(array(":uid"=>$_SESSION['userSession']));
+  $user = $stmt->fetch(PDO::FETCH_ASSOC);
+  $userID = $user['userID'];
 
-if(!$user_home->is_logged_in())
-{
-	$user_home->redirect('index.php');
-}
+  mysql_connect ("localhost", "annotate_admin", "XtcVsAA1979");
+  mysql_select_db("annotate_main");
+  $query = sprintf("SELECT url, obj, session_id FROM store 
+    WHERE userID='%s'",
+    mysql_real_escape_string($userID));
 
-$stmt = $user_home->runQuery("SELECT * FROM tbl_users WHERE userID=:uid");
-$stmt->execute(array(":uid"=>$_SESSION['userSession']));
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $result = mysql_query($query);
 
+
+  
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +24,7 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-  <title>Annotate - <?php echo $row['userEmail']; ?> - Home</title>
+  <title>Annotate - <?php echo $row['userEmail']; ?> - Saved Annotations</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -38,15 +43,15 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
       <div class="nav-wrapper container">
         <a id="logo-container" href="http://annotate.tech" class="brand-logo annotate">annotate<span class="small">.tech</span></a>             
         <ul class="right hide-on-med-and-down annotate">
-          <li><a class="dropdown-button" href="#!" data-activates="dropdown1"><?php echo $row['userEmail']; ?><i class="material-icons right">arrow_drop_down</i></a></li>
+          <li><a class="dropdown-button" href="#!" data-activates="dropdown1"><?php echo $user['userEmail']; ?><i class="material-icons right">arrow_drop_down</i></a></li>
         </ul>      
          <ul id="dropdown1" class="dropdown-content">
           <li>
             <span class="small black-text" style="font-size: .9rem;">
               <div class="chip" style="display: inline; background: none; padding: 0;">
-                <img src="images/user.png" alt=<?php echo $row['first_name'].' '.$row['last_name']; ?> />
+                <img src="images/user.png" alt=<?php echo $user['first_name'].' '.$user['last_name']; ?> />
               </div>
-              <?php echo $row['userEmail']; ?>
+              <?php echo $user['userEmail']; ?>
             </span>
           </li> 
           <li class="divider"></li>
@@ -100,125 +105,48 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
   <div class="container">
     <div class="section">
+
       <div class="row">
         <div class="col s12 center">
-          <h4 class="annotate">Placeholder</h4>
+          <h4 class="annotate">Saved annotations</h4>
           <div class="col l12 s16 left-align">         
-            <!-- start slipsum code -->
 
-            Normally, both your asses would be dead as fucking fried chicken, but you happen to pull this shit while I'm in a transitional period so I don't wanna kill you, I wanna help you. But I can't give you this case, it don't belong to me. Besides, I've already been through too much shit this morning over this case to hand it over to your dumb ass.
-
-            <!-- end slipsum code -->
-          </div>          
+          </div>         
         </div>
       </div>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Page URL</th>
+            <th scope="col">Annotation ID</th>
+            <th scope="col">JSON</th>
+          </tr>
+        </thead>
+        <tbody>
+      <?php
+        if (!$result) {
+            $message  = 'Invalid query: ' . mysql_error() . "\n";
+            $message .= 'Whole query: ' . $query;
+            echo $message;
+            die($message);
+        }    
+
+        while ($row = mysql_fetch_assoc($result)) {
+            $tr = '<tr><td>'.$row['url'].'</td><td>'.$row['session_id'].'</td><td>'.$row['obj'].'</td></tr>';
+            echo $tr;
+            /*$msg = array('results'=>$row['obj'],'URL'=>$row['url'],'session_id'=>$row['session_id']);
+            echo json_encode($msg), "\r\n";*/
+        }
+
+        mysql_free_result($result);
+
+      ?> 
+      </tbody>
+      </table>  
+
+
     </div>
   </div>
-
-  <div class='container'>
-    <div class='section'>
-      <div class='row'>
-        <div class='m12 s12 col'>
-          <div class='card-panel green accent-4' style='padding: 10px;'>
-            <div class='row'>
-              <div class='col l8 white-text'>
-                <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>check_circle</i>Success!</h5>
-                <h6>We've sent you a confirmation email.  Click on the activation link to get started!</h6>
-              </div>
-              <div class='col l4 right-align'>
-                <br>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> 
-
-  <div class='container'>
-    <div class='section'>
-      <div class='row'>
-        <div class='m12 s12 col'>
-          <div class='card-panel red accent-4' style='padding: 10px;'>
-            <div class='row'>
-              <div class='col l8 white-text'>
-                <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>error_outline</i>Ruh roh!</h5>
-                <h6>An account with this Email address has already activated.</h6>
-              </div>
-              <div class='col l4 right-align'>
-                <br>
-                <a href='index.php' class='waves-effect waves-light modal-trigger btn btn-large white blue-text darken-4 btn-flat'>Login</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class='container'>
-    <div class='section'>
-      <div class='row'>
-        <div class='m12 s12 col'>
-          <div class='card-panel red accent-4' style='padding: 10px;'>
-            <div class='row'>
-              <div class='col l8 white-text'>
-                <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>error_outline</i>Ruh roh!</h5>
-                <h6>Something went wrong.  Please try signing up again.</h6>
-              </div>
-              <div class='col l4 right-align'>
-                <br>
-                <a href='signup.php' class='waves-effect waves-light modal-trigger btn btn-large white blue-text darken-4 btn-flat'>Sign up</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>        
-
-  <div class="container">
-    <div class="section">
-      <div class="row">
-        <div class="m12 s12 col">
-          <div class="card-panel blue lighten-2" style='padding: 10px;'>
-            <div class="row">
-              <div class="col l8 white-text">
-                <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>info_outline</i>Don't Miss a Thing</h5>
-                <h6>Read the latest updates on Annotate</h6>
-              </div>
-              <div class="col l4 right-align">
-                <br>
-                <a href="latest.php" class="waves-effect waves-light modal-trigger btn btn-large white blue-text darken-4 btn-flat">Let's Go</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="section">
-      <div class="row">
-        <div class="m12 s12 col">
-          <div class="card-panel teal darken-1" style='padding: 10px;'>
-            <div class="row">
-              <div class="col l8 white-text">
-                <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>info_outline</i>View your latest annotations</h5>
-                <h6>All of your annotations in one place.  Edit and share with others.</h6>
-              </div>
-              <div class="col l4 right-align">
-                <br>
-                <a href="latest.php" class="waves-effect waves-light modal-trigger btn btn-large white teal-text btn-flat">View Latest</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <footer class="page-footer grey darken-4 white-text lighter">
     <div class="container">
       <div class="row">

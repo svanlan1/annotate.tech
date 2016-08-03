@@ -99,6 +99,7 @@ class USER
 			mysql_connect ("localhost", "annotate_admin", "XtcVsAA1979");
 			mysql_select_db("annotate_main");
 			mysql_query("UPDATE tbl_users SET userEmail = '$email', first_name = '$fName', last_name = '$lName' WHERE userID = '$userID'");
+			
 
 			return true;
 		}
@@ -107,6 +108,49 @@ class USER
 			echo 'The statement didnt execute';
 		}
 		
+	}
+
+	public function add_annotation($userID,$url,$obj,$session_id) 
+	{
+		try
+		{	
+			$date = time();
+
+			$stmt = $this->conn->prepare("INSERT INTO store(userID,session_id,url,obj,updated) 
+			                                             VALUES(:user_id, :session_id, :url, :obj, :updated)");
+			$stmt->bindparam(":user_id",$userID);
+			$stmt->bindparam(":session_id",$session_id);
+			$stmt->bindparam(":url",$url);
+			$stmt->bindparam(":obj",$obj);
+			$stmt->bindparam(":updated",$date);
+			$stmt->execute();	
+			return $stmt;
+
+			/*INSERT INTO 'annotate_main'.'store' ('userID', 'url', 'updated', 'group_id', 'session_id') VALUES ('1', 'http://sva11y.com', '121215154665', '25', '12345');*/
+			echo 'SUCCESS';
+			//return true;
+		}
+		catch(PDOException $ex)
+		{
+			echo $ex;
+		}
+	}
+
+	public function update_annotation($userID,$url,$obj,$session_id)
+	{
+		try
+		{	
+			$date = time();
+			mysql_connect ("localhost", "annotate_admin", "XtcVsAA1979");
+			mysql_select_db("annotate_main");
+			mysql_query("UPDATE store SET userID = '$userID', url = '$url', obj = '$obj', updated = '$date', session_id = '$session_id' WHERE session_id = '$session_id'");
+
+			return true;
+		}
+		catch(PDOException $ex)
+		{
+			echo 'The statement didnt execute';
+		}		
 	}
 	
 	

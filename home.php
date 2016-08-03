@@ -119,11 +119,11 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
     <div class='section'>
       <div class='row'>
         <div class='m12 s12 col'>
-          <div class='card-panel green accent-4' style='padding: 10px;'>
+          <div class='card-panel light-green darken-4' style='padding: 10px;'>
             <div class='row'>
               <div class='col l8 white-text'>
                 <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>check_circle</i>Success!</h5>
-                <h6>We've sent you a confirmation email.  Click on the activation link to get started!</h6>
+                <h6 style="margin-left: 3rem;">We've sent you a confirmation email.  Click on the activation link to get started!</h6>
               </div>
               <div class='col l4 right-align'>
                 <br>
@@ -143,7 +143,7 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
             <div class='row'>
               <div class='col l8 white-text'>
                 <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>error_outline</i>Ruh roh!</h5>
-                <h6>An account with this Email address has already activated.</h6>
+                <h6 style="margin-left: 3rem;">An account with this Email address has already activated.</h6>
               </div>
               <div class='col l4 right-align'>
                 <br>
@@ -164,7 +164,7 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
             <div class='row'>
               <div class='col l8 white-text'>
                 <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>error_outline</i>Ruh roh!</h5>
-                <h6>Something went wrong.  Please try signing up again.</h6>
+                <h6 style="margin-left: 3rem;">Something went wrong.  Please try signing up again.</h6>
               </div>
               <div class='col l4 right-align'>
                 <br>
@@ -181,11 +181,11 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
     <div class="section">
       <div class="row">
         <div class="m12 s12 col">
-          <div class="card-panel blue lighten-2" style='padding: 10px;'>
+          <div class="card-panel light-blue darken-4" style='padding: 10px;'>
             <div class="row">
               <div class="col l8 white-text">
                 <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>info_outline</i>Don't Miss a Thing</h5>
-                <h6>Read the latest updates on Annotate</h6>
+                <h6 style="margin-left: 3rem;">Read the latest updates on Annotate</h6>
               </div>
               <div class="col l4 right-align">
                 <br>
@@ -202,11 +202,11 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
     <div class="section">
       <div class="row">
         <div class="m12 s12 col">
-          <div class="card-panel teal darken-1" style='padding: 10px;'>
+          <div class="card-panel cyan accent-4" style='padding: 10px;'>
             <div class="row">
-              <div class="col l8 white-text">
+              <div class="col l8 black-text">
                 <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>info_outline</i>View your latest annotations</h5>
-                <h6>All of your annotations in one place.  Edit and share with others.</h6>
+                <h6 style="margin-left: 3rem;">All of your annotations in one place.  Edit and share with others.</h6>
               </div>
               <div class="col l4 right-align">
                 <br>

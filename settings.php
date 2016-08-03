@@ -12,6 +12,23 @@ $stmt = $user_home->runQuery("SELECT * FROM tbl_users WHERE userID=:uid");
 $stmt->execute(array(":uid"=>$_SESSION['userSession']));
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
+if(isset($_POST['btn-update']))
+{
+  $email = trim($_POST['userEmail']);
+  $upass = trim($_POST['userPass']);
+  $fName = trim($_POST['firstName']);
+  $lName = trim($_POST['lastName']);
+  $userID = $row['userID'];
+
+  if($user_home->update($email,$upass,$fName,$lName,$userID))
+  {
+    $user_home->redirect('settings.php?success');
+    echo $fName;
+  } else {
+    $user_home->redirect('settings.php?error');
+  }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +36,7 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-  <title>Annotate - <?php echo $row['userEmail']; ?> - Home</title>
+  <title>Annotate - <?php echo $row['userEmail']; ?> - Settings</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -100,125 +117,50 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
   <div class="container">
     <div class="section">
+
       <div class="row">
         <div class="col s12 center">
-          <h4 class="annotate">Placeholder</h4>
+          <h4 class="annotate">Account information</h4>
           <div class="col l12 s16 left-align">         
-            <!-- start slipsum code -->
 
-            Normally, both your asses would be dead as fucking fried chicken, but you happen to pull this shit while I'm in a transitional period so I don't wanna kill you, I wanna help you. But I can't give you this case, it don't belong to me. Besides, I've already been through too much shit this morning over this case to hand it over to your dumb ass.
-
-            <!-- end slipsum code -->
-          </div>          
+          </div>         
         </div>
       </div>
+      <form class="form-signin" method="post">
+        <div class="row">
+          <div class="col s12 left-align">
+           <label for="userEmail" class="required">Email address</label>
+           <input type="email" id="userEmail" name="userEmail" value=<?php echo $row['userEmail']; ?> />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12 left-align">
+           <label for="userName" class="required">Username</label>
+           <input type="text" id="userName" name="userName" value=<?php echo $row['userName']; ?> />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12 left-align">
+           <label for="firstName" class="required">First Name</label>
+           <input type="text" id="firstName" name="firstName" value=<?php echo $row['first_name']; ?> />
+          </div>
+        </div>   
+        <div class="row">
+          <div class="col s12 left-align">
+           <label for="lastName" class="required">Last Name</label>
+           <input type="text" id="lastName" name="lastName" value=<?php echo $row['last_name']; ?> />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12 left-align">
+            <button class="btn-large waves-effect waves-light blue darken-3 white-text" name="btn-update" style="height: 47px; line-height: 27px;">Update</button>
+          </div>
+        </div> 
+      </form>     
+
+
     </div>
   </div>
-
-  <div class='container'>
-    <div class='section'>
-      <div class='row'>
-        <div class='m12 s12 col'>
-          <div class='card-panel green accent-4' style='padding: 10px;'>
-            <div class='row'>
-              <div class='col l8 white-text'>
-                <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>check_circle</i>Success!</h5>
-                <h6>We've sent you a confirmation email.  Click on the activation link to get started!</h6>
-              </div>
-              <div class='col l4 right-align'>
-                <br>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> 
-
-  <div class='container'>
-    <div class='section'>
-      <div class='row'>
-        <div class='m12 s12 col'>
-          <div class='card-panel red accent-4' style='padding: 10px;'>
-            <div class='row'>
-              <div class='col l8 white-text'>
-                <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>error_outline</i>Ruh roh!</h5>
-                <h6>An account with this Email address has already activated.</h6>
-              </div>
-              <div class='col l4 right-align'>
-                <br>
-                <a href='index.php' class='waves-effect waves-light modal-trigger btn btn-large white blue-text darken-4 btn-flat'>Login</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class='container'>
-    <div class='section'>
-      <div class='row'>
-        <div class='m12 s12 col'>
-          <div class='card-panel red accent-4' style='padding: 10px;'>
-            <div class='row'>
-              <div class='col l8 white-text'>
-                <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>error_outline</i>Ruh roh!</h5>
-                <h6>Something went wrong.  Please try signing up again.</h6>
-              </div>
-              <div class='col l4 right-align'>
-                <br>
-                <a href='signup.php' class='waves-effect waves-light modal-trigger btn btn-large white blue-text darken-4 btn-flat'>Sign up</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>        
-
-  <div class="container">
-    <div class="section">
-      <div class="row">
-        <div class="m12 s12 col">
-          <div class="card-panel blue lighten-2" style='padding: 10px;'>
-            <div class="row">
-              <div class="col l8 white-text">
-                <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>info_outline</i>Don't Miss a Thing</h5>
-                <h6>Read the latest updates on Annotate</h6>
-              </div>
-              <div class="col l4 right-align">
-                <br>
-                <a href="latest.php" class="waves-effect waves-light modal-trigger btn btn-large white blue-text darken-4 btn-flat">Let's Go</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="section">
-      <div class="row">
-        <div class="m12 s12 col">
-          <div class="card-panel teal darken-1" style='padding: 10px;'>
-            <div class="row">
-              <div class="col l8 white-text">
-                <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>info_outline</i>View your latest annotations</h5>
-                <h6>All of your annotations in one place.  Edit and share with others.</h6>
-              </div>
-              <div class="col l4 right-align">
-                <br>
-                <a href="latest.php" class="waves-effect waves-light modal-trigger btn btn-large white teal-text btn-flat">View Latest</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <footer class="page-footer grey darken-4 white-text lighter">
     <div class="container">
       <div class="row">
