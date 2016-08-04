@@ -140,17 +140,20 @@ class USER
 	{
 		try
 		{	
+
+			echo $url, "\r\n";
+			echo $session_id, "\r\n";
 			$date = time();
 			mysql_connect ("localhost", "annotate_admin", "XtcVsAA1979");
 			mysql_select_db("annotate_main");
-			mysql_query("UPDATE store SET userID = '$userID', url = '$url', obj = '$obj', updated = '$date', session_id = '$session_id' WHERE session_id = '$session_id'");
+			mysql_query("UPDATE store SET obj = '$obj', updated = '$date' WHERE session_id = '$session_id'");
 
 			return true;
 		}
 		catch(PDOException $ex)
 		{
-			echo 'The statement didnt execute';
-		}		
+			echo $ex;
+		}			
 	}
 	
 	
