@@ -25,12 +25,13 @@ if(isset($_POST['btn-signup']))
 	
 	if($stmt->rowCount() > 0)
 	{
-		$msg = "
+		/*$msg = "
 		      <div class='alert alert-error'>
 				<button class='close' data-dismiss='alert'>&times;</button>
 					<strong>Sorry !</strong>  email allready exists , Please Try another one
 			  </div>
-			  ";
+			  ";*/
+        header("Location: results.php?error-already-exists");
 	}
 	else
 	{
@@ -62,7 +63,8 @@ if(isset($_POST['btn-signup']))
 		}
 		else
 		{
-			echo "sorry , Query could no execute...";
+			//echo "sorry , Query could no execute...";
+      header("Location: results.php?error-not-working");
 		}		
 	}
 }
@@ -174,21 +176,27 @@ if(isset($_POST['btn-signup']))
             <div class="row">
               <div class="input-field col s12">
                 <input id="txtuname" type="text" name="txtuname">
-                <label for="txtuname">Last Name</label>
+                <label for="txtuname">Nickname</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12">
-                <input id="email" type="email" class="validate" name="txtemail">
-                <label for="email" data-error="Please enter a valid email address" data-success="cool beans" class="active">Email</label>
+                <input id="email" type="email" class="validate required" name="txtemail" class="required">
+                <label for="email" data-error="Please enter a valid email address" data-success="Valid" class="active">Email</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12">
-                <input id="password" type="password" name="txtpass">
-                <label for="password" data-error="You must enter a password" data-success="NOICE" class="validate">Password</label>
+                <input id="signpassword" type="password" name="txtpass" class="validate required">
+                <label for="signpassword" data-error="" data-success="Valid password" class="validate">Password</label>
               </div>
-            </div>          
+            </div>  
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="repassword" type="password" name="repassword" class="validate required">
+                <label for="repassword" data-error="You must enter a password" data-success="Passwords match" class="validate">Password</label>
+              </div>
+            </div>                     
               <!--input type="submit" name="btn-signup" value="Sign Up" class="btn waves-effect waves-light grey darken-3" /-->
               <button class="btn waves-effect waves-light grey darken-3" type="submit" name="btn-signup">Sign Up</button>
               <a class="black-text" href="login.php">Login</a>

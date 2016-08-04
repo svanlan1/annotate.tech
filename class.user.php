@@ -110,16 +110,15 @@ class USER
 		
 	}
 
-	public function add_annotation($userID,$url,$obj,$session_id) 
+	public function add_annotation($userID,$url,$obj) 
 	{
 		try
 		{	
 			$date = time();
 
-			$stmt = $this->conn->prepare("INSERT INTO store(userID,session_id,url,obj,updated) 
-			                                             VALUES(:user_id, :session_id, :url, :obj, :updated)");
+			$stmt = $this->conn->prepare("INSERT INTO store(userID,url,obj,updated) 
+			                                             VALUES(:user_id, :url, :obj, :updated)");
 			$stmt->bindparam(":user_id",$userID);
-			$stmt->bindparam(":session_id",$session_id);
 			$stmt->bindparam(":url",$url);
 			$stmt->bindparam(":obj",$obj);
 			$stmt->bindparam(":updated",$date);
@@ -136,7 +135,7 @@ class USER
 		}
 	}
 
-	public function update_annotation($userID,$url,$obj,$session_id)
+	public function update_annotation($userID,$url,$obj)
 	{
 		try
 		{	
@@ -146,7 +145,12 @@ class USER
 			$date = time();
 			mysql_connect ("localhost", "annotate_admin", "XtcVsAA1979");
 			mysql_select_db("annotate_main");
-			mysql_query("UPDATE store SET obj = '$obj', updated = '$date' WHERE session_id = '$session_id'");
+			//mysql_query("UPDATE store SET obj = '$obj', updated = '$date' WHERE userID = '$userID'");
+
+			mysql_query("INSERT INTO store (userID, url, obj, updated) 
+										VALUES ('$userID', '$url','$obj','$date')
+											ON DUPLICATE KEY UPDATE
+												userID='$userID', url='$url', obj='$obj', updated='$date'");		
 
 			return true;
 		}
@@ -194,6 +198,6 @@ class USER
 		$mail->MsgHTML($message);
 		$mail->Send();
 		//header("Location: home.php");
-		header('Location: success.php');
+		//header('Location: success.php');
 	}		
 }

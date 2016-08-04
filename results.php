@@ -9,7 +9,7 @@
 
   mysql_connect ("localhost", "annotate_admin", "XtcVsAA1979");
   mysql_select_db("annotate_main");
-  $query = sprintf("SELECT url, obj, session_id FROM store 
+  $query = sprintf("SELECT url, obj FROM store 
     WHERE userID='%s'",
     mysql_real_escape_string($userID));
 
@@ -36,6 +36,22 @@
   <link rel="icon" 
       type="image/png" 
       href="images/marker_16_active.png"> 
+
+  <style>
+  .annotate-card-head {
+    display: block;
+    width: 99%;
+    overflow: hidden;
+    font-size: 1.2rem !important;
+    text-overflow: ellipsis;
+    /* text-indent: -5px; */
+    text-decoration: underline;   
+  }
+
+  .annotate-card-head-text {
+    width: 95%;
+  }
+  </style>
 </head>
 <body>
   <div class="navbar-fixed">
@@ -114,15 +130,7 @@
           </div>         
         </div>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th scope="col">Page URL</th>
-            <th scope="col">Annotation ID</th>
-            <th scope="col">JSON</th>
-          </tr>
-        </thead>
-        <tbody>
+
       <?php
         if (!$result) {
             $message  = 'Invalid query: ' . mysql_error() . "\n";
@@ -132,20 +140,17 @@
         }    
 
         while ($row = mysql_fetch_assoc($result)) {
-            $tr = '<tr><td>'.$row['url'].'</td><td>'.$row['session_id'].'</td><td>'.$row['obj'].'</td></tr>';
+            $tr = '<div id="ann-object">'.$row['obj'].'</div>';
             echo $tr;
-            /*$msg = array('results'=>$row['obj'],'URL'=>$row['url'],'session_id'=>$row['session_id']);
-            echo json_encode($msg), "\r\n";*/
         }
 
         mysql_free_result($result);
 
       ?> 
-      </tbody>
-      </table>  
-
+  
 
     </div>
+    <div class="row" id="results_area"></div>    
   </div>
   <footer class="page-footer grey darken-4 white-text lighter">
     <div class="container">
@@ -180,6 +185,61 @@
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/annotate.js"></script>
+      <script>
+        function convert_obj() {
+          //var tbody = $('#results_table tbody');
+          var item = JSON.parse($('#ann-object').text());
+          $('#ann-object').remove();
+          //console.log(item);
+          /*$(item).each(function(i,v) {
+            var val = v.val
+            if(v[val].length > 0) {
+            var tr = $('<tr />').appendTo(tbody);
+            var urltd = $('<td class="table-url" />').html('<a class="black-text" href="' + v.url + '" target="_blank">' + v.url + '</a>').appendTo(tr);
+            var td = $('<td class="table-info"/>').appendTo(tr);
+            $(v[val]).each(function(l,m) {
+              
+              var type = $('<div />').text(m.type).appendTo(td);
+              var wid = $('<div />').text(m.win_w).appendTo(td);
+              var hei = $('<div />').text(m.win_h).appendTo(td);
+            });
+            }
+          });
+          $('#ann-object').remove();*/
+          var area = $('#results_area');
+          $(item).each(function(i,v) {
+            var val = v.val;
+            if(v[val].length > 0) {
+              var cont = $('<div />').addClass('col s12 m6').appendTo(area);
+              var div_card_sticky = $('<div />').addClass('card small sticky-action blue-grey darken-2').appendTo(cont);
+              var div_card_content = $('<div />').addClass('card-content').appendTo(div_card_sticky);
+              var div_card_action = $('<div />').addClass('card-action').appendTo(div_card_sticky);
+              var div_card_reveal = $('<div />').addClass('card-reveal').appendTo(div_card_sticky);
+              var type = $('<span />').addClass('card-title activator white-text annotate-card-head').html('<span class="annotate-card-head-text">' + v.url + '</span><i class="material-icons right">more_vert</i>').appendTo(div_card_content);
+              var moreInfo = $('<p />').appendTo(div_card_content);
+              $('<span class="moreInfo white-text" />').text(v[val].length + ' notations').appendTo(moreInfo);
+              $('<div />').addClass('annotate-res-width white-text').html('<strong>Width</strong><br />' + v[val][0].win_w).appendTo(moreInfo);
+              $('<div />').addClass('annotate-res-height white-text').html('<strong>Width</strong><br />' + v[val][0].win_h).appendTo(moreInfo);
+              $('<span />').text('To view annotations in the correct size, click "Visit Site" below.  This will open a new window where you can load the previous annotations.').appendTo(moreInfo);              
+
+
+              var onclick="window.open('"+v.url+"?annotate=true','_new', 'toolbar=yes, location=yes, status=no,menubar=yes,scrollbars=yes,resizable=no,width=" + v[val][0].win_w +",height=" + v[val][0].win_h +"')";
+              var ac1 = $('<a />').addClass('white-text').attr('href', 'javascript:void(0);').attr('onclick', onclick).text('Visit Site').appendTo(div_card_action);
+              var ac2 = $('<a />').addClass('white-text annotate_delete').attr('href', 'javascript:void(0);').text('Delete').appendTo(div_card_action);
+              var aType = $('<span />').addClass('card-title activator').html(v.url + '<i class="material-icons right">close</i>').appendTo(div_card_reveal);
+              
+              
+
+
+              $(v[val]).each(function(l,m) {
+                $('<div />').addClass('annotate-res-width').html('<strong>Type</strong><br />' + m.type).appendTo(div_card_reveal);
+              });
+            }
+          });
+        }
+
+        convert_obj();
+      </script>  
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
 <script>
@@ -192,6 +252,8 @@
   ga('send', 'pageview');
 
 </script>
+
+
 
   </body>
 </html>

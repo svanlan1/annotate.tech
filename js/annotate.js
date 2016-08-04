@@ -37,7 +37,45 @@ a.isThree = function (n) {
 }
 
 function validate() {
-	event.preventDefault();
-	alert('Hey you fuckers');
-	return false;
+	//event.preventDefault();
+
+	if(!validate_stuff()) {
+		event.preventDefault();
+	} else {
+		return true;
+	}
+}
+
+function validate_stuff() {
+	var email = $('#email'),
+		emailval = $(email).val(),
+		pass1 = $('#signpassword'),
+		pass1val = $(pass1).val(),
+		pass2 = $('#repassword'),
+		pass2val = $(pass2).val(),
+		retVal = true;
+
+	if($(email).val() === "") {
+		$(email).addClass('invalid');
+		retVal = false;
+	} else {
+		$(email).removeClass('invalid').addClass('valid');
+	}
+
+	if(pass1val.length < 8) {
+		$(pass1).attr('data-error', 'Passwords must be at least 8 characters').addClass('invalid');
+		retVal = false;
+	}
+	else if(pass1val === "" && pass2val === "") {
+		$(pass1).attr('data-error', 'Passwords cannot be blank').addClass('invalid');
+		$(pass2).attr('data-error', 'Passwords must match and cannot be blank').addClass('invalid');
+		retVal = false;
+	} else if (pass1val !== pass2val) {
+		$(pass2).attr('data-error', 'Passwords must match').addClass('invalid');
+		retVal = false;
+	} else {
+		$(pass1, pass2).removeClass('invalid').addClass('valid');
+	}
+
+	return retVal;	
 }

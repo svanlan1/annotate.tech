@@ -11,10 +11,9 @@
 	$url = trim($_POST['url']);
 	mysql_connect ("localhost", "annotate_admin", "XtcVsAA1979");
 	mysql_select_db("annotate_main");
-	$query = sprintf("SELECT url, obj, session_id FROM store 
-    WHERE userID='%s' AND url='%s'",
-    mysql_real_escape_string($userID),
-    mysql_real_escape_string($url));
+	$query = sprintf("SELECT url, obj FROM store 
+    WHERE userID='%s'",
+    mysql_real_escape_string($userID));
 
     $result = mysql_query($query);
 	if (!$result) {
