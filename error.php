@@ -116,26 +116,57 @@ if(isset($_POST['btn-login-mobile']))
     </nav>
   </div>
 
-  <div class='container'>
-    <div class='section'>
-      <div class='row'>
-        <div class='m12 s12 col'>
-          <div class='card-panel light-green darken-4' style='padding: 10px;'>
-            <div class='row'>
-              <div class='col l8 white-text'>
-                <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>check_circle</i>Success!</h5>
-                <h6 style="margin-left: 3rem;">We've sent you a confirmation email.  Once you receive it, click on the activation link to get started!</h6>
-                <h6 style="margin-left: 3rem;">Please allow up to 60 minutes to receive the email.</h6>
+
+  <?php
+    if(isset($_GET['error-already-exists']))
+    {
+  ?>
+      <div class='container'>
+        <div class='section'>
+          <div class='row'>
+            <div class='m12 s12 col'>
+              <div class='card-panel red accent-4' style='padding: 10px;'>
+                <div class='row'>
+                  <div class='col l8 white-text'>
+                    <h5><i class='material-icons' style='margin-right: 1rem; vertical-align: bottom;'>error_outline</i>Ruh roh!</h5>
+                    <h6 style='margin-left: 3rem;'>An account with this Email address has already activated.</h6>
+                  </div>
+                  <div class='col l4 right-align'>
+                    <br>
+                    <a href='index.php' class='waves-effect waves-light modal-trigger btn btn-large white black-text darken-4 btn-flat'>Login</a>
+                  </div>
+                </div>
               </div>
-              <div class='col l4 right-align'>
-                <br>
+            </div>
+          </div>
+        </div>
+      </div>";
+  <?php
+    } else if (isset($_GET['could-not-execute'])) {
+  ?>    
+    <div class='container'>
+      <div class='section'>
+        <div class='row'>
+          <div class='m12 s12 col'>
+            <div class='card-panel red accent-4' style='padding: 10px;'>
+              <div class='row'>
+                <div class='col l8 white-text'>
+                  <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>error_outline</i>Ruh roh!</h5>
+                  <h6 style="margin-left: 3rem;">Something went wrong.  Please try signing up again.</h6>
+                </div>
+                <div class='col l4 right-align'>
+                  <br>
+                  <a href='signup.php' class='waves-effect waves-light modal-trigger btn btn-large white blue-text darken-4 btn-flat'>Sign up</a>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div> 
+  <?php     
+    }
+  ?>
     
   <footer class="page-footer grey darken-4 white-text lighter">
     <div class="container">

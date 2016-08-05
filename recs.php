@@ -1,34 +1,40 @@
 <?php
 session_start();
 require_once 'class.user.php';
-$user_home = new USER();
-
-if(!$user_home->is_logged_in())
-{
-	$user_home->redirect('index.php');
-}
-
-$stmt = $user_home->runQuery("SELECT * FROM tbl_users WHERE userID=:uid");
+$user_login = new USER();
+$stmt = $user_login->runQuery("SELECT * FROM tbl_users WHERE userID=:uid");
 $stmt->execute(array(":uid"=>$_SESSION['userSession']));
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if(isset($_POST['btn-update']))
+if($row['userEmail'] !== "")
 {
-  $email = trim($_POST['userEmail']);
-  $upass = trim($_POST['userPass']);
-  $fName = trim($_POST['firstName']);
-  $lName = trim($_POST['lastName']);
-  $userID = $row['userID'];
-
-  if($user_home->update($email,$upass,$fName,$lName,$userID))
-  {
-    $user_home->redirect('settings.php?success');
-    echo $fName;
-  } else {
-    $user_home->redirect('settings.php?error');
-  }
+  $loggedIn = true;
+} else {
+  $loggedIn = false;
 }
 
+
+if(isset($_POST['btn-login']))
+{
+	$email = trim($_POST['userEmail']);
+	$upass = trim($_POST['userPass']);
+
+	if($user_login->login($email,$upass))
+	{
+		$user_login->redirect('home.php');
+	}
+}
+
+if(isset($_POST['btn-login-mobile']))
+{
+  $email = trim($_POST['muserEmail']);
+  $upass = trim($_POST['muserPass']);
+
+  if($user_login->login($email,$upass))
+  {
+    $user_login->redirect('home.php');
+  }  
+}
 ?>
 
 <!DOCTYPE html>
@@ -36,7 +42,7 @@ if(isset($_POST['btn-update']))
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-  <title>Annotate - <?php echo $row['userEmail']; ?> - Settings</title>
+  <title>Annotate! - Success!</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -49,7 +55,13 @@ if(isset($_POST['btn-update']))
       type="image/png" 
       href="images/marker_16_active.png"> 
 </head>
-<body>
+<body onload="a.run();">
+  <?php
+
+  if($loggedIn)
+  {
+
+?>
   <div class="navbar-fixed">
     <nav class="white" role="navigation">
       <div class="nav-wrapper container">
@@ -123,53 +135,97 @@ if(isset($_POST['btn-update']))
       </div>
     </nav>
   </div>
+<?php
+  //$user_home->redirect('index.php');
+} else {
+?>
+  <div class="navbar-fixed">
+    <nav class="white" role="navigation">
+      <div class="nav-wrapper container">
+        <a id="logo-container" href="http://annotate.tech" class="brand-logo annotate">annotate<span class="small">.tech</span></a>
+        <form class="form-signin" method="post">
+          <ul id="nav-mobile" class="side-nav">
+            <li>
+              <h5 style="margin:0; padding: 5px;" class="grey darken-4 white-text lighter annotate">Login</h5>
+            </li>       
+            <li>
+              <label class="screen-reader-only" for="login">Email address</label>
+              <input style="padding-left:1rem;" type="email" id="login" class="white black-text" placeholder="Login/Email address" name="muserEmail" />
+            </li>
+            <li>
+              <label class="screen-reader-only" for="password">Password</label>
+              <input style="padding-left:1rem;"  type="password" id="password" class="white black-text" placeholder="Password" name="muserPass" />
+            </li>
+            <li style="margin-left: 1rem;">
+              <button class="btn-large waves-effect waves-light blue darken-3 white-text" name="btn-login-mobile" style="height: 47px; line-height: 27px;">Login</button>
+            </li>
+          </ul>
+          <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons grey-text darken-3">menu</i></a>           
+          <ul class="right hide-on-med-and-down annotate">
+            <li>
+              <label class="screen-reader-only" for="userEmail">Email address</label>
+              <?php
+                if(isset($_GET['error']))
+                {
+              ?>
+              <input type="text" id="userEmail" class="white black-text annotate-error tooltipped" style="padding-left: 5px;" data-position="bottom" data-delay="50" data-tooltip="Incorrect email/password" placeholder="Login/Email address" name="userEmail" aria-describedby="login_error" />
+              <span class="screen-reader-only" id="login_error"> Incorrect Email/Password.  Please try again</span>
+              <?php
+                } else {
+              ?>
+              <input type="text" id="userEmail" class="white black-text"  style="padding-left: 5px;" placeholder="Login/Email address" name="userEmail" />
+              <?php
+                }
+              ?>           
+            </li>
+            <li>
+              <label class="screen-reader-only" for="userPass">Password</label>
+              <?php
+                if(isset($_GET['error']))
+                {
+              ?>
+              <input style="margin-left: 1rem; padding-left: 5px;" type="password" id="userPass" class="white black-text annotate-error" placeholder="Password" name="userPass" aria-describedby="password_error" />
+              <?php
+                } else {
+              ?>
+              <input style="margin-left: 1rem; padding-left: 5px;" type="password" id="userPass" class="white black-text" placeholder="Password" name="userPass" />
+              <?php
+                }
+              ?>  
+            </li>
+            <li style="margin-left: 1rem;">
+              <button class="btn-large waves-effect waves-light blue darken-3 white-text" name="btn-login" style="margin-left: 1rem; height: 47px; line-height: 27px;">Login</button>
+            </li> 
+          </ul>
+        </form>
+      </div>
+    </nav>
+  </div>
+<?php
+}
 
-  <div class="container">
-    <div class="section">
+?>
 
-      <div class="row">
-        <div class="col s12 center">
-          <h4 class="annotate">Account information</h4>
-          <div class="col l12 s16 left-align">         
-
-          </div>         
+  <div class='container'>
+    <div class='section'>
+      <div class='row'>
+        <div class='m12 s12 col'>
+          <div class='card-panel yellow' style='padding: 10px;'>
+            <div class='row'>
+              <div class='col l8 black-text'>
+                <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>warning</i>Under construction</h5>
+                <h6 style="margin-left: 3rem;">We're working on this page right now.  Please check back shortly.</h6>
+              </div>
+              <div class='col l4 right-align'>
+                <br>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <form class="form-signin" method="post">
-        <div class="row">
-          <div class="col s12 left-align">
-           <label for="userEmail" class="required">Email address</label>
-           <input type="email" id="userEmail" name="userEmail" value=<?php echo $row['userEmail']; ?> />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col s12 left-align">
-           <label for="userName" class="required">Username</label>
-           <input type="text" id="userName" name="userName" value=<?php echo $row['userName']; ?> />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col s12 left-align">
-           <label for="firstName" class="required">First Name</label>
-           <input type="text" id="firstName" name="firstName" value=<?php echo $row['first_name']; ?> />
-          </div>
-        </div>   
-        <div class="row">
-          <div class="col s12 left-align">
-           <label for="lastName" class="required">Last Name</label>
-           <input type="text" id="lastName" name="lastName" value=<?php echo $row['last_name']; ?> />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col s12 left-align">
-            <button class="btn-large waves-effect waves-light blue darken-3 white-text" name="btn-update" style="height: 47px; line-height: 27px;">Update</button>
-          </div>
-        </div> 
-      </form>     
-
-
     </div>
-  </div>
+  </div> 
+    
   <footer class="page-footer grey darken-4 white-text lighter">
     <div class="container">
       <div class="row">
@@ -203,7 +259,7 @@ if(isset($_POST['btn-update']))
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/annotate.js"></script>
-  <script src="js/materialize.js"></script>
+  <script src="js/materialize.js"></script> 
   <script src="js/init.js"></script>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
