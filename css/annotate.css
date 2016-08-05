@@ -92,3 +92,9 @@ img.blue-border {
     border-bottom: solid 1px #666;
     padding: 5px;
    }
+
+   .article-date {
+    color: #666;
+    font-size: .89rem;
+    display: block;
+   }

@@ -5,18 +5,41 @@ $user_home = new USER();
 
 if(!$user_home->is_logged_in())
 {
-	$user_home->redirect('index.php');
+  $user_home->redirect('index.php');
 }
+
+
 
 $stmt = $user_home->runQuery("SELECT * FROM tbl_users WHERE userID=:uid");
 $stmt->execute(array(":uid"=>$_SESSION['userSession']));
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-mysql_connect ("localhost", "annotate_admin", "XtcVsAA1979");
-mysql_select_db("annotate_main");
-$query = sprintf("SELECT * FROM news");
+if(!$user_home->is_admin($row))
+{
+  $user_home->redirect('index.php');
+}
 
-  $result = mysql_query($query);
+if(isset($_POST['btn-update']))
+{
+  $by = $row['userID'];
+  $date = time();
+  $userid = md5(uniqid(rand()));
+  $story = trim($_POST["story"]);
+  $story_title = trim($_POST['story_title']);
+  $fName = $row['first_name'];
+  $lName = $row['last_name'];
+
+  $clearedStory = mysql_escape_string ($story);
+
+  if($user_home->add_news($by,$date,$userid,$clearedStory,$story_title,$fName,$lName))
+  {
+    $user_home->redirect('home.php?success');
+    /*$msg = array('Article: '=>$clearedStory, ' Title: '=>$story_title, ' By: '=>$by, ' Date: '=>$date, ' Story_ID: '=>$userID, ' First Name: '=>$fName, ' Last Name: '=>$lName);
+    echo json_encode($msg);*/
+  } else {
+    $user_home->redirect('add_news.php?error');
+  }
+}
 
 ?>
 
@@ -25,7 +48,7 @@ $query = sprintf("SELECT * FROM news");
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-  <title>Annotate - <?php echo $row['userEmail']; ?> - Home</title>
+  <title>Annotate - <?php echo $row['userEmail']; ?> - Settings</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -73,7 +96,7 @@ if($row['admin'] === 'Y')
   <?php
 } 
 
-?>         
+?>           
           <li>
             <a href="results.php" class="black-text">
               <div class="chip" style="display: inline; background: none; padding: 0;">
@@ -124,172 +147,34 @@ if($row['admin'] === 'Y')
 
   <div class="container">
     <div class="section">
+
       <div class="row">
         <div class="col s12 center">
-          <h4 class="annotate left-align">Welcome <?php echo $row['first_name'].' '.$row['last_name'] ?></h4>
+          <h4 class="annotate">Account information</h4>
           <div class="col l12 s16 left-align">         
-            <!-- start slipsum code -->
 
-            
-
-            <!-- end slipsum code -->
-          </div>          
+          </div>         
         </div>
       </div>
+      <form class="form-signin small_width" name="annotate_signup" method="post">
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="story_title" type="text" class="validate required" name="story_title" class="required">
+            <label for="story_title" class="active">Title</label>
+          </div>
+        </div>                  
+        <div class="row">
+          <div class="input-field col s12">
+            <textarea id="story" name="story" class="materialize-textarea validate required"></textarea>
+            <label for="story" data-error="" data-success="Score." class="validate">Story</label>
+          </div>
+        </div>                    
+        <button class="btn waves-effect waves-light grey darken-3" type="submit" name="btn-update">Submit</button>
+      </form>     
+
+
     </div>
   </div>
-
-  <div class="container">
-    <div class="section">
-      <?php
-        if (!$result) {
-            $message  = 'Invalid query: ' . mysql_error() . "\n";
-            $message .= 'Whole query: ' . $query;
-            echo $message;
-            die($message);
-        }    
-
-        while ($row = mysql_fetch_assoc($result)) {
-            $msg = "<div class='row'><h4>".$row['title']."</h4>
-                    <span class='article-date'>Date: " . $row['date_updated'] . "</span>
-                    <span class='article-by'>by ".$row['created_first_name'] . " " . $row['created_last_name'] . "</span>
-                    <p>".$row['story']."</p></div>";
-            echo $msg;
-        }
-
-        mysql_free_result($result);
-
-      ?>
-
-    </div>
-  </div>    
-
-  <!--div class='container'>
-    <div class='section'>
-      <div class='row'>
-        <div class='m12 s12 col'>
-          <div class='card-panel light-green darken-4' style='padding: 10px;'>
-            <div class='row'>
-              <div class='col l8 white-text'>
-                <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>check_circle</i>Success!</h5>
-                <h6 style="margin-left: 3rem;">We've sent you a confirmation email.  Click on the activation link to get started!</h6>
-              </div>
-              <div class='col l4 right-align'>
-                <br>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div--> 
-
-  <!--div class='container'>
-    <div class='section'>
-      <div class='row'>
-        <div class='m12 s12 col'>
-          <div class='card-panel red accent-4' style='padding: 10px;'>
-            <div class='row'>
-              <div class='col l8 white-text'>
-                <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>error_outline</i>Ruh roh!</h5>
-                <h6 style="margin-left: 3rem;">An account with this Email address has already activated.</h6>
-              </div>
-              <div class='col l4 right-align'>
-                <br>
-                <a href='index.php' class='waves-effect waves-light modal-trigger btn btn-large white blue-text darken-4 btn-flat'>Login</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class='container'>
-    <div class='section'>
-      <div class='row'>
-        <div class='m12 s12 col'>
-          <div class='card-panel red accent-4' style='padding: 10px;'>
-            <div class='row'>
-              <div class='col l8 white-text'>
-                <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>error_outline</i>Ruh roh!</h5>
-                <h6 style="margin-left: 3rem;">Something went wrong.  Please try signing up again.</h6>
-              </div>
-              <div class='col l4 right-align'>
-                <br>
-                <a href='signup.php' class='waves-effect waves-light modal-trigger btn btn-large white blue-text darken-4 btn-flat'>Sign up</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div-->        
-
-  <!--div class="container">
-    <div class="section">
-      <div class="row">
-        <div class="m12 s12 col">
-          <div class="card-panel light-blue darken-4" style='padding: 10px;'>
-            <div class="row">
-              <div class="col l8 white-text">
-                <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>info_outline</i>Don't Miss a Thing</h5>
-                <h6 style="margin-left: 3rem;">Read the latest updates on Annotate</h6>
-              </div>
-              <div class="col l4 right-align">
-                <br>
-                <a href="latest.php" class="waves-effect waves-light modal-trigger btn btn-large white blue-text darken-4 btn-flat">Let's Go</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div-->
-
-  <div class="container">
-    <div class="section">
-      <div class="row">
-        <div class="m12 s12 col">
-          <div class="card-panel orange darken-1" style='padding: 10px;'>
-            <div class="row">
-              <div class="col l8 white-text">
-                <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>info_outline</i>Find a bug?</h5>
-                <h6 style="margin-left: 3rem;">Report it!</h6>
-                <h6 style="margin-left: 3rem;">Annotate should work on all pages you visit.  If you find a bug while you're using it, let us know so we can get it fixed!</h6>
-              </div>
-              <div class="col l4 right-align">
-                <br>
-                <a href="feedback.php" class="waves-effect waves-light modal-trigger btn btn-large white black-text btn-flat">Leave Feedback</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>  
-
-  <div class="container">
-    <div class="section">
-      <div class="row">
-        <div class="m12 s12 col">
-          <div class="card-panel light-blue darken-4" style='padding: 10px;'>
-            <div class="row">
-              <div class="col l8 white-text">
-                <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>info_outline</i>View your latest annotations</h5>
-                <h6 style="margin-left: 3rem;">All of your annotations in one place.  Edit and share functionality coming soon!</h6>
-              </div>
-              <div class="col l4 right-align">
-                <br>
-                <a href="results.php" class="waves-effect waves-light modal-trigger btn btn-large white black-text btn-flat">View Annotations</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <footer class="page-footer grey darken-4 white-text lighter">
     <div class="container">
       <div class="row">

@@ -147,7 +147,7 @@ class USER
 			mysql_select_db("annotate_main");
 			//mysql_query("UPDATE store SET obj = '$obj', updated = '$date' WHERE userID = '$userID'");
 
-			mysql_query("INSERT INTO store (userID, url, obj, updated) 
+			mysql_query("INSERT INTO news (userID, url, obj, updated) 
 										VALUES ('$userID', '$url','$obj','$date')
 											ON DUPLICATE KEY UPDATE
 												userID='$userID', url='$url', obj='$obj', updated='$date'");		
@@ -159,6 +159,23 @@ class USER
 			echo $ex;
 		}			
 	}
+
+	public function add_news($by,$date,$id,$story,$title,$fName,$lName)
+	{
+		try {
+			$date = time();
+			mysql_connect ("localhost", "annotate_admin", "XtcVsAA1979");
+			mysql_select_db("annotate_main");
+			mysql_query("INSERT INTO news (created_by, date_updated, story_id, title, story, created_first_name, created_last_name) 
+										VALUES ('$by', '$date','$id','$title','$story', '$fName', '$lName')");		
+
+			return true;
+		}
+		catch (PDOException $ex)
+		{
+			echo $ex;
+		}
+	}
 	
 	
 	public function is_logged_in()
@@ -168,6 +185,16 @@ class USER
 			return true;
 		}
 	}
+
+	public function is_admin($row)
+	{
+		if($row['admin'] === 'Y')
+		{
+			return true;
+		} else {
+			echo 'Not admin';
+		}
+	}	
 	
 	public function redirect($url)
 	{

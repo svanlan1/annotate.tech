@@ -67,6 +67,24 @@ if(isset($_POST['btn-update']))
             </span>
           </li> 
           <li class="divider"></li>
+<?php
+
+if($row['admin'] === 'Y')
+{
+  ?>
+
+          <li>
+            <a href="add_news.php" class="black-text">
+              <div class="chip" style="display: inline; background: none; padding: 0;">
+                <img src="images/marker_128.png" alt="" />
+              </div>
+              Add News
+            </a>
+          </li>
+  <?php
+} 
+
+?>           
           <li>
             <a href="results.php" class="black-text">
               <div class="chip" style="display: inline; background: none; padding: 0;">
