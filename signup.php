@@ -31,7 +31,7 @@ if(isset($_POST['btn-signup']))
 					<strong>Sorry !</strong>  email allready exists , Please Try another one
 			  </div>
 			  ";*/
-        header("Location: error.php?already-exists");
+        header("Location: results.php?error-already-exists");
 	}
 	else
 	{
@@ -58,15 +58,13 @@ if(isset($_POST['btn-signup']))
 						
 			$reg_user->send_mail($email,$message,$subject);	
 
-      header("Location: success.php");
-
 
 
 		}
 		else
 		{
 			//echo "sorry , Query could no execute...";
-      header("Location: error.php?could-not-execute");
+      header("Location: results.php?error-not-working");
 		}		
 	}
 }

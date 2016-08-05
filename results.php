@@ -32,7 +32,6 @@
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
   <link href="css/annotate.css" type="text/css" rel="stylesheet" media="screen, projection" />
-  <link href="ext/css/annotate.css" type="text/css" rel="stylesheet" media="screen, projection" />  
   <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/hmapkigpghjemmoodagegimpoimooamc">
   <link rel="icon" 
       type="image/png" 
@@ -81,7 +80,7 @@
               </a>
             </li>
           <li>
-            <a class="black-text" href="recs.php">
+            <a class="black-text" href="change_default.php">
               <div class="chip" style="display: inline; background: none; padding: 0;">
                 <img src="images/pin.png" alt="" style="border-radius: 0;" />
               </div>
@@ -96,14 +95,6 @@
               Settings
             </a>
           </li>
-          <li>
-            <a href="feedback.php" class="black-text">
-              <div class="chip" style="display: inline; background: none; padding: 0;">
-                <img src="images/chat.png" alt="" style="border-radius: 0;" />
-              </div>              
-              Leave feedback
-            </a>
-          </li>          
           <li>
             <a href="logout.php" class="black-text">
               <div class="chip" style="display: inline; background: none; padding: 0;">
@@ -121,7 +112,6 @@
             <li><a href="results.php" class="black-text">Annotations</a>
             <li><a href="change_default.php">Recommendations</a></li>
             <li><a href="settings.php" class="black-text">Settings</a></li>
-            <li><a href="feedback.php" class="black-text">Leave feedback</a></li>
             <li><a href="logout.php" class="black-text">Logout</a></li>
           </ul>
         <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons grey-text darken-3">menu</i></a>
@@ -134,8 +124,7 @@
 
       <div class="row">
         <div class="col s12 center">
-          <h4 class="annotate left-align">Saved annotations</h4>
-          <h6 class="annotate left-align">Edit functionality coming shortly</h6>
+          <h4 class="annotate">Saved annotations</h4>
           <div class="col l12 s16 left-align">         
 
           </div>         
@@ -218,60 +207,36 @@
           });
           $('#ann-object').remove();*/
           var area = $('#results_area');
-          var bgcolors = ['light-blue accent-1', 'indigo lighten-5', 'teal lighten-3', 'cyan accent-4', 'green accent-3', 'yellow lighten-2', 'grey lighten-1', 'grey lighten-4', 'deep-orange accent-2'];
           $(item).each(function(i,v) {
             var val = v.val;
             if(v[val].length > 0) {
               var cont = $('<div />').addClass('col s12 m6').appendTo(area);
-              var div_card_sticky = $('<div />').addClass('card small sticky-action').appendTo(cont);
-
-              var color = bgcolors[Math.floor(Math.random() * bgcolors.length)];
-              $(div_card_sticky).addClass(color);
-
+              var div_card_sticky = $('<div />').addClass('card small sticky-action blue-grey darken-2').appendTo(cont);
               var div_card_content = $('<div />').addClass('card-content').appendTo(div_card_sticky);
               var div_card_action = $('<div />').addClass('card-action').appendTo(div_card_sticky);
               var div_card_reveal = $('<div />').addClass('card-reveal').appendTo(div_card_sticky);
-              var type = $('<span />').addClass('card-title activator black-text annotate-card-head').html('<span class="annotate-card-head-text">' + v.url + '</span><i class="material-icons right">more_vert</i>').appendTo(div_card_content);
+              var type = $('<span />').addClass('card-title activator white-text annotate-card-head').html('<span class="annotate-card-head-text">' + v.url + '</span><i class="material-icons right">more_vert</i>').appendTo(div_card_content);
               var moreInfo = $('<p />').appendTo(div_card_content);
-              $('<span class="moreInfo black-text" />').text(v[val].length + ' Annotations').appendTo(moreInfo);
-              $('<span class="moreInfo black-text" />').html('<p><strong>Last updated:</strong>' + v['date_time'] + '<br /> by ' + v['user'] + '</p>').appendTo(moreInfo);
-              $('<div />').addClass('annotate-res-width black-text').html('<strong>Original window size</strong><br />' + v[val][0].win_w + ' x ' + v[val][0].win_h).appendTo(moreInfo);          
+              $('<span class="moreInfo white-text" />').text(v[val].length + ' notations').appendTo(moreInfo);
+              $('<div />').addClass('annotate-res-width white-text').html('<strong>Width</strong><br />' + v[val][0].win_w).appendTo(moreInfo);
+              $('<div />').addClass('annotate-res-height white-text').html('<strong>Width</strong><br />' + v[val][0].win_h).appendTo(moreInfo);
+              $('<span />').text('To view annotations in the correct size, click "Visit Site" below.  This will open a new window where you can load the previous annotations.').appendTo(moreInfo);              
 
 
-              var onclick="window.open('"+v.url+"?annotate=true&an_tech_sess_id="+val+"','_new', 'toolbar=yes, location=yes, status=no,menubar=yes,scrollbars=yes,resizable=no,width=" + v[val][0].win_w +",height=" + v[val][0].win_h +"')";
-              var ac1 = $('<a />').addClass('black-text').attr('href', 'javascript:void(0);').attr('onclick', onclick).text('Visit Site').appendTo(div_card_action);
-              var ac2 = $('<a />').addClass('black-text annotate_delete').attr('href', 'javascript:void(0);').text('Delete').appendTo(div_card_action);
-              var aType = $('<span />').addClass('card-title activator').html(v.url + '<a href="javascript:void(0);"><i class="material-icons right">close</i></a>').appendTo(div_card_reveal);
+              var onclick="window.open('"+v.url+"?annotate=true','_new', 'toolbar=yes, location=yes, status=no,menubar=yes,scrollbars=yes,resizable=no,width=" + v[val][0].win_w +",height=" + v[val][0].win_h +"')";
+              var ac1 = $('<a />').addClass('white-text').attr('href', 'javascript:void(0);').attr('onclick', onclick).text('Visit Site').appendTo(div_card_action);
+              var ac2 = $('<a />').addClass('white-text annotate_delete').attr('href', 'javascript:void(0);').text('Delete').appendTo(div_card_action);
+              var aType = $('<span />').addClass('card-title activator').html(v.url + '<i class="material-icons right">close</i>').appendTo(div_card_reveal);
               
               
 
 
               $(v[val]).each(function(l,m) {
-                var thing = $('<div />').addClass('annotate-res-width').appendTo(div_card_reveal);
-                //var lab = $('<h4 />').css('font-size: 1rem;').text('Type').appendTo(thing);
-                if(m.type === 'pin') {
-                  $(thing).css('display', 'inline');
-                  var p_type = v[val][l]['flag-color'];
-                  var img = $('<img />').attr('src', 'ext/images/pins/pin_24_' + p_type + '.png').css({
-                    'width': v[val][l]['pin_size'],
-                    'display': 'inline-block',
-                    'margin': '5px'
-                  }).appendTo(thing);
-                } else if (m.type === 'box') {
-                  var box = $('<div />').css({
-                    'width': '100%',
-                    'height': '50px',
-                    'border-width': v[val][l]['box-width'],
-                    'border-style': 'solid',
-                    'border-color': v[val][l]['box_color'],
-                    'background-color': v[val][l]['box_bg_color'],
-                    'margin': '5px'
-                  }).appendTo(thing);
-                }
+                $('<div />').addClass('annotate-res-width').html('<strong>Type</strong><br />' + m.type).appendTo(div_card_reveal);
               });
             }
           });
-        }      
+        }
 
         convert_obj();
       </script>  

@@ -116,16 +116,15 @@ if(isset($_POST['btn-login-mobile']))
     </nav>
   </div>
 
-  <div class='container'>
+<div class='container'>
     <div class='section'>
       <div class='row'>
         <div class='m12 s12 col'>
-          <div class='card-panel light-green darken-4' style='padding: 10px;'>
+          <div class='card-panel green accent-4' style='padding: 10px;'>
             <div class='row'>
               <div class='col l8 white-text'>
                 <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>check_circle</i>Success!</h5>
-                <h6 style="margin-left: 3rem;">We've sent you a confirmation email.  Once you receive it, click on the activation link to get started!</h6>
-                <h6 style="margin-left: 3rem;">Please allow up to 60 minutes to receive the email.</h6>
+                <h6>We've sent you a confirmation email.  Click on the activation link to get started!</h6>
               </div>
               <div class='col l4 right-align'>
                 <br>
@@ -135,7 +134,7 @@ if(isset($_POST['btn-login-mobile']))
         </div>
       </div>
     </div>
-  </div> 
+  </div>
     
   <footer class="page-footer grey darken-4 white-text lighter">
     <div class="container">

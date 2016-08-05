@@ -135,30 +135,7 @@ class USER
 		}
 	}
 
-	public function query_store($userID, $url)
-	{
-		try
-		{	
-			$date = time();
-
-			$stmt = $this->conn->prepare("SELECT * FROM store where userID = '$userID' AND url = '$url'");
-			$stmt->bindparam(":user_id",$userID);
-			$stmt->bindparam(":url",$url);
-			$stmt->execute();
-			$userRow=$stmt->fetch(PDO::FETCH_ASSOC);	
-			
-
-			/*INSERT INTO 'annotate_main'.'store' ('userID', 'url', 'updated', 'group_id', 'session_id') VALUES ('1', 'http://sva11y.com', '121215154665', '25', '12345');*/
-			echo $stmt;
-			//return true;
-		}
-		catch(PDOException $ex)
-		{
-			echo $ex;
-		}		
-	}
-
-	public function update_annotation($userID,$url,$obj,$session_id)
+	public function update_annotation($userID,$url,$obj)
 	{
 		try
 		{	
@@ -170,8 +147,8 @@ class USER
 			mysql_select_db("annotate_main");
 			//mysql_query("UPDATE store SET obj = '$obj', updated = '$date' WHERE userID = '$userID'");
 
-			mysql_query("INSERT INTO store (userID, url, obj, updated, session_id) 
-										VALUES ('$userID', '$url','$obj','$date', '$session_id')
+			mysql_query("INSERT INTO store (userID, url, obj, updated) 
+										VALUES ('$userID', '$url','$obj','$date')
 											ON DUPLICATE KEY UPDATE
 												userID='$userID', url='$url', obj='$obj', updated='$date'");		
 
@@ -214,22 +191,12 @@ class USER
 		$mail->Port       = 25;             
 		$mail->AddAddress($email);
 		$mail->Username="auto-confirm@annotate.tech";  
-		$mail->Password="XtcVsAA1979";
-		if($email === 'endoflineprod@gmail.com')
-		{
-			$mail->SetFrom('auto-confirm@annotate.tech','You have Annotate feedback!');
-			$mail->AddReplyTo("no-reply@annotate.tech","Feedback, no-reply email");			
-		} else {
-			$mail->SetFrom('auto-confirm@annotate.tech','Annotate team');
-			$mail->AddReplyTo("support@annotate.tech","Annotate Support");
-		}            
-		
+		$mail->Password="XtcVsAA1979";            
+		$mail->SetFrom('auto-confirm@annotate.tech','Annotate team');
+		$mail->AddReplyTo("support@annotate.tech","Annotate Support");
 		$mail->Subject    = $subject;
 		$mail->MsgHTML($message);
 		$mail->Send();
-
-
-		return true;
 		//header("Location: home.php");
 		//header('Location: success.php');
 	}		
