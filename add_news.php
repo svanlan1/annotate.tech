@@ -67,36 +67,57 @@ if(isset($_POST['btn-update']))
       <div class="nav-wrapper container">
         <a id="logo-container" href="http://annotate.tech" class="brand-logo annotate">annotate<span class="small">.tech</span></a>             
         <ul class="right hide-on-med-and-down annotate">
-          <li><a class="dropdown-button" href="#!" data-activates="dropdown1"><?php echo $row['userEmail']; ?><i class="material-icons right">arrow_drop_down</i></a></li>
+          <li><a class="dropdown-button" href="#!" data-activates="dropdown1" style="min-width: 14rem;"><?php 
+            if($row['userEmail']) {
+              echo $row['userEmail']; 
+            } else {
+              echo 'Guest';
+            }
+            
+          ?><i class="material-icons right">arrow_drop_down</i></a></li>
         </ul>      
          <ul id="dropdown1" class="dropdown-content">
           <li>
             <span class="small black-text" style="font-size: .9rem;">
               <div class="chip" style="display: inline; background: none; padding: 0;">
-                <img src="images/user.png" alt=<?php echo $row['first_name'].' '.$row['last_name']; ?> />
+                <img src="images/user.png" alt=<?php 
+                  if($row['first_name']) {
+                    echo $row['first_name'].' '.$row['last_name'];
+                  } else {
+                    echo 'Guest';
+                  }
+                  
+                 ?> />
               </div>
-              <?php echo $row['userEmail']; ?>
+              <?php 
+                if($row['userEmail']) {
+                  echo $row['userEmail']; 
+                } else {
+                  echo 'Guest';
+                }
+                
+              ?>
             </span>
           </li> 
           <li class="divider"></li>
-<?php
+          <?php
 
-if($row['admin'] === 'Y')
-{
-  ?>
+          if($row['admin'] === 'Y')
+          {
+            ?>
 
-          <li>
-            <a href="add_news.php" class="black-text">
-              <div class="chip" style="display: inline; background: none; padding: 0;">
-                <img src="images/marker_128.png" alt="" />
-              </div>
-              Add News
-            </a>
-          </li>
-  <?php
-} 
+                    <li>
+                      <a href="add_news.php" class="black-text">
+                        <div class="chip" style="display: inline; background: none; padding: 0;">
+                          <img src="images/newspaper.png" alt="" style="border-radius: 0;" />
+                        </div>
+                        Add News
+                      </a>
+                    </li>
+            <?php
+          } 
 
-?>           
+          ?>         
           <li>
             <a href="results.php" class="black-text">
               <div class="chip" style="display: inline; background: none; padding: 0;">
@@ -113,6 +134,14 @@ if($row['admin'] === 'Y')
               Recommendations
             </a>
           </li>
+          <li>
+            <a href="docs.php" class="black-text">
+              <div class="chip" style="display: inline; background: none; padding: 0;">
+                <img src="images/folder.png" alt="" style="border-radius: 0;" />
+              </div>              
+              Documentation
+            </a>
+          </li>          
           <li>
             <a href="settings.php" class="black-text">
               <div class="chip" style="display: inline; background: none; padding: 0;">
@@ -137,6 +166,7 @@ if($row['admin'] === 'Y')
             <li class="divider"></li>
             <li><a href="results.php" class="black-text">Annotations</a>
             <li><a href="change_default.php">Recommendations</a></li>
+            <li><a href="docs.php">Documentation</a></li>
             <li><a href="settings.php" class="black-text">Settings</a></li>
             <li><a href="logout.php" class="black-text">Logout</a></li>
           </ul>

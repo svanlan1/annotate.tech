@@ -2,6 +2,14 @@
   session_start();
   require_once 'class.user.php';
   $user_login = new USER();
+
+  if(!$user_login->is_logged_in())
+  {
+    $user_login->redirect('index.php');
+  }
+
+
+
   $stmt = $user_login->runQuery("SELECT * FROM tbl_users WHERE userID=:uid");
   $stmt->execute(array(":uid"=>$_SESSION['userSession']));
   $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -9,7 +17,7 @@
 
   mysql_connect ("localhost", "annotate_admin", "XtcVsAA1979");
   mysql_select_db("annotate_main");
-  $query = sprintf("SELECT url, obj FROM store 
+  $query = sprintf("SELECT url, obj, session_id, username FROM results 
     WHERE userID='%s'",
     mysql_real_escape_string($userID));
 
@@ -59,36 +67,57 @@
       <div class="nav-wrapper container">
         <a id="logo-container" href="http://annotate.tech" class="brand-logo annotate">annotate<span class="small">.tech</span></a>             
         <ul class="right hide-on-med-and-down annotate">
-          <li><a class="dropdown-button" href="#!" data-activates="dropdown1"><?php echo $user['userEmail']; ?><i class="material-icons right">arrow_drop_down</i></a></li>
+          <li><a class="dropdown-button" href="#!" data-activates="dropdown1" style="min-width: 14rem;"><?php 
+            if($user['userEmail']) {
+              echo $user['userEmail']; 
+            } else {
+              echo 'Guest';
+            }
+            
+          ?><i class="material-icons right">arrow_drop_down</i></a></li>
         </ul>      
          <ul id="dropdown1" class="dropdown-content">
           <li>
             <span class="small black-text" style="font-size: .9rem;">
               <div class="chip" style="display: inline; background: none; padding: 0;">
-                <img src="images/user.png" alt=<?php echo $user['first_name'].' '.$user['last_name']; ?> />
+                <img src="images/user.png" alt=<?php 
+                  if($user['first_name']) {
+                    echo $user['first_name'].' '.$user['last_name'];
+                  } else {
+                    echo 'Guest';
+                  }
+                  
+                 ?> />
               </div>
-              <?php echo $user['userEmail']; ?>
+              <?php 
+                if($user['userEmail']) {
+                  echo $user['userEmail']; 
+                } else {
+                  echo 'Guest';
+                }
+                
+              ?>
             </span>
           </li> 
           <li class="divider"></li>
-<?php
+          <?php
 
-if($row['admin'] === 'Y')
-{
-  ?>
+          if($user['admin'] === 'Y')
+          {
+            ?>
 
-          <li>
-            <a href="add_news.php" class="black-text">
-              <div class="chip" style="display: inline; background: none; padding: 0;">
-                <img src="images/marker_128.png" alt="" />
-              </div>
-              Add News
-            </a>
-          </li>
-  <?php
-} 
+                    <li>
+                      <a href="add_news.php" class="black-text">
+                        <div class="chip" style="display: inline; background: none; padding: 0;">
+                          <img src="images/newspaper.png" alt="" style="border-radius: 0;" />
+                        </div>
+                        Add News
+                      </a>
+                    </li>                
+            <?php
+          } 
 
-?>           
+          ?>         
           <li>
             <a href="results.php" class="black-text">
               <div class="chip" style="display: inline; background: none; padding: 0;">
@@ -105,6 +134,14 @@ if($row['admin'] === 'Y')
               Recommendations
             </a>
           </li>
+          <li>
+            <a href="docs.php" class="black-text">
+              <div class="chip" style="display: inline; background: none; padding: 0;">
+                <img src="images/folder.png" alt="" style="border-radius: 0;" />
+              </div>              
+              Documentation
+            </a>
+          </li>          
           <li>
             <a href="settings.php" class="black-text">
               <div class="chip" style="display: inline; background: none; padding: 0;">
@@ -124,11 +161,12 @@ if($row['admin'] === 'Y')
         </ul> 
           <ul id="nav-mobile" class="side-nav">
             <li>
-              <a href="home.php" style="padding-left: 10px;"><span class="small black-text"><?php echo $row['userEmail']; ?></span></a>
+              <a href="home.php" style="padding-left: 10px;"><span class="small black-text"><?php echo $user['userEmail']; ?></span></a>
             </li> 
             <li class="divider"></li>
             <li><a href="results.php" class="black-text">Annotations</a>
             <li><a href="change_default.php">Recommendations</a></li>
+            <li><a href="docs.php">Documentation</a></li>
             <li><a href="settings.php" class="black-text">Settings</a></li>
             <li><a href="logout.php" class="black-text">Logout</a></li>
           </ul>
@@ -148,23 +186,30 @@ if($row['admin'] === 'Y')
           </div>         
         </div>
       </div>
+      <div id="annotations" style="display:none;">
+        <?php
+          if (!$result) {
+              $message  = 'Invalid query: ' . mysql_error() . "\n";
+              $message .= 'Whole query: ' . $query;
+              echo $message;
+              die($message);
+          }    
 
-      <?php
-        if (!$result) {
-            $message  = 'Invalid query: ' . mysql_error() . "\n";
-            $message .= 'Whole query: ' . $query;
-            echo $message;
-            die($message);
-        }    
+          $results = array();
 
-        while ($row = mysql_fetch_assoc($result)) {
-            $tr = '<div id="ann-object">'.$row['obj'].'</div>';
-            echo $tr;
-        }
+          while ($row = mysql_fetch_assoc($result)) {
+              if($row['obj'] !== "[]")
+              {
+                $msg = array($row['session_id']=>json_decode($row['obj']), 'url'=>$row['url'], 'username'=>$row['username']);
+                array_push($results, $msg);
+              }
+          }
+          echo json_encode($results);
 
-        mysql_free_result($result);
+          mysql_free_result($result);
 
-      ?> 
+        ?> 
+      </div>
   
 
     </div>
@@ -205,79 +250,70 @@ if($row['admin'] === 'Y')
   <script src="js/annotate.js"></script>
 <script>
         function convert_obj() {
-          //var tbody = $('#results_table tbody');
-          var item = JSON.parse($('#ann-object').text());
-          $('#ann-object').remove();
-          //console.log(item);
-          /*$(item).each(function(i,v) {
-            var val = v.val
-            if(v[val].length > 0) {
-            var tr = $('<tr />').appendTo(tbody);
-            var urltd = $('<td class="table-url" />').html('<a class="black-text" href="' + v.url + '" target="_blank">' + v.url + '</a>').appendTo(tr);
-            var td = $('<td class="table-info"/>').appendTo(tr);
-            $(v[val]).each(function(l,m) {
-              
-              var type = $('<div />').text(m.type).appendTo(td);
-              var wid = $('<div />').text(m.win_w).appendTo(td);
-              var hei = $('<div />').text(m.win_h).appendTo(td);
-            });
-            }
-          });
-          $('#ann-object').remove();*/
+          var item = JSON.parse($('#annotations').text());
+          $('#annotations').html('');
           var area = $('#results_area');
           var bgcolors = ['light-blue accent-1', 'indigo lighten-5', 'teal lighten-3', 'cyan accent-4', 'green accent-3', 'yellow lighten-2', 'grey lighten-1', 'grey lighten-4', 'deep-orange accent-2'];
-          $(item).each(function(i,v) {
-            var val = v.val;
-            if(v[val].length > 0) {
-              var cont = $('<div />').addClass('col s12 m6').appendTo(area);
-              var div_card_sticky = $('<div />').addClass('card small sticky-action').appendTo(cont);
 
-              var color = bgcolors[Math.floor(Math.random() * bgcolors.length)];
-              $(div_card_sticky).addClass(color);
+          for (var i in item) {
+            for (var x in item[i]) {
+              var val = item[i][x];
+              if(x !== 'url' && x !== 'username' && val.length > 0) {
+                var cont = $('<div />').addClass('col s12 m6').appendTo(area);
+                var div_card_sticky = $('<div />').addClass('card small sticky-action').appendTo(cont);
 
-              var div_card_content = $('<div />').addClass('card-content').appendTo(div_card_sticky);
-              var div_card_action = $('<div />').addClass('card-action').appendTo(div_card_sticky);
-              var div_card_reveal = $('<div />').addClass('card-reveal').appendTo(div_card_sticky);
-              var type = $('<span />').addClass('card-title activator black-text annotate-card-head').html('<span class="annotate-card-head-text">' + v.url + '</span><i class="material-icons right">more_vert</i>').appendTo(div_card_content);
-              var moreInfo = $('<p />').appendTo(div_card_content);
-              $('<span class="moreInfo black-text" />').text(v[val].length + ' Annotations').appendTo(moreInfo);
-              $('<span class="moreInfo black-text" />').html('<p><strong>Last updated:</strong>' + v['date_time'] + '<br /> by ' + v['user'] + '</p>').appendTo(moreInfo);
-              $('<div />').addClass('annotate-res-width black-text').html('<strong>Original window size</strong><br />' + v[val][0].win_w + ' x ' + v[val][0].win_h).appendTo(moreInfo);          
+                var color = bgcolors[Math.floor(Math.random() * bgcolors.length)];
+                $(div_card_sticky).addClass(color);
 
+                var div_card_content = $('<div />').addClass('card-content').appendTo(div_card_sticky);
+                var div_card_action = $('<div />').addClass('card-action').appendTo(div_card_sticky);
+                var div_card_reveal = $('<div />').addClass('card-reveal').appendTo(div_card_sticky);
+                var type = $('<span />').addClass('card-title activator black-text annotate-card-head').html('<span class="annotate-card-head-text">' + item[i]['url'] + '</span><i class="material-icons right">more_vert</i>').appendTo(div_card_content);
+                var moreInfo = $('<p />').appendTo(div_card_content);
+                $('<span class="moreInfo black-text" />').text(item[i][x].length + ' Annotations').appendTo(moreInfo);
 
-              var onclick="window.open('"+v.url+"?annotate=true&an_tech_sess_id="+val+"','_new', 'toolbar=yes, location=yes, status=no,menubar=yes,scrollbars=yes,resizable=no,width=" + v[val][0].win_w +",height=" + v[val][0].win_h +"')";
-              var ac1 = $('<a />').addClass('black-text').attr('href', 'javascript:void(0);').attr('onclick', onclick).text('Visit Site').appendTo(div_card_action);
-              var ac2 = $('<a />').addClass('black-text annotate_delete').attr('href', 'javascript:void(0);').text('Delete').appendTo(div_card_action);
-              var aType = $('<span />').addClass('card-title activator').html(v.url + '<a href="javascript:void(0);"><i class="material-icons right">close</i></a>').appendTo(div_card_reveal);
-              
-              
+                var d = new Date($.parseJSON(x));
+                var datestring = (d.getMonth()+1) + "/" + d.getDate()  + "/" + d.getFullYear();
 
 
-              $(v[val]).each(function(l,m) {
-                var thing = $('<div />').addClass('annotate-res-width').appendTo(div_card_reveal);
-                //var lab = $('<h4 />').css('font-size: 1rem;').text('Type').appendTo(thing);
-                if(m.type === 'pin') {
-                  $(thing).css('display', 'inline');
-                  var p_type = v[val][l]['flag-color'];
-                  var img = $('<img />').attr('src', 'ext/images/pins/pin_24_' + p_type + '.png').css({
-                    'width': v[val][l]['pin_size'],
-                    'display': 'inline-block',
-                    'margin': '5px'
-                  }).appendTo(thing);
-                } else if (m.type === 'box') {
-                  var box = $('<div />').css({
-                    'width': '100%',
-                    'height': '50px',
-                    'border-width': v[val][l]['box-width'],
-                    'border-style': 'solid',
-                    'border-color': v[val][l]['box_color'],
-                    'background-color': v[val][l]['box_bg_color'],
-                    'margin': '5px'
-                  }).appendTo(thing);
-                }
-              });
+                $('<span class="moreInfo black-text" />').html('<p><strong>Last updated:</strong>' + datestring + '<br /> by ' + item[i]['username'] + '</p>').appendTo(moreInfo);
+                $('<div />').addClass('annotate-res-width black-text').html('<strong>Original window size</strong><br />' + item[i][x][0].win_w + ' x ' + item[i][x][0].win_h).appendTo(moreInfo);          
+
+
+                var onclick="window.open('"+item[i]['url']+"?annotate=true&an_tech_sess_id="+x+"','_new', 'toolbar=yes, location=yes, status=no,menubar=yes,scrollbars=yes,resizable=no,width=" + item[i][x][0].win_w +",height=" + item[i][x][0].win_h +"')";
+                var ac1 = $('<a />').addClass('black-text').attr('href', 'javascript:void(0);').attr('onclick', onclick).text('Visit Site').appendTo(div_card_action);
+                var ac2 = $('<a />').addClass('black-text annotate_delete').attr('href', 'javascript:void(0);').text('Delete').appendTo(div_card_action);
+                var aType = $('<span />').addClass('card-title activator').html(item[i]['url'] + '<a href="javascript:void(0);"><i class="material-icons right black-text">close</i></a>').appendTo(div_card_reveal);
+                
+                
+
+
+                $(item[i][x]).each(function(l,m) {
+                  var thing = $('<div />').addClass('annotate-res-width').appendTo(div_card_reveal);
+                  //var lab = $('<h4 />').css('font-size: 1rem;').text('Type').appendTo(thing);
+                  if(m.type === 'pin') {
+                    $(thing).css('display', 'inline');
+                    var p_type = item[i][x][l]['flag_color'];
+                    var img = $('<img />').attr('src', 'ext/images/pins/pin_24_' + p_type + '.png').css({
+                      'width': item[i][x][l]['pin_size'],
+                      'display': 'inline-block',
+                      'margin': '5px'
+                    }).appendTo(thing);
+                  } else if (m.type === 'box') {
+                    var box = $('<div />').css({
+                      'width': '100%',
+                      'height': '50px',
+                      'border-width': item[i][x][l]['box_width'],
+                      'border-style': 'solid',
+                      'border-color': item[i][x][l]['box_color'],
+                      'background-color': item[i][x][l]['box_bg_color'],
+                      'margin': '5px'
+                    }).appendTo(thing);
+                  }
+                });
+              }              
             }
-          });
+          }
         }      
 
         convert_obj();

@@ -3,31 +3,15 @@ session_start();
 require_once 'class.user.php';
 $user_home = new USER();
 
-if(!$user_home->is_logged_in())
-{
-	$user_home->redirect('index.php');
-}
-
 $stmt = $user_home->runQuery("SELECT * FROM tbl_users WHERE userID=:uid");
 $stmt->execute(array(":uid"=>$_SESSION['userSession']));
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if(isset($_POST['btn-update']))
-{
-  $email = trim($_POST['userEmail']);
-  $upass = trim($_POST['userPass']);
-  $fName = trim($_POST['firstName']);
-  $lName = trim($_POST['lastName']);
-  $userID = $row['userID'];
+mysql_connect ("localhost", "annotate_admin", "XtcVsAA1979");
+mysql_select_db("annotate_main");
+$query = sprintf("SELECT * FROM news");
 
-  if($user_home->update($email,$upass,$fName,$lName,$userID))
-  {
-    $user_home->redirect('settings.php?success');
-    echo $fName;
-  } else {
-    $user_home->redirect('settings.php?error');
-  }
-}
+  $result = mysql_query($query);
 
 ?>
 
@@ -36,7 +20,7 @@ if(isset($_POST['btn-update']))
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-  <title>Annotate - <?php echo $row['userEmail']; ?> - Settings</title>
+  <title>Annotate - Documentation</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -50,7 +34,7 @@ if(isset($_POST['btn-update']))
       href="images/marker_16_active.png"> 
 </head>
 <body>
-  <div class="navbar-fixed">
+  <div class="navbar-fixed an_focus">
     <nav class="white" role="navigation">
       <div class="nav-wrapper container">
         <a id="logo-container" href="http://annotate.tech" class="brand-logo annotate">annotate<span class="small">.tech</span></a>             
@@ -93,6 +77,7 @@ if(isset($_POST['btn-update']))
           if($row['admin'] === 'Y')
           {
             ?>
+
                     <li>
                       <a href="add_news.php" class="black-text">
                         <div class="chip" style="display: inline; background: none; padding: 0;">
@@ -162,52 +147,100 @@ if(isset($_POST['btn-update']))
     </nav>
   </div>
 
+  <div class="container an_focus">
+    <div class="section">
+      <div class="row">
+        <div class="col s12">
+          <h1 class="annotate left-align" style="font-size: 2rem;">Documentation</h1>
+            <ul class="collapsible popout" data-collapsible="accordion">
+                <li>
+                  <div class="collapsible-header"><i class="material-icons" aria-hidden="true" >web</i><h2 class="docs annotate-h2">Getting Started</h2></div>
+                  <div class="collapsible-body">
+                    <h3 class="annotate annotate-h3">What is Annotate?</h3>
+                    <p>
+                      Annotate began as a small Google Chrome extension to draw boxes around sections and place pins on the page to share with others.
+                      <br />
+                      Now, Annotate is a full system of notation tools.  With a free account, users annotate any web page and save it to their account.  Future releases include the ability to share annotations with other users and printing a PDF of all annotations and recommendations.
+                    </p>
+                    <h3 class="annotate annotate-h3">What does being in Beta mean?</h3>
+                    <p>
+                      Annotate is a work in progress.  If you are reading this, you are one of the early adopters.  Reference the timeline below for an incremental look of functionality that Annotate will soon have.<br />
+                      <table style="margin-left:25px; width: 60%">
+                        <thead></thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">Add/edit custom recommendations</th><td>August 15th, 2016</td>
+                          </tr>                         
+                          <tr>
+                            <th scope="row">Firefox Extension completion date</th><td>September 1st, 2016</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Share annotations with other users</th><td>October 1st, 2016</td>
+                          </tr> 
+                          <tr>
+                            <th scope="row">Microsoft Edge extension completion date</th><td>October 1st, 2016</td>
+                          </tr> 
+                          <tr>
+                            <th scope="row">Share annotations with other users</th><td>October 1st, 2016</td>
+                          </tr> 
+                        </tbody>
+                      </table>                         
+                    </p>
+                    <h3 class="annotate annotate-h3">Sign up for an account</h3>
+                    <p>
+                      Signing up for an Annotate! account is easy and free.  To sign up, go to 
+                      <a class="black-text" href="signup.php">http://annotate.tech/signup.php</a>.  
+                      You only need an email address and password to sign up.
+                    </p>
+                    <h3 class="annotate annotate-h3">Will I receive spam?</h3>
+                    <p>
+                      Never.  Honestly, we'll probably never even email you unless you want us to.  All news and updates can be found on the homepage after login.
+                    </p> 
+                    <h3 class="annotate annotate-h3">Where do I get the Chrome extension?</h3>
+                    <p>
+                      Getting Annotate is easy.  Simply click the button below to install the extension to Chrome.<br />
+                      <buton class="blue white-text">COMING SOON</buton>
+                    </p>
+                    <h3 class="annotate annotate-h3">What if I hate Chrome and want to use Firefox or Edge?</h3>
+                    <p>
+                      If Chrome isn't your cup of tea, we'll soon have you covered.  We're working on porting over the same extension to Mozilla Firefox and Microsoft Edge.  The estimated release date for the Firefox extension is September 1st, 2016 with an Edge extension following shortly thereafter.
+                    </p>
+                    <h3 class="annotate annotate-h3">Where do I leave feedback?</h3>
+                    <p>
+                      Love it or hate it, we want to know.  Annotate is a tool for <strong>you</strong>.  If it's not doing what you want, tell us and we'll do our best to make it happen.<br />
+                      <a class="black-text" href="feedback.php">Send feedback to Annotate!</a>
+                    </p>
+                  </div>
+                </li>
+                <li>
+                  <div class="collapsible-header active"><i class="material-icons" aria-hidden="true" >extension</i><h2 class="docs annotate-h2">Extension</h2></div>
+                  <div class="collapsible-body">
+                    <h3 class="annotate annotate-h3">Installing the extension</h3>
+                    <p style="display:block;">
+                      <img src="images/an_ext_s1.jpg" alt="" style="width: 300px;" align="right" />
+                      Annotate can be installed either from the Chrome Web Store, or by clicking the 'INSTALL' button on the homepage.<br />
+                      Once the extension has been installed, you should immediately visit the 'Options' page of the extension and login at the top of the screen.
+
+                    </p>
+                  </div>
+                </li>
+                <li>
+                  <div class="collapsible-header"><i class="material-icons" aria-hidden="true" >exit_to_app</i>Annotate.tech</div>
+                  <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+                </li>
+              </ul>
+          </div>          
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="container">
     <div class="section">
 
-      <div class="row">
-        <div class="col s12 center">
-          <h4 class="annotate">Account information</h4>
-          <div class="col l12 s16 left-align">         
-
-          </div>         
-        </div>
-      </div>
-      <form class="form-signin" method="post">
-        <div class="row">
-          <div class="col s12 left-align">
-           <label for="userEmail" class="required">Email address</label>
-           <input type="email" id="userEmail" name="userEmail" value=<?php echo $row['userEmail']; ?> />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col s12 left-align">
-           <label for="userName" class="required">Username</label>
-           <input type="text" id="userName" name="userName" value=<?php echo $row['userName']; ?> />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col s12 left-align">
-           <label for="firstName" class="required">First Name</label>
-           <input type="text" id="firstName" name="firstName" value=<?php echo $row['first_name']; ?> />
-          </div>
-        </div>   
-        <div class="row">
-          <div class="col s12 left-align">
-           <label for="lastName" class="required">Last Name</label>
-           <input type="text" id="lastName" name="lastName" value=<?php echo $row['last_name']; ?> />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col s12 left-align">
-            <button class="btn-large waves-effect waves-light blue darken-3 white-text" name="btn-update" style="height: 47px; line-height: 27px;">Update</button>
-          </div>
-        </div> 
-      </form>     
-
-
     </div>
-  </div>
+  </div>    
+
   <footer class="page-footer grey darken-4 white-text lighter">
     <div class="container">
       <div class="row">

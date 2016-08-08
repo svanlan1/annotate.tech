@@ -26,6 +26,7 @@ input[type=email] {
 
 }
 
+
 footer a:focus, footer a:hover {
 	outline: solid 2px #fff;
 	outline-offset: 2px;
@@ -98,3 +99,20 @@ img.blue-border {
     font-size: .89rem;
     display: block;
    }
+
+.annotate-h2 {
+  display: inline;
+  font-size: .9rem;
+}
+
+.annotate-h3 {
+  font-size: 1.4rem;
+  font-weight: bold;
+  padding-left: 1rem;
+}
+
+.an_focus a:focus, .an_focus a:hover {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
