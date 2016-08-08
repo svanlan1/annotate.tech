@@ -28,10 +28,15 @@ $eUser = mysql_escape_string ($userID);
 	while ($row = mysql_fetch_assoc($result)) {
 	    //$msg = array('results'=>$row['obj'],'URL'=>$row['url'],'session_id'=>$row['session_id']);
 	    //$msg = "[{url:".$row['url'].",obj:".$row['obj']."}]";
-	    $msg = json_decode($row['obj']);
+	    if($row['obj'] !== "[]")
+	    {
+	    	$msg = json_decode($row['obj']);
+	    	echo json_encode($msg);
+	    }
+	    
 		//$obj = stripcslashes ( $row['obj'] );
 	    //$msg = array('session_id'=>$row['session_id'], 'results'=>$obj, 'updated'=>$row['updated']);
-	    echo json_encode($msg);
+	    
 	}
 
 	mysql_free_result($result);

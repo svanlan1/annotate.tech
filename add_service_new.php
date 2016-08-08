@@ -7,8 +7,10 @@ $dbname = "annotate_main";
 $userID = trim($_POST['userID']);
 $url = trim($_POST['url']);
 $obj = json_encode($_POST["obj"]);
-$session_id = trim($_POST['session_id']);
+$session = $_POST['session_id'];
 $date = time();
+
+echo $session;
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -21,7 +23,7 @@ if ($conn->connect_error) {
 VALUES ($userID, $url, $obj, $date)";*/
 
 $sql = 	"INSERT INTO results (userID, url, obj, updated, session_id) 
-					VALUES ('$userID', '$url','$obj','$date','$session_id')
+					VALUES ('$userID', '$url','$obj','$date','$session')
 						ON DUPLICATE KEY UPDATE
 							obj='$obj', updated='$date', url='$url'";
 
