@@ -127,7 +127,7 @@ if(isset($_POST['btn-update']))
               </a>
             </li>
           <li>
-            <a class="black-text" href="change_default.php">
+            <a class="black-text" href="recs.php">
               <div class="chip" style="display: inline; background: none; padding: 0;">
                 <img src="images/pin.png" alt="" style="border-radius: 0;" />
               </div>
@@ -165,7 +165,7 @@ if(isset($_POST['btn-update']))
             </li> 
             <li class="divider"></li>
             <li><a href="results.php" class="black-text">Annotations</a>
-            <li><a href="change_default.php">Recommendations</a></li>
+            <li><a href="recs.php">Recommendations</a></li>
             <li><a href="docs.php">Documentation</a></li>
             <li><a href="settings.php" class="black-text">Settings</a></li>
             <li><a href="logout.php" class="black-text">Logout</a></li>
@@ -180,7 +180,7 @@ if(isset($_POST['btn-update']))
 
       <div class="row">
         <div class="col s12 center">
-          <h4 class="annotate">Account information</h4>
+          <h1 class="annotate annotate-h1">Add news story</h1>
           <div class="col l12 s16 left-align">         
 
           </div>         

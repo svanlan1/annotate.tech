@@ -9,8 +9,8 @@
 
 	$userID = trim($_POST['userID']);
 	$url = trim($_POST['url']);
-$eUrl = mysql_escape_string ($url);
-$eUser = mysql_escape_string ($userID);
+	$eUrl = mysql_escape_string ($url);
+	$eUser = mysql_escape_string ($userID);
 
 	mysql_connect ("localhost", "annotate_admin", "XtcVsAA1979");
 	mysql_select_db("annotate_main");
@@ -28,23 +28,11 @@ $eUser = mysql_escape_string ($userID);
 	$results = array();
 
 	while ($row = mysql_fetch_assoc($result)) {
-	    //$msg = array('results'=>$row['obj'],'URL'=>$row['url'],'session_id'=>$row['session_id']);
-	    //$msg = "[{url:".$row['url'].",obj:".$row['obj']."}]";
 	    if($row['obj'] !== "[]")
 	    {
-	    	//array_push()
 	    	$msg = array($row['session_id']=>json_decode($row['obj']));
-	    	
-
-	    	//$results[$row['session_id']]=json_decode($row['obj']);
 	    	array_push($results, $msg);
-	    	//$msg = json_decode($row['obj']);
-	    	
 	    }
-	    
-		//$obj = stripcslashes ( $row['obj'] );
-	    //$msg = array('session_id'=>$row['session_id'], 'results'=>$obj, 'updated'=>$row['updated']);
-	    
 	}
 	echo json_encode($results);
 

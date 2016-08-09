@@ -100,9 +100,16 @@ img.blue-border {
     display: block;
    }
 
+.annotate-h1 {
+  font-weight: bold;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
 .annotate-h2 {
   display: inline;
-  font-size: .9rem;
+  font-size: 1.3rem;
+  font-weight: bold;
 }
 
 .annotate-h3 {

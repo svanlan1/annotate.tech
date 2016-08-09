@@ -114,7 +114,7 @@ if(isset($_POST['btn-update']))
               </a>
             </li>
           <li>
-            <a class="black-text" href="change_default.php">
+            <a class="black-text" href="recs.php">
               <div class="chip" style="display: inline; background: none; padding: 0;">
                 <img src="images/pin.png" alt="" style="border-radius: 0;" />
               </div>
@@ -152,7 +152,15 @@ if(isset($_POST['btn-update']))
             </li> 
             <li class="divider"></li>
             <li><a href="results.php" class="black-text">Annotations</a>
-            <li><a href="change_default.php">Recommendations</a></li>
+            <?php
+              if($row['admin'] === 'Y')
+              {
+                ?>
+                  <li><a href="add_news.php" class="black-text">Add News</a></li>
+                <?php
+              } 
+            ?>             
+            <li><a href="recs.php">Recommendations</a></li>
             <li><a href="docs.php">Documentation</a></li>
             <li><a href="settings.php" class="black-text">Settings</a></li>
             <li><a href="logout.php" class="black-text">Logout</a></li>
@@ -200,7 +208,7 @@ if(isset($_POST['btn-update']))
         </div>
         <div class="row">
           <div class="col s12 left-align">
-            <button class="btn-large waves-effect waves-light blue darken-3 white-text" name="btn-update" style="height: 47px; line-height: 27px;">Update</button>
+            <button class="btn waves-effect waves-light grey darken-3" name="btn-update" style="height: 47px; line-height: 27px;">Update</button>
           </div>
         </div> 
       </form>     

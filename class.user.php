@@ -110,6 +110,61 @@ class USER
 		
 	}
 
+	public function add_recommendation($userID,$quickname,$example,$description,$additional,$rec_id)
+	{
+		try
+		{
+			$stmt = $this->conn->prepare("INSERT INTO recs(userID,quickname,example,description,additional,rec_id) 
+			                                             VALUES(:user_id, :qn, :ex, :descr, :add, :rec_id)");
+			$stmt->bindparam(":user_id",$userID);
+			$stmt->bindparam(":qn",$quickname);
+			$stmt->bindparam(":ex",$example);
+			$stmt->bindparam(":descr",$description);
+			$stmt->bindparam(":add",$additional);
+			$stmt->bindparam(":rec_id",$rec_id);
+			$stmt->execute();	
+			return $stmt;
+		}
+		catch(PDOException $ex)
+		{
+			//echo $ex;
+			//header('Location:recs.php?error');
+			echo $ex;
+		}
+	}
+
+	public function update_rec($quickname,$example,$description,$additional,$rec_id)
+	{
+		try
+		{
+			$stmt = $this->conn->prepare("UPDATE recs SET quickname=:qn,example=:ex,description=:descr,additional=:add WHERE rec_id='$rec_id'");
+			$stmt->bindparam(":qn",$quickname);
+			$stmt->bindparam(":ex",$example);
+			$stmt->bindparam(":descr",$description);
+			$stmt->bindparam(":add",$additional);
+			$stmt->execute();	
+			return $stmt;
+		} 
+		catch(PDOException $ex)
+		{
+			echo $ex;
+		}
+	}
+
+	public function delete_rec($rec_id)
+	{
+		try
+		{
+			$stmt = $this->conn->prepare("DELETE FROM recs WHERE rec_id='$rec_id'");
+			$stmt->execute();	
+			return $stmt;
+		} 
+		catch(PDOException $ex)
+		{
+			echo $ex;
+		}
+	}	
+
 	public function add_annotation($userID,$url,$obj) 
 	{
 		try
@@ -158,6 +213,20 @@ class USER
 		{
 			echo $ex;
 		}			
+	}
+
+	public function delete_annotation($session_id)
+	{
+		try
+		{
+			$stmt = $this->conn->prepare("DELETE FROM results WHERE session_id='$session_id'");
+			$stmt->execute();	
+			return $stmt;
+		}
+		catch(PDOException $ex)
+		{
+			echo $ex;
+		}
 	}
 
 	public function add_news($by,$date,$id,$story,$title,$fName,$lName)

@@ -99,7 +99,7 @@ $query = sprintf("SELECT * FROM news");
               </a>
             </li>
           <li>
-            <a class="black-text" href="change_default.php">
+            <a class="black-text" href="recs.php">
               <div class="chip" style="display: inline; background: none; padding: 0;">
                 <img src="images/pin.png" alt="" style="border-radius: 0;" />
               </div>
@@ -137,7 +137,7 @@ $query = sprintf("SELECT * FROM news");
             </li> 
             <li class="divider"></li>
             <li><a href="results.php" class="black-text">Annotations</a>
-            <li><a href="change_default.php">Recommendations</a></li>
+            <li><a href="recs.php">Recommendations</a></li>
             <li><a href="docs.php">Documentation</a></li>
             <li><a href="settings.php" class="black-text">Settings</a></li>
             <li><a href="logout.php" class="black-text">Logout</a></li>

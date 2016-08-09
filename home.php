@@ -82,7 +82,6 @@ $query = sprintf("SELECT * FROM news");
           if($row['admin'] === 'Y')
           {
             ?>
-
                     <li>
                       <a href="add_news.php" class="black-text">
                         <div class="chip" style="display: inline; background: none; padding: 0;">
@@ -104,7 +103,7 @@ $query = sprintf("SELECT * FROM news");
               </a>
             </li>
           <li>
-            <a class="black-text" href="change_default.php">
+            <a class="black-text" href="recs.php">
               <div class="chip" style="display: inline; background: none; padding: 0;">
                 <img src="images/pin.png" alt="" style="border-radius: 0;" />
               </div>
@@ -142,7 +141,15 @@ $query = sprintf("SELECT * FROM news");
             </li> 
             <li class="divider"></li>
             <li><a href="results.php" class="black-text">Annotations</a>
-            <li><a href="change_default.php">Recommendations</a></li>
+            <?php
+              if($row['admin'] === 'Y')
+              {
+                ?>
+                  <li><a href="add_news.php" class="black-text">Add News</a></li>
+                <?php
+              } 
+            ?>             
+            <li><a href="recs.php">Recommendations</a></li>
             <li><a href="docs.php">Documentation</a></li>
             <li><a href="settings.php" class="black-text">Settings</a></li>
             <li><a href="logout.php" class="black-text">Logout</a></li>
@@ -156,21 +163,17 @@ $query = sprintf("SELECT * FROM news");
     <div class="section">
       <div class="row">
         <div class="col s12 center">
-          <h4 class="annotate left-align">Welcome <?php echo $row['first_name'].' '.$row['last_name'] ?></h4>
+          <h1 class="annotate left-align annotate-h1">Welcome <?php echo $row['first_name'].' '.$row['last_name'] ?></h1>
           <div class="col l12 s16 left-align">         
-            <!-- start slipsum code -->
-
-            
-
-            <!-- end slipsum code -->
+            Thanks for using Annotate!
           </div>          
         </div>
       </div>
     </div>
   </div>
 
-  <div class="container">
-    <div class="section">
+  <div class="container z-depth-2">
+    <div class="section" style="padding-left:1rem; padding-right: 1rem;">
       <?php
         if (!$result) {
             $message  = 'Invalid query: ' . mysql_error() . "\n";
@@ -180,10 +183,10 @@ $query = sprintf("SELECT * FROM news");
         }    
 
         while ($row = mysql_fetch_assoc($result)) {
-            $msg = "<div class='row'><h4>".$row['title']."</h4>
-                    <span class='article-date'>Date: " . $row['date_updated'] . "</span>
+            $msg = "<div class='row'><div class='col s12'><h2 class='annotate annotate-h2' style='padding-left:0;'>".$row['title']."</h2>
+                    <span class='article-date'>Date: " . date("Y-m-d",$row['date_updated']) . "</span>
                     <span class='article-by'>by ".$row['created_first_name'] . " " . $row['created_last_name'] . "</span>
-                    <p>".$row['story']."</p></div>";
+                    <p>".$row['story']."</p></div></div>";
             echo $msg;
         }
 
@@ -369,9 +372,9 @@ $query = sprintf("SELECT * FROM news");
 <script>
   function updateDates() {
       $('.article-date').each(function(i,v) {
-        var d = new Date($.parseJSON($(v).text().substring(6, $(v).text().length)));
-        var datestring = (d.getMonth()+1) + "/" + d.getDate()  + "/" + d.getFullYear(); 
-        $(v).text(datestring);       
+       // var d = new Date($.parseJSON($(v).text().substring(6, $(v).text().length)));
+       //var datestring = (d.getMonth()+1) + "/" + d.getDate()  + "/" + d.getFullYear(); 
+       // $(v).text(datestring);       
       });
  
   };

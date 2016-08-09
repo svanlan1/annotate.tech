@@ -143,7 +143,7 @@ if(isset($_POST['btn-signup']))
               ?>  
             </li>
             <li style="margin-left: 1rem;">
-              <button class="btn-large waves-effect waves-light blue darken-3 white-text" name="btn-login" style="margin-left: 1rem; height: 47px; line-height: 27px;">Login</button>
+              <button class="btn waves-effect waves-light grey darken-3" name="btn-login" style="margin-left: 1rem; height: 47px; line-height: 27px;">Login</button>
             </li> 
           </ul>
         </form>
