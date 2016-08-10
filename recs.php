@@ -13,6 +13,7 @@
 
 
   $userID = $row['userID'];
+  $admin = $row['admin'];
   if(isset($_POST['btn-update']))
   {
     
@@ -39,7 +40,7 @@
   }
   mysql_connect ("localhost", "annotate_admin", "XtcVsAA1979");
   mysql_select_db("annotate_main");
-  $query = sprintf("SELECT quickname, example, description, additional, rec_id FROM recs 
+  $query = sprintf("SELECT * FROM recs 
     WHERE userID='%s' OR global_rec='Y'",
     mysql_real_escape_string($userID));
 
@@ -312,11 +313,14 @@
                     $examp = str_replace("<", "&lt;", $ex);
                     $newexamp = str_replace(">", "&gt;", $examp);
                     $final = str_replace('\\', '', $newexamp);
-                    echo "<td>".$desc."</td>";
-                    echo "<td>".$final."</td>";
-                    echo "<td>".stripslashes($res['additional'])."</td>";
-                    echo "<td><a class='black-text' href='http://annotate.tech/rec_update.php?rec_id=".$res['rec_id']."' data-ann-val='".$res['rec_id']."' data-ann-action='edit'>Edit</a></td>";
-                    echo "<td><a class='black-text delete-row' href='javascript:void(0);' data-ann-val='".$res['rec_id']."' data-ann-action='delete'>Delete</a></td></tr>";
+                    echo "<td style='vertical-align:top;'>".$desc."</td>";
+                    echo "<td style='vertical-align:top;'>".$final."</td>";
+                    echo "<td style='vertical-align:top;'>".stripslashes($res['additional'])."</td>";
+                    if($res['global_rec'] === 'N' || $admin === 'Y')
+                    {
+                      echo "<td style='vertical-align:top;'><a class='black-text' href='http://annotate.tech/rec_update.php?rec_id=".$res['rec_id']."' data-ann-val='".$res['rec_id']."' data-ann-action='edit'>Edit</a></td>";
+                      echo "<td style='vertical-align:top;'><a class='black-text delete-row' href='javascript:void(0);' data-ann-val='".$res['rec_id']."' data-ann-action='delete'>Delete</a></td></tr>";
+                    }
                   }
                 ?>
               </tbody>

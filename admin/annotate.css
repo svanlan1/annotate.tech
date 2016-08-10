@@ -1,0 +1,177 @@
+.annotate {
+	font-family: 'Open Sans', sans-serif;
+}
+
+.small-text {
+	font-size: .4em;
+	color: #666;
+}
+
+.small_width input {
+	background-color: #fff;
+	padding: 3px;
+}
+
+input[type=email] {
+	background-color: #fff;
+}
+
+.screen-reader-only{position:absolute; clip:rect(1px,1px,1px,1px); padding:0; border:0; height:1px; width:1px; overflow:hidden}
+
+.an_h2 {
+
+  font-size: 1.64rem;
+  line-height: 110%;
+  margin: 0.82rem 0 0.656rem 0;
+
+}
+
+
+footer a:focus, footer a:hover {
+	outline: solid 2px #fff;
+	outline-offset: 2px;
+}
+
+img.blue-border {
+	border-radius: 3px;
+    box-shadow: #eee 1px 1px 1px 10px;
+}
+
+.caption {
+	display: block;
+}
+
+.required {
+	display: block;
+	margin-bottom: 1rem;
+	font-size: 15px;
+	color: #000;
+	font-weight: bold;
+}
+
+.required::after {
+	content: '*';
+	color: #c00 !important;
+	font-size: 18px;
+}
+
+.annotate-error {
+	box-shadow: #c00 0px 0px 7px 1px !important;
+
+}
+
+  /* label color */
+   .input-field label {
+     color: #000;
+   }
+   /* label focus color */
+   .input-field input[type=text]:focus + label {
+     color: #000;
+   }
+   /* label underline focus color */
+   .input-field input[type=text]:focus {
+     border-bottom: 1px solid #000;
+     box-shadow: 0 1px 0 0 #000;
+   }
+   /* valid color */
+   .input-field input[type=text].valid {
+     border-bottom: 1px solid #000;
+     box-shadow: 0 1px 0 0 #000;
+   }
+   /* invalid color */
+   .input-field input[type=text].invalid {
+     border-bottom: 1px solid #000;
+     box-shadow: 0 1px 0 0 #000;
+   }
+   /* icon prefix focus color */
+   .input-field .prefix.active {
+     color: #000;
+   }
+
+   #results_table tbody td div {
+    display: block;
+    border-bottom: solid 1px #666;
+    padding: 5px;
+   }
+
+   .article-date {
+    color: #666;
+    font-size: .89rem;
+    display: block;
+   }
+
+.annotate-h1 {
+  font-weight: bold;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.annotate-h2 {
+  display: inline;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.annotate-h3 {
+  font-size: 1.4rem;
+  font-weight: bold;
+  padding-left: 1rem;
+}
+
+.annotate-h4 {
+  font-size: 1rem;
+  margin: .3rem;
+  font-weight: 600;
+}
+
+.an_focus a:focus, .an_focus a:hover {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
+.annotate-more-links {
+  position: absolute;
+    right: 10px;
+    top: 32px;
+}
+
+.annotate-close-link {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
+
+.annotate-card-small {
+  width: 475px;
+  height: 283px;
+}
+
+.an-ellipsis {
+  width: 95%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+}
+
+.table_obj_truncate {
+  white-space: pre-line;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display:inline-block !important;
+}
+
+.table-url {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+}
+.table-updated {
+  font-size: .89rem;
+  display:block;
+  font-weight: bold;
+}
+
+.table-obj {
+  display:block;
+  font-size: 11px;
+}

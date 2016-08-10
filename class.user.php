@@ -90,7 +90,7 @@ class USER
 		{
 			echo $ex->getMessage();
 		}
-	}
+	}	
 
 	public function update($email,$upass,$fName,$lName,$userID)
 	{
@@ -110,18 +110,19 @@ class USER
 		
 	}
 
-	public function add_recommendation($userID,$quickname,$example,$description,$additional,$rec_id)
+	public function add_recommendation($userID,$quickname,$example,$description,$additional,$rec_id,$global_rec)
 	{
 		try
 		{
-			$stmt = $this->conn->prepare("INSERT INTO recs(userID,quickname,example,description,additional,rec_id) 
-			                                             VALUES(:user_id, :qn, :ex, :descr, :add, :rec_id)");
+			$stmt = $this->conn->prepare("INSERT INTO recs(userID,quickname,example,description,additional,rec_id, global_rec) 
+			                                             VALUES(:user_id, :qn, :ex, :descr, :add, :rec_id, :global)");
 			$stmt->bindparam(":user_id",$userID);
 			$stmt->bindparam(":qn",$quickname);
 			$stmt->bindparam(":ex",$example);
 			$stmt->bindparam(":descr",$description);
 			$stmt->bindparam(":add",$additional);
 			$stmt->bindparam(":rec_id",$rec_id);
+			$stmt->bindparam(":global",$global_rec);
 			$stmt->execute();	
 			return $stmt;
 		}
@@ -133,15 +134,16 @@ class USER
 		}
 	}
 
-	public function update_rec($quickname,$example,$description,$additional,$rec_id)
+	public function update_rec($quickname,$example,$description,$additional,$rec_id,$global_rec)
 	{
 		try
 		{
-			$stmt = $this->conn->prepare("UPDATE recs SET quickname=:qn,example=:ex,description=:descr,additional=:add WHERE rec_id='$rec_id'");
+			$stmt = $this->conn->prepare("UPDATE recs SET quickname=:qn,example=:ex,description=:descr,additional=:add,global_rec=:global WHERE rec_id='$rec_id'");
 			$stmt->bindparam(":qn",$quickname);
 			$stmt->bindparam(":ex",$example);
 			$stmt->bindparam(":descr",$description);
 			$stmt->bindparam(":add",$additional);
+			$stmt->bindparam(":global",$global_rec);
 			$stmt->execute();	
 			return $stmt;
 		} 
@@ -295,5 +297,58 @@ class USER
 		$mail->Send();
 		//header("Location: home.php");
 		//header('Location: success.php');
+	}	
+
+	/****************************************************************************************
+	*
+	*	Admin page functions
+	*
+	****************************************************************************************/
+
+	public function admin_login($email,$upass)
+	{
+		try
+		{
+			$stmt = $this->conn->prepare("SELECT * FROM tbl_users WHERE userEmail=:email_id");
+			$stmt->execute(array(":email_id"=>$email));
+			$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
+			
+			if($stmt->rowCount() == 1)
+			{
+				if($userRow['userStatus']=="Y")
+				{
+					if($userRow['userPass']==md5($upass))
+					{
+						if($userRow['admin'] === 'Y')
+						{
+							$_SESSION['userSession'] = $userRow['userID'];
+							return true;
+						} else 
+						{
+							header("Location: index.php?error-not-admin");
+						}
+					}
+					else
+					{
+						header("Location: index.php?error");
+						exit;
+					}
+				}
+				else
+				{
+					header("Location: index.php?inactive");
+					exit;
+				}	
+			}
+			else
+			{
+				header("Location: index.php?error");
+				exit;
+			}		
+		}
+		catch(PDOException $ex)
+		{
+			echo $ex->getMessage();
+		}
 	}		
 }

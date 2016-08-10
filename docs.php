@@ -154,7 +154,7 @@ $query = sprintf("SELECT * FROM news");
           <h1 class="annotate left-align" style="font-size: 2rem;">Documentation</h1>
             <ul class="collapsible popout" data-collapsible="accordion">
                 <li>
-                  <div class="collapsible-header"><i class="material-icons" aria-hidden="true" >web</i><h2 class="docs annotate-h2">Getting Started</h2></div>
+                  <div class="collapsible-header"><i class="material-icons" aria-hidden="true" >web</i><h2 class="docs annotate-h2" style="font-weight: 300;">Getting Started</h2></div>
                   <div class="collapsible-body">
                     <h3 class="annotate annotate-h3">What is Annotate?</h3>
                     <p>
@@ -213,7 +213,7 @@ $query = sprintf("SELECT * FROM news");
                   </div>
                 </li>
                 <li>
-                  <div class="collapsible-header active"><i class="material-icons" aria-hidden="true" >extension</i><h2 class="docs annotate-h2">Extension</h2></div>
+                  <div class="collapsible-header active"><i class="material-icons" aria-hidden="true" >extension</i><h2 class="docs annotate-h2" style="font-weight: 300;">Extension</h2></div>
                   <div class="collapsible-body">
                     <h3 class="annotate annotate-h3">Installing the extension</h3>
                     <p style="display:block;">
@@ -222,10 +222,44 @@ $query = sprintf("SELECT * FROM news");
                       Once the extension has been installed, you should immediately visit the 'Options' page of the extension and login at the top of the screen.
 
                     </p>
+                    <h3 class="annotate annotate-h3">Adding a pin</h3> 
+                    <p>
+                      To add a pin to the page, simply click on the 'Pin' icon in the Annotate toolbar.  Once you've selected the pin you want to place, click on the location you want the pin to appear on the page.<br />                  
+                    </p>   
+                    <p class="center">
+                      <video class="responsive-video" controls>
+                          <source src="videos/annotate_add_pin.webm" type="video/mp4">
+                        </video>                        
+                    </p>                                                          
+                    <h3 class="annotate annotate-h3">Adding a note to a pin</h3> 
+                    <p>
+                      Adding a note to a pin is simple.  Once you place the pin on the page, right click the pin.  You will be presented with a dialog with the ability to add a note.<br />                  
+                    </p>                                      
+                    <p class="center">
+                      <video class="responsive-video" controls>
+                          <source src="videos/annotate_add_notes.webm" type="video/mp4">
+                        </video>                        
+                    </p>
+                    <h3 class="annotate annotate-h3">Drawing a box</h3> 
+                    <p>
+                      To draw a box around an area on the page follow these steps:
+                    </p> 
+                      <ol class="collection">
+                        <li class="collection-item" style="list-style-type: decimal;">Click on the 'Box' icon in the Annotate toolbar</li>
+                        <li class="collection-item" style="list-style-type: decimal;">Visually find the area of the page you want to draw a box around</li>
+                        <li class="collection-item" style="list-style-type: decimal;">Click on the page <strong>once</strong> to select the starting point.</li>
+                        <li class="collection-item" style="list-style-type: decimal;">Move the mouse to where you'd like to end the box</li>
+                        <li class="collection-item" style="list-style-type: decimal;">Click on the page <strong>once</strong> to select the box end point and stop drawing.</li>
+                      </ol>                      
+                    <p class="center">
+                      <video class="responsive-video" controls>
+                          <source src="videos/annotate_draw_box.webm" type="video/mp4">
+                        </video>                        
+                    </p> 
                   </div>
                 </li>
                 <li>
-                  <div class="collapsible-header"><i class="material-icons" aria-hidden="true" >exit_to_app</i>Annotate.tech</div>
+                  <div class="collapsible-header"><i class="material-icons" aria-hidden="true" >exit_to_app</i><h2 class="annotate annotate-h2" style="font-weight: 300">Annotate.tech</h2></div>
                   <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
                 </li>
               </ul>
