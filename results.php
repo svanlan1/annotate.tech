@@ -17,7 +17,7 @@
 
   mysql_connect ("localhost", "annotate_admin", "XtcVsAA1979");
   mysql_select_db("annotate_main");
-  $query = sprintf("SELECT url, obj, session_id, username FROM results 
+  $query = sprintf("SELECT url, obj, session_id, username, page_title FROM results 
     WHERE userID='%s'",
     mysql_real_escape_string($userID));
 
@@ -58,6 +58,9 @@
 
   .annotate-card-head-text {
     width: 95%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;    
   }
   </style>
 </head>
@@ -207,7 +210,7 @@
           while ($row = mysql_fetch_assoc($result)) {
               if($row['obj'] !== "[]")
               {
-                $msg = array($row['session_id']=>json_decode($row['obj']), 'url'=>$row['url'], 'username'=>$row['username']);
+                $msg = array($row['session_id']=>json_decode($row['obj']), 'url'=>$row['url'], 'username'=>$row['username'], 'page_title'=>$row['page_title']);
                 array_push($results, $msg);
               }
           }
@@ -265,9 +268,9 @@
           for (var i in item) {
             for (var x in item[i]) {
               var val = item[i][x];
-              if(x !== 'url' && x !== 'username' && val.length > 0) {
+              if(x !== 'url' && x !== 'username' && x !== 'page_title' && val.length > 0) {
                 var cont = $('<div />').addClass('col s12 m6').appendTo(area);
-                var div_card_sticky = $('<div />').addClass('card small sticky-action').appendTo(cont);
+                var div_card_sticky = $('<div />').addClass('card small sticky-action annotate-card-small').appendTo(cont);
 
                 var color = bgcolors[Math.floor(Math.random() * bgcolors.length)];
                 $(div_card_sticky).addClass(color);
@@ -275,7 +278,13 @@
                 var div_card_content = $('<div />').addClass('card-content').appendTo(div_card_sticky);
                 var div_card_action = $('<div />').addClass('card-action').appendTo(div_card_sticky);
                 var div_card_reveal = $('<div />').addClass('card-reveal').appendTo(div_card_sticky);
-                var type = $('<span />').addClass('card-title activator black-text annotate-card-head').html('<span class="annotate-card-head-text">' + item[i]['url'] + '</span><i class="material-icons right">more_vert</i>').appendTo(div_card_content);
+                if(!item[i]['page_title'] || item[i]['page_title'] === "") {
+                  var display = item[i]['url'];
+                } else {
+                  var display = item[i]['page_title'];
+                }
+                var type = $('<span />').addClass('card-title activator black-text annotate-card-head').html('<span class="annotate-card-head-text annotate-h2">' + display + '</span><i class="material-icons right annotate-more-links">more_vert</i>').appendTo(div_card_content);
+
                 var moreInfo = $('<p />').appendTo(div_card_content);
                 $('<span class="moreInfo black-text" />').text(item[i][x].length + ' Annotations').appendTo(moreInfo);
 
@@ -311,7 +320,7 @@
                 });
 
 
-                var aType = $('<span />').addClass('card-title activator').html(item[i]['url'] + '<a href="javascript:void(0);"><i class="material-icons right black-text">close</i></a>').appendTo(div_card_reveal);
+                var aType = $('<span />').addClass('card-title activator').html('<h4 class="annotate annotate-h4 an-ellipsis">' + item[i]['url'] + '</h4><a href="javascript:void(0);"><i class="material-icons right black-text annotate-close-link">close</i></a>').appendTo(div_card_reveal);
                 
                 
 

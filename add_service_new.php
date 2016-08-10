@@ -8,6 +8,7 @@ $userID = trim($_POST['userID']);
 $userName = trim($_POST['username']);
 $url = trim($_POST['url']);
 $obj = json_encode($_POST["obj"]);
+$page_title = trim($_POST['page_title']);
 $session = $_POST['session_id'];
 $date = time();
 
@@ -20,8 +21,8 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
 
-$sql = 	"INSERT INTO results (userID, url, obj, updated, session_id, username) 
-					VALUES ('$userID', '$url','$obj','$date','$session', '$userName')
+$sql = 	"INSERT INTO results (userID, url, obj, page_title, updated, session_id, username) 
+					VALUES ('$userID', '$url','$obj','$page_title','$date','$session','$userName')
 						ON DUPLICATE KEY UPDATE
 							obj='$obj', updated='$date', url='$url', username='$userName'";
 

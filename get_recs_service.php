@@ -13,7 +13,7 @@
         $examp = str_replace("<", "&lt;", $ex);
         $newexamp = str_replace(">", "&gt;", $examp);
         //$msg = array($row['session_id']=>json_decode($row['obj']), 'url'=>$row['url'], 'username'=>$row['username']);    	
-    	$msg = array('name'=>$res['quickname'], 'rec'=>$res['description'], 'ex'=>$newexamp,  'add'=>$res['additional'], 'rec_id'=>$res['rec_id']);
+    	$msg = array('name'=>$res['quickname'], 'rec'=>$res['description'], 'ex'=>$ex,  'add'=>$res['additional'], 'rec_id'=>$res['rec_id']);
     	array_push($results, $msg);
     }
     echo json_encode($results);

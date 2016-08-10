@@ -14,7 +14,7 @@
 
 	mysql_connect ("localhost", "annotate_admin", "XtcVsAA1979");
 	mysql_select_db("annotate_main");
-	$query = sprintf("SELECT url, obj, session_id, updated FROM results
+	$query = sprintf("SELECT url, obj, session_id, page_title, updated FROM results
     WHERE userID='$eUser' AND url='$eUrl'");
 
     $result = mysql_query($query);
