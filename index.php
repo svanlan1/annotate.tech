@@ -195,16 +195,16 @@ if(isset($_POST['btn-login-mobile']))
 
             <p class="light">Developers?  Check.<br />
               Designers?  Check.<br />
-              Testers?  Check.<br />
-              Everyone can use annotate! You don't need to be a developer or designer to use it. Want to make notes on a page and share it with your friends? Here ya go!</p>
+              Students?  Check.<br />
+              Everyone can use annotate! You don't need to be a developer or designer to use it. Annotate is great for students and researchers who want to annotate sections of a page to save for later!</p>
           </div>
         </div>
 
         <div class="col s12 m4">
           <div class="icon-block">
-            <h2 class="center light-blue-text"><i class="material-icons">settings</i></h2>
+            <h2 class="center light-blue-text"><i class="material-icons">touch_app</i></h2>
 
-            <p class="light">Collaborate with other users on your team to expedite the design and development phase.  Simply share your notations with other members of your group and you're off to the races.</p>
+            <p class="light">Annotate is touch friendly!  Use on your touchscreen computer without a mouse and keyboard.</p>
           </div>
         </div>
       </div>

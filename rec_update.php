@@ -53,6 +53,12 @@
       $example = $res['example'];
       $desc = $res['description'];
       $add = $res['additional'];
+      if($res['global_rec'] === 'Y')
+      {
+        $checked = "checked";
+      } else {
+        $checked = "";
+      }
     }
 
 ?>
@@ -200,12 +206,12 @@
     <div class="section">
 
       <div class="row">
-        <div class="col s12 center">
-          <h4 class="annotate">Add recommendation</h4>
+        <div class="col s12 left-align">
+          <h1 class="annotate annotate-h1">Edit recommendation</h1>
           <div class="col l12 s16 left-align">         
             Recommendations are used to note a type of element.  You can enter whatever information you want in here.  All recommendations will be saved to your account and can be accessed in the extension.
-          </div>         
-        </div>
+          </div>        
+        </div>        
       </div>
       <form class="form-signin" method="post">
         <?php
@@ -216,7 +222,7 @@
                 <label>
                   Global recommendation<br />
                   <span aria-hidden="true">Off</span>
-                  <input type="checkbox" id="global_rec" name="global_rec">
+                  <input type="checkbox" id="global_rec" name="global_rec" <?php echo $checked ?>>
                   <span class="lever"></span>
                   <span aria-hidden="true">On</span>
                 </label>
@@ -251,6 +257,7 @@
         <div class="row">
           <div class="col s12 left-align">
             <button class="btn waves-effect waves-light grey darken-3" name="btn-update" style="height: 47px; line-height: 27px;">Update</button>
+            <a href="recs.php" class="btn waves-effect waves-light grey darken-3" style="height: 47px; line-height: 47px;">Cancel</a>
           </div>
         </div> 
       </form>     

@@ -14,7 +14,7 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
 mysql_connect ("localhost", "annotate_admin", "XtcVsAA1979");
 mysql_select_db("annotate_main");
-$query = sprintf("SELECT * FROM news");
+$query = sprintf("SELECT * FROM news ORDER BY date_updated desc");
 
   $result = mysql_query($query);
 

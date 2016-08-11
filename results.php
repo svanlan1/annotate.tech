@@ -18,7 +18,7 @@
   mysql_connect ("localhost", "annotate_admin", "XtcVsAA1979");
   mysql_select_db("annotate_main");
   $query = sprintf("SELECT url, obj, session_id, username, page_title FROM results 
-    WHERE userID='%s'",
+    WHERE userID='%s' ORDER BY updated desc",
     mysql_real_escape_string($userID));
 
     $result = mysql_query($query);
@@ -346,6 +346,31 @@
                       'background-color': item[i][x][l]['box_bg_color'],
                       'margin': '5px'
                     }).appendTo(thing);
+                  } else if (m.type === 'text') {
+                      var textbox = $('<div />').css({
+                        'font-family': item[i][x][l]['font_family'],
+                        'border-width': item[i][x][l]['border_w'],
+                        'border-color': item[i][x][l]['border_c'],
+                        'font-size': item[i][x][l]['font'],
+                        'text-shadow': item[i][x][l]['shadow'],
+                        'padding': '1rem',
+                        'display': 'block'
+                      }).text(unescape(item[i][x][l]['text'])).appendTo(thing)
+                  } else if (m.type === 'context') {
+                    var wrap = $('<div />').css({
+                      'padding': '10px',
+                      'border': 'solid 1px #777',
+                      'margin': '5px',
+                      'border-radius': '3px'
+                    }).appendTo(thing);
+                    var context = $('<div />').appendTo(wrap);
+                    var noteWrap = $('<div />').appendTo(context);
+                    var noteHead = $('<strong />').text('Notes ').appendTo(noteWrap);
+                    var notes = $('<span />').css('display', 'block').text(unescape(item[i][x][l]['notes'])).appendTo(noteWrap);
+                    if(item[i][x][l]['qRec'] !== '') { 
+                      var recHead = $('<strong />').text('Recommendation ').css('margin-top', '5px').appendTo(context);
+                      var rec = $('<span />').css('display', 'block').appendTo(context).text(unescape(item[i][x][l]['qRec']));
+                    }
                   }
                 });
               }              

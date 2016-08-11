@@ -41,7 +41,7 @@
   mysql_connect ("localhost", "annotate_admin", "XtcVsAA1979");
   mysql_select_db("annotate_main");
   $query = sprintf("SELECT * FROM recs 
-    WHERE userID='%s' OR global_rec='Y'",
+    WHERE userID='%s' OR global_rec='Y' ORDER BY quickname asc",
     mysql_real_escape_string($userID));
 
     $result = mysql_query($query);  
@@ -110,14 +110,14 @@
           if($row['admin'] === 'Y')
           {
             ?>
-                    <li>
-                      <a href="add_news.php" class="black-text">
-                        <div class="chip" style="display: inline; background: none; padding: 0;">
-                          <img src="images/newspaper.png" alt="" style="border-radius: 0;" />
-                        </div>
-                        Add News
-                      </a>
-                    </li>
+              <li>
+                <a href="add_news.php" class="black-text">
+                  <div class="chip" style="display: inline; background: none; padding: 0;">
+                    <img src="images/newspaper.png" alt="" style="border-radius: 0;" />
+                  </div>
+                  Add News
+                </a>
+              </li>
             <?php
           } 
 
@@ -190,141 +190,150 @@
   <div class="container">
     <div class="section">
       <div class="row">
-        <div class="col s12 center">
-          <h4 class="annotate">Add recommendation</h4>
-          <div class="col l12 s16 left-align">         
-            Recommendations are used to note a type of element.  You can enter whatever information you want in here.  All recommendations will be saved to your account and can be accessed in the extension.
-          </div>       
+        <div class="col s12">
+          <h1 class="annotate annotate-h1">Recommendations</h1>
         </div>
       </div>
-      <?php
-        if(isset($_GET['success']))
-        {
-      ?>
-        <div class='row'>
-          <div class='col s12'>
-            <div class='card-panel light-green darken-4' style='padding: 10px;'>
-              <div class='row'>
-                <div class='col l12 white-text'>
-                  <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>check_circle</i>Success!</h5>
-                  <h6 style="margin-left: 3rem;">Your recommendation has been added.  It is now ready for use in the Annotate extension.</h6>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>   
-      <?php
-        } else if (isset($_GET['error'])) {
-      ?>
-        <div class='row'>
-          <div class='col s12'>
-            <div class='card-panel red accent-4' style='padding: 10px;'>
-              <div class='row'>
-                <div class='col l12 white-text'>
-                  <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>error_outline</i>Ruh roh!</h5>
-                  <h6 style="margin-left: 3rem;">Hm, something went wrong.  An email has automatically been sent to the dev team.  They're in their basement fixing it now.</h6>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      <?php
-
-        }
-      ?>
-      <form class="form-signin" method="post">
-        <?php
-          if($row['admin'] === 'Y')
-          {
+      <div class="row">
+        <div class="col s12">
+          <?php
+              if(isset($_GET['success']))
+              {
             ?>
-            <div class="switch">
-                <label>
-                  Global recommendation<br />
-                  <span aria-hidden="true">Off</span>
-                  <input type="checkbox" id="global_rec" name="global_rec">
-                  <span class="lever"></span>
-                  <span aria-hidden="true">On</span>
-                </label>
+              <div class='row'>
+                <div class='col s12'>
+                  <div class='card-panel light-green darken-4' style='padding: 10px;'>
+                    <div class='row'>
+                      <div class='col l12 white-text'>
+                        <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>check_circle</i>Success!</h5>
+                        <h6 style="margin-left: 3rem;">Your recommendation has been added.  It is now ready for use in the Annotate extension.</h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>   
+            <?php
+              } else if (isset($_GET['error'])) {
+            ?>
+              <div class='row'>
+                <div class='col s12'>
+                  <div class='card-panel red accent-4' style='padding: 10px;'>
+                    <div class='row'>
+                      <div class='col l12 white-text'>
+                        <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>error_outline</i>Ruh roh!</h5>
+                        <h6 style="margin-left: 3rem;">Hm, something went wrong.  An email has automatically been sent to the dev team.  They're in their basement fixing it now.</h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             <?php
-          } 
-        ?>         
-        <div class="row">
-          <div class="col s12 left-align">
-           <label for="quickname" class="required">Recommendation name</label>
-           <input type="text" id="quickname" name="quickname" />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col s12 left-align">
-           <label for="example" class="required">Example</label>
-           <textarea id="example" class="materialize-textarea" name="example"></textarea>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col s12 left-align">
-           <label for="description" class="required">Description</label>
-           <textarea id="description" class="materialize-textarea" name="description"></textarea>
-          </div>
-        </div>   
-        <div class="row">
-          <div class="col s12 left-align">
-           <label for="additional" class="required">Additional notes</label>
-           <textarea id="additional" class="materialize-textarea" name="additional"></textarea>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col s12 left-align">
-            <button class="btn waves-effect waves-light grey darken-3" name="btn-update" style="height: 47px; line-height: 27px;">Add</button>
-          </div>
-        </div> 
-      </form>     
-    </div>
-  </div>
 
-  <div class="container">
-    <div class="section">
+              }
+            ?>
+        </div>
+      </div>
       <div class="row">
-        <div class="col s12 left-align">
-          <h3 class="annotate annotate-h3">Stored recommendations</h3>
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Description</th>
-                <th scope="col">Example</th>
-                <th scope="col">Additional notes</th>
-                <td></td>
-                <td></td>
-              </tr>
-              </thead>
-              <tbody>
-                <?php
-                  if (!$result) {
-                      $message  = 'Invalid query: ' . mysql_error() . "\n";
-                      $message .= 'Whole query: ' . $query;
-                      echo $message;
-                      die($message);
-                  }
-                  while ($res = mysql_fetch_assoc($result)) {
-                    echo "<tr><th scope='row' style='vertical-align:top; font-weight: bold;'>".$res['quickname']."</td>";
-                    $desc = stripslashes($res['description']);
-                    $ex = $res['example'];
-                    $examp = str_replace("<", "&lt;", $ex);
-                    $newexamp = str_replace(">", "&gt;", $examp);
-                    $final = str_replace('\\', '', $newexamp);
-                    echo "<td style='vertical-align:top;'>".$desc."</td>";
-                    echo "<td style='vertical-align:top;'>".$final."</td>";
-                    echo "<td style='vertical-align:top;'>".stripslashes($res['additional'])."</td>";
-                    if($res['global_rec'] === 'N' || $admin === 'Y')
-                    {
-                      echo "<td style='vertical-align:top;'><a class='black-text' href='http://annotate.tech/rec_update.php?rec_id=".$res['rec_id']."' data-ann-val='".$res['rec_id']."' data-ann-action='edit'>Edit</a></td>";
-                      echo "<td style='vertical-align:top;'><a class='black-text delete-row' href='javascript:void(0);' data-ann-val='".$res['rec_id']."' data-ann-action='delete'>Delete</a></td></tr>";
+        <div class="col s12">
+          <ul class="tabs">
+            <li class="tab col s3"><a href="#saved_recs" class="active">Saved</a></li>
+            <li class="tab col s3"><a href="#add_rec">Add</a></li>
+          </ul>
+          <div id="saved_recs" class="col s12">
+            <h3 class="screen-reader-only">Stored recommendations</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Example</th>
+                  <th scope="col">Additional notes</th>
+                  <td></td>
+                  <td></td>
+                </tr>
+                </thead>
+                <tbody>
+                  <?php
+                    if (!$result) {
+                        $message  = 'Invalid query: ' . mysql_error() . "\n";
+                        $message .= 'Whole query: ' . $query;
+                        echo $message;
+                        die($message);
                     }
-                  }
-                ?>
-              </tbody>
-            </table>
+                    while ($res = mysql_fetch_assoc($result)) {
+                      echo "<tr><th scope='row' style='vertical-align:top; font-weight: bold;'>".$res['quickname']."</td>";
+                      $desc = stripslashes($res['description']);
+                      $ex = $res['example'];
+                      $examp = str_replace("<", "&lt;", $ex);
+                      $newexamp = str_replace(">", "&gt;", $examp);
+                      $final = str_replace('\\', '', $newexamp);
+                      echo "<td style='vertical-align:top;'>".$desc."</td>";
+                      echo "<td style='vertical-align:top;'>".$final."</td>";
+                      echo "<td style='vertical-align:top;'>".stripslashes($res['additional'])."</td>";
+                      if($res['global_rec'] === 'N' || $admin === 'Y')
+                      {
+                        echo "<td style='vertical-align:top;'><a class='blue-text' title='Edit ".$res['quickname']."' href='http://annotate.tech/rec_update.php?rec_id=".$res['rec_id']."' data-ann-val='".$res['rec_id']."' data-ann-action='edit'><i class='material-icons'>mode_edit</i></a></td>";
+                        echo "<td style='vertical-align:top;'><a title='Delete ".$res['quickname']."' class='red-text delete-row' href='javascript:void(0);' data-ann-val='".$res['rec_id']."' data-ann-action='delete'><i class='material-icons'>delete_forever</i></a></td></tr>";
+                      }
+                    }
+                  ?>
+                </tbody>
+              </table>            
+          </div>
+          <div id="add_rec" class="col s12">
+            <p>
+              Recommendations are used to note a type of element.  You can enter whatever information you want in here.  All recommendations will be saved to your account and can be accessed in the extension.
+            </p>
+            <p>
+              <form class="form-signin" method="post">
+                <?php
+                  if($row['admin'] === 'Y')
+                  {
+                    ?>
+                    <div class="switch">
+                        <label>
+                          Global recommendation<br />
+                          <span aria-hidden="true">Off</span>
+                          <input type="checkbox" id="global_rec" name="global_rec">
+                          <span class="lever"></span>
+                          <span aria-hidden="true">On</span>
+                        </label>
+                      </div>
+                    <?php
+                  } 
+                ?>         
+                <div class="row">
+                  <div class="col s12 left-align">
+                   <label for="quickname" class="required">Recommendation name</label>
+                   <input type="text" id="quickname" name="quickname" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col s12 left-align">
+                   <label for="example" class="required">Example</label>
+                   <textarea id="example" class="materialize-textarea" name="example"></textarea>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col s12 left-align">
+                   <label for="description" class="required">Description</label>
+                   <textarea id="description" class="materialize-textarea" name="description"></textarea>
+                  </div>
+                </div>   
+                <div class="row">
+                  <div class="col s12 left-align">
+                   <label for="additional" class="required">Additional notes</label>
+                   <textarea id="additional" class="materialize-textarea" name="additional"></textarea>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col s12 left-align">
+                    <button class="btn waves-effect waves-light grey darken-3" name="btn-update" style="height: 47px; line-height: 27px;">Add</button>
+                  </div>
+                </div> 
+              </form>  
+            </p>
+          </div>
         </div>
       </div>
     </div>
