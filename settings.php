@@ -93,6 +93,7 @@ if(isset($_POST['btn-update']))
           if($row['admin'] === 'Y')
           {
             ?>
+
                     <li>
                       <a href="add_news.php" class="black-text">
                         <div class="chip" style="display: inline; background: none; padding: 0;">
@@ -138,6 +139,14 @@ if(isset($_POST['btn-update']))
             </a>
           </li>
           <li>
+            <a href="feedback.php" class="black-text">
+              <div class="chip" style="display: inline; background: none; padding: 0;">
+                <img src="images/chat.png" alt="" style="border-radius: 0;" />
+              </div>              
+              Leave feedback
+            </a>
+          </li>           
+          <li>
             <a href="logout.php" class="black-text">
               <div class="chip" style="display: inline; background: none; padding: 0;">
                 <img src="images/logout.png" alt="" style="border-radius: 0;" />
@@ -152,17 +161,10 @@ if(isset($_POST['btn-update']))
             </li> 
             <li class="divider"></li>
             <li><a href="results.php" class="black-text">Annotations</a>
-            <?php
-              if($row['admin'] === 'Y')
-              {
-                ?>
-                  <li><a href="add_news.php" class="black-text">Add News</a></li>
-                <?php
-              } 
-            ?>             
             <li><a href="recs.php">Recommendations</a></li>
             <li><a href="docs.php">Documentation</a></li>
             <li><a href="settings.php" class="black-text">Settings</a></li>
+            <li><a href="feedback.php" class="black-text">Leave feedback</a></li>
             <li><a href="logout.php" class="black-text">Logout</a></li>
           </ul>
         <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons grey-text darken-3">menu</i></a>

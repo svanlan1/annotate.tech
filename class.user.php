@@ -247,6 +247,25 @@ class USER
 			echo $ex;
 		}
 	}
+
+	public function save_feedback($userEmail, $subject, $msg, $userID)
+	{
+		try {
+			$date = time();
+			$stmt = $this->conn->prepare("INSERT INTO feedback(email,title,comment,date_updated, userID) 
+			                                             VALUES(:email, :title, :comment, :updated, :userID)");
+			$stmt->bindparam(":email",$userEmail);
+			$stmt->bindparam(":title",$subject);
+			$stmt->bindparam(":comment",$msg);
+			$stmt->bindparam(":updated",$date);
+			$stmt->bindparam(":userID", $userID);
+			$stmt->execute();	
+			return $stmt;			
+		}
+		catch(PDOException $ex) {
+			echo $ex;
+		}
+	}
 	
 	
 	public function is_logged_in()
@@ -280,24 +299,59 @@ class USER
 	
 	function send_mail($email,$message,$subject)
 	{						
-		require_once('mailer/class.phpmailer.php');
-		$mail = new PHPMailer();
-		$mail->IsSMTP(); 
-		$mail->SMTPDebug  = 0;                     
-		$mail->SMTPAuth   = true;                                 
-		$mail->Host       = "mail.annotate.tech";      
-		$mail->Port       = 25;             
-		$mail->AddAddress($email);
-		$mail->Username="auto-confirm@annotate.tech";  
-		$mail->Password="XtcVsAA1979";            
-		$mail->SetFrom('auto-confirm@annotate.tech','Annotate team');
-		$mail->AddReplyTo("support@annotate.tech","Annotate Support");
-		$mail->Subject    = $subject;
-		$mail->MsgHTML($message);
-		$mail->Send();
+		try {
+			require_once('mailer/class.phpmailer.php');
+			$mail = new PHPMailer();
+			$mail->IsSMTP(); 
+			$mail->SMTPDebug  = 0;                     
+			$mail->SMTPAuth   = true;                                 
+			$mail->Host       = "mail.annotate.tech";      
+			$mail->Port       = 25;             
+			$mail->AddAddress($email);
+			$mail->Username="auto-confirm@annotate.tech";  
+			$mail->Password="XtcVsAA1979";            
+			$mail->SetFrom('auto-confirm@annotate.tech','Annotate team');
+			$mail->AddReplyTo("support@annotate.tech","Annotate Support");
+			$mail->Subject    = $subject;
+			$mail->MsgHTML($message);
+			$mail->Send();	
+			return true;		
+		}
+		catch(PDOException $ex) {
+			echo $ex;
+		}
+
 		//header("Location: home.php");
 		//header('Location: success.php');
 	}	
+
+	function send_feedback_mail($email,$message,$subject)
+	{						
+		try {
+			require_once('mailer/class.phpmailer.php');
+			$mail = new PHPMailer();
+			$mail->IsSMTP(); 
+			$mail->SMTPDebug  = 0;                     
+			$mail->SMTPAuth   = true;                                 
+			$mail->Host       = "mail.annotate.tech";      
+			$mail->Port       = 25;             
+			$mail->AddAddress($email);
+			$mail->Username="feedback@annotate.tech";  
+			$mail->Password="XtcVsAA1979";            
+			$mail->SetFrom('feedback@annotate.tech','Annotate team');
+			$mail->AddReplyTo("feedback@annotate.tech","Annotate Support");
+			$mail->Subject    = $subject;
+			$mail->MsgHTML($message);
+			$mail->Send();	
+			return true;		
+		}
+		catch(PDOException $ex) {
+			echo $ex;
+		}
+
+		//header("Location: home.php");
+		//header('Location: success.php');
+	}
 
 	/****************************************************************************************
 	*

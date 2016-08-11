@@ -12,8 +12,8 @@
 
   $stmt = $user_login->runQuery("SELECT * FROM tbl_users WHERE userID=:uid");
   $stmt->execute(array(":uid"=>$_SESSION['userSession']));
-  $user = $stmt->fetch(PDO::FETCH_ASSOC);
-  $userID = $user['userID'];
+  $row = $stmt->fetch(PDO::FETCH_ASSOC);
+  $userID = $row['userID'];
 
   mysql_connect ("localhost", "annotate_admin", "XtcVsAA1979");
   mysql_select_db("annotate_main");
@@ -71,8 +71,8 @@
         <a id="logo-container" href="http://annotate.tech" class="brand-logo annotate">annotate<span class="small">.tech</span></a>             
         <ul class="right hide-on-med-and-down annotate">
           <li><a class="dropdown-button" href="#!" data-activates="dropdown1" style="min-width: 14rem;"><?php 
-            if($user['userEmail']) {
-              echo $user['userEmail']; 
+            if($row['userEmail']) {
+              echo $row['userEmail']; 
             } else {
               echo 'Guest';
             }
@@ -84,8 +84,8 @@
             <span class="small black-text" style="font-size: .9rem;">
               <div class="chip" style="display: inline; background: none; padding: 0;">
                 <img src="images/user.png" alt=<?php 
-                  if($user['first_name']) {
-                    echo $user['first_name'].' '.$user['last_name'];
+                  if($row['first_name']) {
+                    echo $row['first_name'].' '.$row['last_name'];
                   } else {
                     echo 'Guest';
                   }
@@ -93,8 +93,8 @@
                  ?> />
               </div>
               <?php 
-                if($user['userEmail']) {
-                  echo $user['userEmail']; 
+                if($row['userEmail']) {
+                  echo $row['userEmail']; 
                 } else {
                   echo 'Guest';
                 }
@@ -105,9 +105,10 @@
           <li class="divider"></li>
           <?php
 
-          if($user['admin'] === 'Y')
+          if($row['admin'] === 'Y')
           {
             ?>
+
                     <li>
                       <a href="add_news.php" class="black-text">
                         <div class="chip" style="display: inline; background: none; padding: 0;">
@@ -153,6 +154,14 @@
             </a>
           </li>
           <li>
+            <a href="feedback.php" class="black-text">
+              <div class="chip" style="display: inline; background: none; padding: 0;">
+                <img src="images/chat.png" alt="" style="border-radius: 0;" />
+              </div>              
+              Leave feedback
+            </a>
+          </li>           
+          <li>
             <a href="logout.php" class="black-text">
               <div class="chip" style="display: inline; background: none; padding: 0;">
                 <img src="images/logout.png" alt="" style="border-radius: 0;" />
@@ -163,28 +172,20 @@
         </ul> 
           <ul id="nav-mobile" class="side-nav">
             <li>
-              <a href="home.php" style="padding-left: 10px;"><span class="small black-text"><?php echo $user['userEmail']; ?></span></a>
+              <a href="home.php" style="padding-left: 10px;"><span class="small black-text"><?php echo $row['userEmail']; ?></span></a>
             </li> 
             <li class="divider"></li>
             <li><a href="results.php" class="black-text">Annotations</a>
-            <?php
-              if($user['admin'] === 'Y')
-              {
-                ?>
-                  <li><a href="add_news.php" class="black-text">Add News</a></li>
-                <?php
-              } 
-            ?>             
             <li><a href="recs.php">Recommendations</a></li>
             <li><a href="docs.php">Documentation</a></li>
             <li><a href="settings.php" class="black-text">Settings</a></li>
+            <li><a href="feedback.php" class="black-text">Leave feedback</a></li>
             <li><a href="logout.php" class="black-text">Logout</a></li>
           </ul>
         <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons grey-text darken-3">menu</i></a>
       </div>
     </nav>
   </div>
-
   <div class="container">
     <div class="section">
 
@@ -268,7 +269,7 @@
           for (var i in item) {
             for (var x in item[i]) {
               var val = item[i][x];
-              if(x !== 'url' && x !== 'username' && x !== 'page_title' && val.length > 0) {
+              if(x !== 'url' && x !== 'username' && x !== 'page_title' && val && val.length > 0) {
                 var cont = $('<div />').addClass('col s12 m6').appendTo(area);
                 var div_card_sticky = $('<div />').addClass('card small sticky-action annotate-card-small').appendTo(cont);
 
@@ -310,7 +311,7 @@
                       data: {session_id: $session_id},
                       success: function (response) {
                         $(parent).remove();
-                        alert(response);      
+                        //alert(response);      
                       },
                       error: function (error) {
                         console.log(error);

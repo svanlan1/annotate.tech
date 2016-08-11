@@ -19,12 +19,23 @@ if(isset($_POST['btn-signup']))
 	$subject = trim($_POST['subject']);
   $email = "endoflineprod@gmail.com";
 	$comments = trim($_POST['comments']);
-
-  if($reg_user->send_mail($email,$comments,$subject)) {
-    header("Location: feedback.php?success");
+  $userEmail = trim($_POST['userEmail']);
+  if($loggedIn && $row['userID']) {
+    $userID = $row['userID'];
   } else {
-    header("Location: feedback.php?feedback-error");
+    $userID = '0';
   }
+
+  if($reg_user->save_feedback($userEmail,$subject,$comments,$userID)) {
+    if($reg_user->send_feedback_mail($email,$comments,$subject)) {
+      header("Location: feedback.php?success");
+    } else {
+      header("Location: feedback.php?feedback-error");
+    }
+  }
+
+
+
 }
 
 ?>
@@ -70,24 +81,24 @@ if(isset($_POST['btn-signup']))
             </span>
           </li> 
           <li class="divider"></li>
-<?php
+          <?php
 
-if($row['admin'] === 'Y')
-{
-  ?>
+          if($row['admin'] === 'Y')
+          {
+            ?>
 
-          <li>
-            <a href="add_news.php" class="black-text">
-              <div class="chip" style="display: inline; background: none; padding: 0;">
-                <img src="images/marker_128.png" alt="" />
-              </div>
-              Add News
-            </a>
-          </li>
-  <?php
-} 
+                    <li>
+                      <a href="add_news.php" class="black-text">
+                        <div class="chip" style="display: inline; background: none; padding: 0;">
+                          <img src="images/newspaper.png" alt="" style="border-radius:0;" />
+                        </div>
+                        Add News
+                      </a>
+                    </li>
+            <?php
+          } 
 
-?>           
+          ?>           
           <li>
             <a href="results.php" class="black-text">
               <div class="chip" style="display: inline; background: none; padding: 0;">
@@ -97,13 +108,21 @@ if($row['admin'] === 'Y')
               </a>
             </li>
           <li>
-            <a class="black-text" href="change_default.php">
+            <a class="black-text" href="recs.php">
               <div class="chip" style="display: inline; background: none; padding: 0;">
                 <img src="images/pin.png" alt="" style="border-radius: 0;" />
               </div>
               Recommendations
             </a>
           </li>
+          <li>
+            <a href="docs.php" class="black-text">
+              <div class="chip" style="display: inline; background: none; padding: 0;">
+                <img src="images/folder.png" alt="" style="border-radius: 0;" />
+              </div>              
+              Documentation
+            </a>
+          </li>          
           <li>
             <a href="settings.php" class="black-text">
               <div class="chip" style="display: inline; background: none; padding: 0;">
@@ -135,7 +154,8 @@ if($row['admin'] === 'Y')
             </li> 
             <li class="divider"></li>
             <li><a href="results.php" class="black-text">Annotations</a>
-            <li><a href="change_default.php">Recommendations</a></li>
+            <li><a href="recs.php">Recommendations</a></li>
+            <li><a href="docs.php">Documentation</a></li>
             <li><a href="settings.php" class="black-text">Settings</a></li>
             <li><a href="feedback.php" class="black-text">Leave feedback</a></li>
             <li><a href="logout.php" class="black-text">Logout</a></li>
@@ -249,7 +269,7 @@ if($row['admin'] === 'Y')
                 <div class='row'>
                   <div class='col l8 white-text'>
                     <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>error_outline</i>Ruh roh!</h5>
-                    <h6 style="margin-left: 3rem;">An account with this Email address has already activated.</h6>
+                    <h6 style="margin-left: 3rem;">Something went wrong.  We're looking into it now.</h6>
                   </div>
                   <div class='col l4 right-align'>
                     <br>
@@ -272,7 +292,7 @@ if($row['admin'] === 'Y')
                 <form class="form-signin small_width" name="annotate_signup" onsubmit="return validate();" method="post">
                   <div class="row">
                     <div class="input-field col s12">
-                      <input id="userEmail" type="email" class="validate required" name="subject" class="required">
+                      <input id="userEmail" type="email" class="validate required" name="userEmail" class="required">
                       <label for="userEmail" class="active">Email address</label>
                     </div>
                   </div>                  
