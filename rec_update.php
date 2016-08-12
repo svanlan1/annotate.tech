@@ -87,7 +87,7 @@
       <div class="nav-wrapper container">
         <a id="logo-container" href="http://annotate.tech" class="brand-logo annotate">annotate<span class="small">.tech</span></a>             
         <ul class="right hide-on-med-and-down annotate">
-          <li><a class="dropdown-button" href="#!" data-activates="dropdown1" style="min-width: 14rem;"><?php 
+          <li><a class="dropdown-button" href="javascript:void(0);" data-activates="dropdown1" style="min-width: 14rem;"><?php 
             if($row['userEmail']) {
               echo $row['userEmail']; 
             } else {
@@ -170,6 +170,14 @@
             </a>
           </li>
           <li>
+            <a href="feedback.php" class="black-text">
+              <div class="chip" style="display: inline; background: none; padding: 0;">
+                <img src="images/chat.png" alt="" style="border-radius: 0;" />
+              </div>              
+              Leave feedback
+            </a>
+          </li>           
+          <li>
             <a href="logout.php" class="black-text">
               <div class="chip" style="display: inline; background: none; padding: 0;">
                 <img src="images/logout.png" alt="" style="border-radius: 0;" />
@@ -195,6 +203,7 @@
             <li><a href="recs.php">Recommendations</a></li>
             <li><a href="docs.php">Documentation</a></li>
             <li><a href="settings.php" class="black-text">Settings</a></li>
+            <li><a href="feedback.php" class="black-text">Leave feedback</a></li>
             <li><a href="logout.php" class="black-text">Logout</a></li>
           </ul>
         <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons grey-text darken-3">menu</i></a>
@@ -207,9 +216,11 @@
 
       <div class="row">
         <div class="col s12 left-align">
-          <h1 class="annotate annotate-h1">Edit recommendation</h1>
-          <div class="col l12 s16 left-align">         
-            Recommendations are used to note a type of element.  You can enter whatever information you want in here.  All recommendations will be saved to your account and can be accessed in the extension.
+          <h1 class="annotate-h1">Edit recommendation</h1>
+          <div class="col l12 s16 left-align">
+            <span style="font-size: 12px;">         
+              Recommendations are used to note a type of element.  You can enter whatever information you want in here.  All recommendations will be saved to your account and can be accessed in the extension.
+            </span>
           </div>        
         </div>        
       </div>
@@ -238,19 +249,19 @@
         </div>
         <div class="row">
           <div class="col s12 left-align">
-           <label for="example" class="required">Example</label>
-           <textarea id="example" class="materialize-textarea" name="example"><?php echo $example; ?></textarea>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col s12 left-align">
            <label for="description" class="required">Description</label>
            <textarea id="description" class="materialize-textarea" name="description"><?php echo $desc; ?></textarea>
           </div>
-        </div>   
+        </div> 
         <div class="row">
           <div class="col s12 left-align">
-           <label for="additional" class="required">Additional notes</label>
+           <label for="example">Example</label>
+           <textarea id="example" class="materialize-textarea" name="example"><?php echo $example; ?></textarea>
+          </div>
+        </div>  
+        <div class="row">
+          <div class="col s12 left-align">
+           <label for="additional">Additional notes</label>
            <textarea id="additional" class="materialize-textarea" name="additional"><?php echo $add; ?></textarea>
           </div>
         </div>
@@ -278,7 +289,7 @@
           <ul>
             <li><a href="http://annotate.tech">Annotate Tech</a></li>
             <li><a href="http://sva11y.com">svA11y.com</a></li>
-            <li><a href="#!">Get Annotate! for Firefox</a></li>
+            <li><a href="javascript:void(0);">Get Annotate! for Firefox</a></li>
             <li><a href="https://chrome.google.com/webstore/detail/annotate/hmapkigpghjemmoodagegimpoimooamc">Get Annotate! for Google Chrome</a></li>
             <li><a href="http://www.sheavanlaningham.com">sheavanlaningham.com</a></li>
             <li><a href="https://www.linkedin.com/in/shea-vanlaningham-b284782b">LinkedIn</a></li>

@@ -121,8 +121,8 @@ if(isset($_POST['btn-login-mobile']))
       <div class="container">
 
         <br><br>
-        <h1 class="annotate lighter" id="banner-h1" style="text-shadow: #999 1px 1px 1px; font-size: 3rem;">Pin. Draw. Write. Save.</h1>
-        <h5 class="annotate lighter" id="banner-h5" style="margin-left: 15px;"><img src="images/marker_128.png" alt="" style="width: 22px;" />Annotate</h5>
+        <h1 class="annotate-h1 lighter" id="banner-h1" style="text-shadow: #999 1px 1px 1px; font-size: 3rem;">Pin. Draw. Write. Save.</h1>
+        <h5 class="annotate-h5 lighter" id="banner-h5" style="margin-left: 15px;"><img src="images/marker_128.png" alt="" style="width: 22px;" />Annotate</h5>
         <!--div style="width: 303px; height: 178px; border-radius: 5px; border: solid 2px #fff;">
           <div style="width: 297px; height: 173px; opacity: .6; border-radius: 5px; background: #000; position: absolute; display: block;"></div>
           
@@ -182,7 +182,7 @@ if(isset($_POST['btn-login-mobile']))
       <div class="row">
         <div class="col s12 m4">
           <div class="icon-block">
-            <h2 class="center light-grey-text"><i class="material-icons" aria-hidden="true">screen_share</i><span class="screen-reader-only">What is Annotate!</span></h2>
+            <h2 class="center light-grey-text annotate-h2"><i class="material-icons" aria-hidden="true">screen_share</i><span class="screen-reader-only">What is Annotate!</span></h2>
             
 
             <p class="light">Annotate is a full suite of end-to-end tools for any role to use in any stage of your timeline.  Make notes, place emoji pins, highlight text, and highlight elements on the screen to share with other users on your team using <a href="http://annotate.tech">annotate.tech</a></p>
@@ -191,7 +191,7 @@ if(isset($_POST['btn-login-mobile']))
 
         <div class="col s12 m4">
           <div class="icon-block">
-            <h2 class="center green-text"><i aria-hidden="true" class="material-icons">done</i><span class="screen-reader-only">Who should use Annotate!</span></h2>
+            <h2 class="center green-text annotate-h2"><i aria-hidden="true" class="material-icons">done</i><span class="screen-reader-only">Who should use Annotate!</span></h2>
 
             <p class="light">Developers?  Check.<br />
               Designers?  Check.<br />
@@ -202,7 +202,7 @@ if(isset($_POST['btn-login-mobile']))
 
         <div class="col s12 m4">
           <div class="icon-block">
-            <h2 class="center light-blue-text"><i class="material-icons">touch_app</i></h2>
+            <h2 class="center light-blue-text annotate-h2"><i class="material-icons">touch_app</i></h2>
 
             <p class="light">Annotate is touch friendly!  Use on your touchscreen computer without a mouse and keyboard.</p>
           </div>
@@ -217,7 +217,7 @@ if(isset($_POST['btn-login-mobile']))
     <div class="section no-pad-bot">
       <div class="container">
         <div class="row center">
-          <h2 class="header col s12 light-blue-text text-darken-3 annotate" style="font-size: 2.92rem; color: #fff !important">What is Annotate!</h2>
+          <h2 class="header col s12 light-blue-text text-darken-3 annotate-h2" style="font-size: 2.92rem; color: #fff !important">What is Annotate!</h2>
 
         </div>
         <div class="row">
@@ -314,7 +314,7 @@ if(isset($_POST['btn-login-mobile']))
     <div class="section no-pad-bot">
       <div class="container">
         <div class="row center">
-          <h2 class="annotate header col s12 light-blue-text text-darken-3" style="font-size: 2.92rem; color: #fff !important">Where can you use Annotate!</h2>
+          <h2 class="annotate-h2 header col s12 light-blue-text text-darken-3" style="font-size: 2.92rem; color: #fff !important">Where can you use Annotate!</h2>
 
         </div>
         <div class="row">

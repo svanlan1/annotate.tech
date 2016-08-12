@@ -67,7 +67,7 @@ if(isset($_POST['btn-update']))
       <div class="nav-wrapper container">
         <a id="logo-container" href="http://annotate.tech" class="brand-logo annotate">annotate<span class="small">.tech</span></a>             
         <ul class="right hide-on-med-and-down annotate">
-          <li><a class="dropdown-button" href="#!" data-activates="dropdown1" style="min-width: 14rem;"><?php 
+          <li><a class="dropdown-button" href="javascript:void(0);" data-activates="dropdown1" style="min-width: 14rem;"><?php 
             if($row['userEmail']) {
               echo $row['userEmail']; 
             } else {
@@ -188,8 +188,8 @@ if(isset($_POST['btn-update']))
     <div class="section">
 
       <div class="row">
-        <div class="col s12 center">
-          <h1 class="annotate annotate-h1">Add news story</h1>
+        <div class="col s12 left-align">
+          <h1 class="annotate-h1">Add news story</h1>
           <div class="col l12 s16 left-align">         
 
           </div>         
@@ -209,6 +209,7 @@ if(isset($_POST['btn-update']))
           </div>
         </div>                    
         <button class="btn waves-effect waves-light grey darken-3" type="submit" name="btn-update">Submit</button>
+        <a href="home.php" class="btn waves-effect waves-light grey darken-3" style="height: 36px; line-height: 36px;">Cancel</a>
       </form>     
 
 
@@ -218,17 +219,17 @@ if(isset($_POST['btn-update']))
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
-          <h5 class="annotate">About svA11y</h5>
+          <h5 class="annotate-h5">About svA11y</h5>
           <p class="text-lighten-4">Annotate! was created and is maintained by Shea VanLaningham.  svA11y.com is a website dedicated to providing quality Web Accessibility and Section 508 consultation and remediation.  Annotate! was created to assist users in making Accessibility notations, but quickly grew into something much bigger and better!</p>
 
 
         </div>
         <div class="col l3 s12">
-          <h5 class="annotate">Connect</h5>
+          <h5 class="annotate-h5">Connect</h5>
           <ul>
             <li><a href="http://annotate.tech">Annotate Tech</a></li>
             <li><a href="http://sva11y.com">svA11y.com</a></li>
-            <li><a href="#!">Get Annotate! for Firefox</a></li>
+            <li><a href="javascript:void(0);">Get Annotate! for Firefox</a></li>
             <li><a href="https://chrome.google.com/webstore/detail/annotate/hmapkigpghjemmoodagegimpoimooamc">Get Annotate! for Google Chrome</a></li>
             <li><a href="http://www.sheavanlaningham.com">sheavanlaningham.com</a></li>
             <li><a href="https://www.linkedin.com/in/shea-vanlaningham-b284782b">LinkedIn</a></li>
@@ -249,16 +250,16 @@ if(isset($_POST['btn-update']))
   <script src="js/annotate.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-81728929-1', 'auto');
-  ga('send', 'pageview');
+    ga('create', 'UA-81728929-1', 'auto');
+    ga('send', 'pageview');
 
-</script>
+  </script>
 
   </body>
 </html>

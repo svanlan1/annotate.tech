@@ -72,7 +72,7 @@
       <div class="nav-wrapper container">
         <a id="logo-container" href="http://annotate.tech" class="brand-logo annotate">annotate<span class="small">.tech</span></a>             
         <ul class="right hide-on-med-and-down annotate">
-          <li><a class="dropdown-button" href="#!" data-activates="dropdown1" style="min-width: 14rem;"><?php 
+          <li><a class="dropdown-button" href="javascript:void(0);" data-activates="dropdown1" style="min-width: 14rem;"><?php 
             if($row['userEmail']) {
               echo $row['userEmail']; 
             } else {
@@ -193,7 +193,7 @@
     <div class="section">
       <div class="row">
         <div class="col s12">
-          <h1 class="annotate annotate-h1">Recommendations</h1>
+          <h1 class="annotate-h1">Recommendations</h1>
         </div>
       </div>
       <div class="row">
@@ -287,50 +287,55 @@
               Recommendations are used to note a type of element.  You can enter whatever information you want in here.  All recommendations will be saved to your account and can be accessed in the extension.
             </p>
             <p>
-              <form class="form-signin" method="post">
+              <form class="form-signin" method="post">        
                 <?php
                   if($row['admin'] === 'Y')
                   {
-                    ?>
-                    <div class="switch">
-                        <label>
-                          Global recommendation<br />
-                          <span aria-hidden="true">Off</span>
-                          <input type="checkbox" id="global_rec" name="global_rec">
-                          <span class="lever"></span>
-                          <span aria-hidden="true">On</span>
+                ?>
+                  <div class="row">
+                    <div class="input-field col s12 left-align">
+                      <div class="switch">
+                          <label>
+                            Global recommendation<br />
+                            <span aria-hidden="true">Off</span>
+                            <input type="checkbox" id="global_rec" name="global_rec" <?php echo $checked ?> />
+                            <span class="lever"></span>
+                            <span aria-hidden="true">On</span>
                         </label>
                       </div>
-                    <?php
+                    </div>
+                  </div>
+                <?php
                   } 
-                ?>         
+                ?>                 
                 <div class="row">
-                  <div class="col s12 left-align">
-                   <label for="quickname" class="required">Recommendation name</label>
+                  <div class="input-field col s12 left-align">
+                   <label for="quickname">Recommendation name</label>
                    <input type="text" id="quickname" name="quickname" />
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col s12 left-align">
-                   <label for="example" class="required">Example</label>
-                   <textarea id="example" class="materialize-textarea" name="example"></textarea>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col s12 left-align">
-                   <label for="description" class="required">Description</label>
+                  <div class="input-field col s12 left-align">
+                   <label for="description">Description</label>
                    <textarea id="description" class="materialize-textarea" name="description"></textarea>
                   </div>
-                </div>   
+                </div> 
                 <div class="row">
-                  <div class="col s12 left-align">
-                   <label for="additional" class="required">Additional notes</label>
+                  <div class="input-field col s12 left-align">
+                   <label for="example">Example</label>
+                   <textarea id="example" class="materialize-textarea" name="example"></textarea>
+                  </div>
+                </div>  
+                <div class="row">
+                  <div class="input-field col s12 left-align">
+                   <label for="additional">Additional notes</label>
                    <textarea id="additional" class="materialize-textarea" name="additional"></textarea>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col s12 left-align">
-                    <button class="btn waves-effect waves-light grey darken-3" name="btn-update" style="height: 47px; line-height: 27px;">Add</button>
+                    <button class="btn waves-effect waves-light grey darken-3" name="btn-update" style="height: 47px; line-height: 27px;">Update</button>
+                    <a href="recs.php" class="btn waves-effect waves-light grey darken-3" style="height: 47px; line-height: 47px;">Cancel</a>
                   </div>
                 </div> 
               </form>  
@@ -345,17 +350,17 @@
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
-          <h5 class="annotate">About svA11y</h5>
+          <h5 class="annotate-h5">About svA11y</h5>
           <p class="text-lighten-4">Annotate! was created and is maintained by Shea VanLaningham.  svA11y.com is a website dedicated to providing quality Web Accessibility and Section 508 consultation and remediation.  Annotate! was created to assist users in making Accessibility notations, but quickly grew into something much bigger and better!</p>
 
 
         </div>
         <div class="col l3 s12">
-          <h5 class="annotate">Connect</h5>
+          <h5 class="annotate-h5">Connect</h5>
           <ul>
             <li><a href="http://annotate.tech">Annotate Tech</a></li>
             <li><a href="http://sva11y.com">svA11y.com</a></li>
-            <li><a href="#!">Get Annotate! for Firefox</a></li>
+            <li><a href="javascript:void(0);">Get Annotate! for Firefox</a></li>
             <li><a href="https://chrome.google.com/webstore/detail/annotate/hmapkigpghjemmoodagegimpoimooamc">Get Annotate! for Google Chrome</a></li>
             <li><a href="http://www.sheavanlaningham.com">sheavanlaningham.com</a></li>
             <li><a href="https://www.linkedin.com/in/shea-vanlaningham-b284782b">LinkedIn</a></li>
@@ -409,6 +414,6 @@
   }
   remove();
 </script>
-
+  <div class
   </body>
 </html>

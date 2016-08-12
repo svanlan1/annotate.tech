@@ -39,7 +39,7 @@ $query = sprintf("SELECT * FROM news");
       <div class="nav-wrapper container">
         <a id="logo-container" href="http://annotate.tech" class="brand-logo annotate">annotate<span class="small">.tech</span></a>             
         <ul class="right hide-on-med-and-down annotate">
-          <li><a class="dropdown-button" href="#!" data-activates="dropdown1" style="min-width: 14rem;"><?php 
+          <li><a class="dropdown-button" href="javascript:void(0);" data-activates="dropdown1" style="min-width: 14rem;"><?php 
             if($row['userEmail']) {
               echo $row['userEmail']; 
             } else {
@@ -160,7 +160,7 @@ $query = sprintf("SELECT * FROM news");
     <div class="section">
       <div class="row">
         <div class="col s12">
-          <h1 class="annotate left-align" style="font-size: 2rem;">Documentation</h1>
+          <h1 class="annotate-h1 left-align" style="font-size: 2rem;">Documentation</h1>
             <ul class="collapsible popout" data-collapsible="accordion">
                 <li>
                   <div class="collapsible-header"><i class="material-icons" aria-hidden="true" >web</i><h2 class="docs annotate-h2" style="font-weight: 300;">Getting Started</h2></div>
@@ -268,7 +268,7 @@ $query = sprintf("SELECT * FROM news");
                   </div>
                 </li>
                 <li>
-                  <div class="collapsible-header"><i class="material-icons" aria-hidden="true" >exit_to_app</i><h2 class="annotate annotate-h2" style="font-weight: 300">Annotate.tech</h2></div>
+                  <div class="collapsible-header"><i class="material-icons" aria-hidden="true" >exit_to_app</i><h2 class="annotate-h2" style="font-weight: 300">Annotate.tech</h2></div>
                   <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
                 </li>
               </ul>
@@ -288,17 +288,17 @@ $query = sprintf("SELECT * FROM news");
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
-          <h5 class="annotate">About svA11y</h5>
+          <h5 class="annotate-h5">About svA11y</h5>
           <p class="text-lighten-4">Annotate! was created and is maintained by Shea VanLaningham.  svA11y.com is a website dedicated to providing quality Web Accessibility and Section 508 consultation and remediation.  Annotate! was created to assist users in making Accessibility notations, but quickly grew into something much bigger and better!</p>
 
 
         </div>
         <div class="col l3 s12">
-          <h5 class="annotate">Connect</h5>
+          <h5 class="annotate-h5">Connect</h5>
           <ul>
             <li><a href="http://annotate.tech">Annotate Tech</a></li>
             <li><a href="http://sva11y.com">svA11y.com</a></li>
-            <li><a href="#!">Get Annotate! for Firefox</a></li>
+            <li><a href="javascript:void(0);">Get Annotate! for Firefox</a></li>
             <li><a href="https://chrome.google.com/webstore/detail/annotate/hmapkigpghjemmoodagegimpoimooamc">Get Annotate! for Google Chrome</a></li>
             <li><a href="http://www.sheavanlaningham.com">sheavanlaningham.com</a></li>
             <li><a href="https://www.linkedin.com/in/shea-vanlaningham-b284782b">LinkedIn</a></li>

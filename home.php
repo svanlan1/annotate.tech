@@ -44,7 +44,7 @@ $query = sprintf("SELECT * FROM news ORDER BY date_updated desc");
       <div class="nav-wrapper container">
         <a id="logo-container" href="http://annotate.tech" class="brand-logo annotate">annotate<span class="small">.tech</span></a>             
         <ul class="right hide-on-med-and-down annotate">
-          <li><a class="dropdown-button" href="#!" data-activates="dropdown1" style="min-width: 14rem;"><?php 
+          <li><a class="dropdown-button" href="javascript:void(0);" data-activates="dropdown1" style="min-width: 14rem;"><?php 
             if($row['userEmail']) {
               echo $row['userEmail']; 
             } else {
@@ -165,9 +165,19 @@ $query = sprintf("SELECT * FROM news ORDER BY date_updated desc");
     <div class="section">
       <div class="row">
         <div class="col s12 center">
-          <h1 class="annotate left-align annotate-h1">Welcome <?php echo $row['first_name'].' '.$row['last_name'] ?></h1>
+          <h1 class="left-align annotate-h1">Welcome <?php echo $row['first_name'].' '.$row['last_name'] ?></h1>
           <div class="col l12 s16 left-align">         
             Thanks for using Annotate!
+            <?php
+              if($row['admin'] === 'Y')
+              {
+            ?>
+              <p>
+                <a class="btn waves-effect waves-light grey darken-3" href="http://a.annotate.tech/home.php" target="_blank">Admin panel <span class="screen-reader-only">, opens in a new window</span></a>
+              </p>
+            <?php
+              }
+            ?>
           </div>          
         </div>
       </div>
@@ -185,7 +195,7 @@ $query = sprintf("SELECT * FROM news ORDER BY date_updated desc");
         }    
 
         while ($row = mysql_fetch_assoc($result)) {
-            $msg = "<div class='row'><div class='col s12'><h2 class='annotate annotate-h2' style='padding-left:0;'>".$row['title']."</h2>
+            $msg = "<div class='row'><div class='col s12'><h2 class='annotate-h2' style='padding-left:0;'>".$row['title']."</h2>
                     <span class='article-date'>Date: " . date("Y-m-d",$row['date_updated']) . "</span>
                     <span class='article-by'>by ".$row['created_first_name'] . " " . $row['created_last_name'] . "</span>
                     <p>".$row['story']."</p></div></div>";
@@ -289,9 +299,8 @@ $query = sprintf("SELECT * FROM news ORDER BY date_updated desc");
           <div class="card-panel orange darken-1" style='padding: 10px;'>
             <div class="row">
               <div class="col l8 white-text">
-                <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>info_outline</i>Find a bug?</h5>
-                <h6 style="margin-left: 3rem;">Report it!</h6>
-                <h6 style="margin-left: 3rem;">Annotate should work on all pages you visit.  If you find a bug while you're using it, let us know so we can get it fixed!</h6>
+                <h3 class="annotate-h3"><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>info_outline</i>Find a bug?</h3>
+                <span style="margin-left: 3rem; font-size: .85rem;">Annotate should work on all pages you visit.  If you find a bug while you're using it, let us know so we can get it fixed!</span>
               </div>
               <div class="col l4 right-align">
                 <br>
@@ -311,12 +320,12 @@ $query = sprintf("SELECT * FROM news ORDER BY date_updated desc");
           <div class="card-panel light-blue darken-4" style='padding: 10px;'>
             <div class="row">
               <div class="col l8 white-text">
-                <h5><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>info_outline</i>View your latest annotations</h5>
-                <h6 style="margin-left: 3rem;">All of your annotations in one place.  Edit and share functionality coming soon!</h6>
+                <h3 class="annotate-h3"><i class="material-icons" style='margin-right: 1rem; vertical-align: bottom;'>info_outline</i>View your latest annotations</h3>
+                <span style="margin-left: 3rem; font-size: .85rem;">All of your annotations in one place.  Edit and share functionality coming soon!</span>
               </div>
               <div class="col l4 right-align">
                 <br>
-                <a href="results.php" class="waves-effect waves-light modal-trigger btn btn-large white black-text btn-flat">View Annotations</a>
+                <a href="results.php" class="waves-effect waves-light modal-trigger btn btn-large white black-text btn-flat" style='font-size: .88rem;'>View Annotations</a>
               </div>
             </div>
           </div>
@@ -329,17 +338,17 @@ $query = sprintf("SELECT * FROM news ORDER BY date_updated desc");
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
-          <h5 class="annotate">About svA11y</h5>
+          <h5 class="annotate-h5">About svA11y</h5>
           <p class="text-lighten-4">Annotate! was created and is maintained by Shea VanLaningham.  svA11y.com is a website dedicated to providing quality Web Accessibility and Section 508 consultation and remediation.  Annotate! was created to assist users in making Accessibility notations, but quickly grew into something much bigger and better!</p>
 
 
         </div>
         <div class="col l3 s12">
-          <h5 class="annotate">Connect</h5>
+          <h5 class="annotate-h5">Connect</h5>
           <ul>
             <li><a href="http://annotate.tech">Annotate Tech</a></li>
             <li><a href="http://sva11y.com">svA11y.com</a></li>
-            <li><a href="#!">Get Annotate! for Firefox</a></li>
+            <li><a href="javascript:void(0);">Get Annotate! for Firefox</a></li>
             <li><a href="https://chrome.google.com/webstore/detail/annotate/hmapkigpghjemmoodagegimpoimooamc">Get Annotate! for Google Chrome</a></li>
             <li><a href="http://www.sheavanlaningham.com">sheavanlaningham.com</a></li>
             <li><a href="https://www.linkedin.com/in/shea-vanlaningham-b284782b">LinkedIn</a></li>

@@ -101,27 +101,36 @@ img.blue-border {
    }
 
 .annotate-h1 {
+  font-family: 'Open Sans', sans-serif;
   font-weight: bold;
   font-size: 1.4rem;
   font-weight: bold;
 }
 
 .annotate-h2 {
+  font-family: 'Open Sans', sans-serif;
   display: inline;
   font-size: 1.3rem;
   font-weight: bold;
 }
 
 .annotate-h3 {
+  font-family: 'Open Sans', sans-serif;
   font-size: 1.4rem;
   font-weight: bold;
   padding-left: 1rem;
 }
 
 .annotate-h4 {
+  font-family: 'Open Sans', sans-serif;
   font-size: 1rem;
   margin: .3rem;
   font-weight: 600;
+}
+
+.annotate-h5 {
+  font-family: 'Open Sans', sans-serif;
+  font-size: .9rem;
 }
 
 .an_focus a:focus, .an_focus a:hover {

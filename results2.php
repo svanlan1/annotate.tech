@@ -197,7 +197,8 @@
           </div>         
         </div>
       </div>
-      <div id="annotations" style="display:none;">
+      <div class="col s12">
+      <ul class="collapsible" data-collapsible="accordion">
         <?php
           if (!$result) {
               $message  = 'Invalid query: ' . mysql_error() . "\n";
@@ -213,16 +214,23 @@
               {
                 $msg = array($row['session_id']=>json_decode($row['obj']), 'url'=>$row['url'], 'username'=>$row['username'], 'page_title'=>$row['page_title']);
                 array_push($results, $msg);
+          ?>
+                  <li>
+                    <div class="collapsible-header"><i class="material-icons">filter_drama</i><?php echo $row['page_title'] ?></div>
+                    <div class="collapsible-body">
+                      <p><a class="black-text" style="font-size: 12px;" target="_blank" href="<?php echo $row['url'].'?annotate=true&an_tech_sess_id='.$row['session_id'] ?>"><?php echo $row['url'] ?><span class="screen-reader-only">, opens in a new window</span></a></p>
+                      <p class="annotations"><?php echo $row['obj'] ?></p>
+                      <p class="drawn-annotations"></p>
+                    </div>
+                  </li> 
+          <?php             
               }
           }
-          echo json_encode($results);
-
           mysql_free_result($result);
 
-        ?> 
-      </div>
-  
-
+        ?>
+        </ul>
+      </div> 
     </div>
     <div class="row" id="results_area"></div>    
   </div>
@@ -259,127 +267,62 @@
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/annotate.js"></script>
-<script>
-        function convert_obj() {
-          var item = JSON.parse($('#annotations').text());
-          $('#annotations').html('');
-          var area = $('#results_area');
-          var bgcolors = ['light-blue accent-1', 'indigo lighten-5', 'teal lighten-3', 'cyan accent-4', 'green accent-3', 'yellow lighten-2', 'grey lighten-1', 'grey lighten-4', 'deep-orange accent-2'];
-
-          for (var i in item) {
-            for (var x in item[i]) {
-              var val = item[i][x];
-              if(x !== 'url' && x !== 'username' && x !== 'page_title' && val && val.length > 0) {
-                var cont = $('<div />').addClass('col s12 m6').appendTo(area);
-                var div_card_sticky = $('<div />').addClass('card small sticky-action annotate-card-small').appendTo(cont);
-
-                var color = bgcolors[Math.floor(Math.random() * bgcolors.length)];
-                $(div_card_sticky).addClass(color);
-
-                var div_card_content = $('<div />').addClass('card-content').appendTo(div_card_sticky);
-                var div_card_action = $('<div />').addClass('card-action').appendTo(div_card_sticky);
-                var div_card_reveal = $('<div />').addClass('card-reveal').appendTo(div_card_sticky);
-                if(!item[i]['page_title'] || item[i]['page_title'] === "") {
-                  var display = item[i]['url'];
-                } else {
-                  var display = item[i]['page_title'];
-                }
-                var type = $('<span />').addClass('card-title activator black-text annotate-card-head').html('<span class="annotate-card-head-text annotate-h2">' + display + '</span><i class="material-icons right annotate-more-links">more_vert</i>').appendTo(div_card_content);
-
-                var moreInfo = $('<p />').appendTo(div_card_content);
-                $('<span class="moreInfo black-text" />').text(item[i][x].length + ' Annotations').appendTo(moreInfo);
-
-                var d = new Date($.parseJSON(x));
-                var datestring = (d.getMonth()+1) + "/" + d.getDate()  + "/" + d.getFullYear();
-
-
-                $('<span class="moreInfo black-text" />').html('<p><strong>Last updated:</strong>' + datestring + '<br /> by ' + item[i]['username'] + '</p>').appendTo(moreInfo);
-                $('<div />').addClass('annotate-res-width black-text').html('<strong>Original window size</strong><br />' + item[i][x][0].win_w + ' x ' + item[i][x][0].win_h).appendTo(moreInfo);          
-
-
-                var onclick="window.open('"+item[i]['url']+"?annotate=true&an_tech_sess_id="+x+"','_new', 'toolbar=yes, location=yes, status=no,menubar=yes,scrollbars=yes,resizable=no,width=" + item[i][x][0].win_w +",height=" + item[i][x][0].win_h +"')";
-                var ac1 = $('<a />').addClass('black-text').attr('href', 'javascript:void(0);').attr('onclick', onclick).text('Visit Site').appendTo(div_card_action);
-                var ac2 = $('<a />').addClass('black-text annotate_delete').attr('href', 'javascript:void(0);').attr('data-ann-val', x).text('Delete').appendTo(div_card_action);
-
-                $(ac2).click(function() {
-                  if(confirm('Are you sure want to remove this annotation?  This is non-reversable')) {
-                   var $session_id=$(this).attr('data-ann-val');
-                   var parent = $(this).parent().parent().parent();
-                    $.ajax({
-                      url: "http://annotate.tech/delete_ann_service.php",
-                      type: "POST",
-                      data: {session_id: $session_id},
-                      success: function (response) {
-                        $(parent).remove();
-                        //alert(response);      
-                      },
-                      error: function (error) {
-                        console.log(error);
-                      }
-                    });
-                  } 
-                });
-
-
-                var aType = $('<span />').addClass('card-title activator').html('<h4 class="annotate annotate-h4 an-ellipsis">' + item[i]['url'] + '</h4><a href="javascript:void(0);"><i class="material-icons right black-text annotate-close-link">close</i></a>').appendTo(div_card_reveal);
-                
-                
-
-
-                $(item[i][x]).each(function(l,m) {
-                  var thing = $('<div />').addClass('annotate-res-width').appendTo(div_card_reveal);
-                  //var lab = $('<h4 />').css('font-size: 1rem;').text('Type').appendTo(thing);
-                  if(m.type === 'pin') {
-                    $(thing).css('display', 'inline');
-                    var p_type = item[i][x][l]['flag_color'];
-                    var img = $('<img />').attr('src', 'ext/images/pins/pin_24_' + p_type + '.png').css({
-                      'width': item[i][x][l]['pin_size'],
-                      'display': 'inline-block',
-                      'margin': '5px'
-                    }).appendTo(thing);
-                  } else if (m.type === 'box') {
-                    var box = $('<div />').css({
-                      'width': '100%',
-                      'height': '50px',
-                      'border-width': item[i][x][l]['box_width'],
-                      'border-style': 'solid',
-                      'border-color': item[i][x][l]['box_color'],
-                      'background-color': item[i][x][l]['box_bg_color'],
-                      'margin': '5px'
-                    }).appendTo(thing);
-                  } else if (m.type === 'text') {
-                      var textbox = $('<div />').css({
-                        'font-family': item[i][x][l]['font_family'],
-                        'border-width': item[i][x][l]['border_w'],
-                        'border-color': item[i][x][l]['border_c'],
-                        'font-size': item[i][x][l]['font'],
-                        'text-shadow': item[i][x][l]['shadow'],
-                        'padding': '1rem',
-                        'display': 'block'
-                      }).text(unescape(item[i][x][l]['text'])).appendTo(thing)
-                  } else if (m.type === 'context') {
-                    var wrap = $('<div />').css({
-                      'padding': '10px',
-                      'border': 'solid 1px #777',
-                      'margin': '5px',
-                      'border-radius': '3px'
-                    }).appendTo(thing);
-                    var context = $('<div />').appendTo(wrap);
-                    var noteWrap = $('<div />').appendTo(context);
-                    var noteHead = $('<strong />').text('Notes ').appendTo(noteWrap);
-                    var notes = $('<span />').css('display', 'block').text(unescape(item[i][x][l]['notes'])).appendTo(noteWrap);
-                    if(item[i][x][l]['qRec'] !== '') { 
-                      var recHead = $('<strong />').text('Recommendation ').css('margin-top', '5px').appendTo(context);
-                      var rec = $('<span />').css('display', 'block').appendTo(context).text(unescape(item[i][x][l]['qRec']));
-                    }
-                  }
-                });
-              }              
+  <script>
+    function display_annotations() {
+      $('.annotations').each(function(i,v) {
+        var j = $.parseJSON($(v).text());
+        $(v).text('');
+        $(j).each(function(l,m) {
+          var thing = $('<div />').addClass('annotate-res-with').appendTo(v);
+          if(m.type === 'pin') {
+            $(thing).css('display', 'inline');
+            var p_type = m['flag_color'];
+            var img = $('<img />').attr('src', 'ext/images/pins/pin_24_' + p_type + '.png').css({
+              'width': m['pin_size'],
+              'display': 'inline-block',
+              'margin': '5px'
+            }).appendTo(thing);
+          } else if (m.type === 'box') {
+            var box = $('<div />').css({
+              'width': '100%',
+              'height': '50px',
+              'border-width': m['box_width'],
+              'border-style': 'solid',
+              'border-color': m['box_color'],
+              'background-color': m['box_bg_color'],
+              'margin': '5px'
+            }).appendTo(thing);
+          } else if (m.type === 'text') {
+              var textbox = $('<div />').css({
+                'font-family': m['font_family'],
+                'border-width': m['border_w'],
+                'border-color': m['border_c'],
+                'font-size': m['font'],
+                'text-shadow': m['shadow'],
+                'padding': '1rem',
+                'display': 'block'
+              }).text(unescape(m['text'])).appendTo(thing)
+          } else if (m.type === 'context') {
+            var wrap = $('<div />').css({
+              'padding': '10px',
+              'border': 'solid 1px #777',
+              'margin': '5px',
+              'border-radius': '3px'
+            }).appendTo(thing);
+            var context = $('<div />').appendTo(wrap);
+            var noteWrap = $('<div />').appendTo(context);
+            var noteHead = $('<strong />').text('Notes ').appendTo(noteWrap);
+            var notes = $('<span />').css('display', 'block').text(unescape(m['notes'])).appendTo(noteWrap);
+            if(m['qRec'] !== '') { 
+              var recHead = $('<strong />').text('Recommendation ').css('margin-top', '5px').appendTo(context);
+              var rec = $('<span />').css('display', 'block').appendTo(context).text(unescape(m['qRec']));
             }
           }
-        }     
+        })
+      });
+    }
+    display_annotations();
 
-        convert_obj();
       </script>  
  
   <script src="js/materialize.js"></script>
