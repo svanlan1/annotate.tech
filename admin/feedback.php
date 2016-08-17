@@ -1,34 +1,26 @@
 <?php
-session_start();
-require_once 'class.user.php';
-$user_home = new USER();
+  session_start();
+  require_once '../class.user.php';
+  $user_login = new USER();
 
-if(!$user_home->is_logged_in())
-{
-	$user_home->redirect('index.php');
-}
+  if(!$user_login->is_logged_in())
+  {
+    $user_login->redirect('index.php');
+  }
 
-$stmt = $user_home->runQuery("SELECT * FROM tbl_users WHERE userID=:uid");
-$stmt->execute(array(":uid"=>$_SESSION['userSession']));
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-if(isset($_POST['btn-update']))
-{
-  $email = trim($_POST['userEmail']);
-  $upass = trim($_POST['userPass']);
-  $fName = trim($_POST['firstName']);
-  $lName = trim($_POST['lastName']);
+  $stmt = $user_login->runQuery("SELECT * FROM tbl_users WHERE userID=:uid");
+  $stmt->execute(array(":uid"=>$_SESSION['userSession']));
+  $row = $stmt->fetch(PDO::FETCH_ASSOC);
   $userID = $row['userID'];
 
-  if($user_home->update($email,$upass,$fName,$lName,$userID))
-  {
-    $user_home->redirect('settings.php?success');
-    echo $fName;
-  } else {
-    $user_home->redirect('settings.php?error');
-  }
-}
+  mysql_connect ("localhost", "annotate_admin", "XtcVsAA1979");
+  mysql_select_db("annotate_main");
+  $query = sprintf("SELECT * FROM feedback");
 
+    $result = mysql_query($query);
+
+
+  
 ?>
 
 <!DOCTYPE html>
@@ -36,7 +28,7 @@ if(isset($_POST['btn-update']))
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-  <title>Annotate - <?php echo $row['userEmail']; ?> - Settings</title>
+  <title>Annotate - <?php echo $row['userEmail']; ?> - Users</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -48,12 +40,31 @@ if(isset($_POST['btn-update']))
   <link rel="icon" 
       type="image/png" 
       href="images/marker_16_active.png"> 
+
+  <style>
+  .annotate-card-head {
+    display: block;
+    width: 99%;
+    overflow: hidden;
+    font-size: 1.2rem !important;
+    text-overflow: ellipsis;
+    /* text-indent: -5px; */
+    text-decoration: underline;   
+  }
+
+  .annotate-card-head-text {
+    width: 95%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;    
+  }
+  </style>
 </head>
 <body>
   <div class="navbar-fixed">
     <nav class="white" role="navigation">
       <div class="nav-wrapper container">
-        <a id="logo-container" href="http://annotate.tech" class="brand-logo annotate">annotate<span class="small">.tech</span></a>             
+        <a id="logo-container" href="index.php" class="brand-logo annotate">annotate<span class="small">.tech</span></a>             
         <ul class="right hide-on-med-and-down annotate">
           <li><a class="dropdown-button" href="#!" data-activates="dropdown1" style="min-width: 14rem;"><?php 
             if($row['userEmail']) {
@@ -88,24 +99,16 @@ if(isset($_POST['btn-update']))
             </span>
           </li> 
           <li class="divider"></li>
-          <?php
 
-          if($row['admin'] === 'Y')
-          {
-            ?>
-
-                    <li>
-                      <a href="add_news.php" class="black-text">
-                        <div class="chip" style="display: inline; background: none; padding: 0;">
-                          <img src="images/newspaper.png" alt="" style="border-radius: 0;" />
-                        </div>
-                        Add News
-                      </a>
-                    </li>
-            <?php
-          } 
-
-          ?>         
+          <li>
+            <a href="add_news.php" class="black-text">
+              <div class="chip" style="display: inline; background: none; padding: 0;">
+                <img src="images/script.png" alt="" style="border-radius: 0;" />
+              </div>
+              Add News
+            </a>
+          </li>
+       
           <li>
             <a href="results.php" class="black-text">
               <div class="chip" style="display: inline; background: none; padding: 0;">
@@ -117,19 +120,27 @@ if(isset($_POST['btn-update']))
           <li>
             <a class="black-text" href="recs.php">
               <div class="chip" style="display: inline; background: none; padding: 0;">
-                <img src="images/pin.png" alt="" style="border-radius: 0;" />
+                <img src="images/clipboard.png" alt="" style="border-radius: 0;" />
               </div>
               Recommendations
             </a>
           </li>
           <li>
-            <a href="docs.php" class="black-text">
+            <a href="users.php" class="black-text">
               <div class="chip" style="display: inline; background: none; padding: 0;">
-                <img src="images/folder.png" alt="" style="border-radius: 0;" />
+                <img src="images/team.png" alt="" style="border-radius: 0;" />
               </div>              
-              Documentation
+              Users
             </a>
-          </li>          
+          </li> 
+          <li>
+            <a href="feedback.php" class="black-text">
+              <div class="chip" style="display: inline; background: none; padding: 0;">
+                <img src="images/chat.png" alt="" style="border-radius: 0;" />
+              </div>              
+              Feedback
+            </a>
+          </li>                    
           <li>
             <a href="settings.php" class="black-text">
               <div class="chip" style="display: inline; background: none; padding: 0;">
@@ -139,17 +150,9 @@ if(isset($_POST['btn-update']))
             </a>
           </li>
           <li>
-            <a href="feedback.php" class="black-text">
-              <div class="chip" style="display: inline; background: none; padding: 0;">
-                <img src="images/chat.png" alt="" style="border-radius: 0;" />
-              </div>              
-              Leave feedback
-            </a>
-          </li>           
-          <li>
             <a href="logout.php" class="black-text">
               <div class="chip" style="display: inline; background: none; padding: 0;">
-                <img src="images/logout.png" alt="" style="border-radius: 0;" />
+                <img src="images/exit-door-symbol.png" alt="" style="border-radius: 0;" />
               </div>              
               Logout
             </a>
@@ -160,11 +163,12 @@ if(isset($_POST['btn-update']))
               <a href="home.php" style="padding-left: 10px;"><span class="small black-text"><?php echo $row['userEmail']; ?></span></a>
             </li> 
             <li class="divider"></li>
-            <li><a href="results.php" class="black-text">Annotations</a>
+            <li><a href="add_news.php">Add News</a></li>
+            <li><a href="results.php">Annotations</a></li>             
             <li><a href="recs.php">Recommendations</a></li>
-            <li><a href="docs.php">Documentation</a></li>
+            <li><a href="users.php">Users</a></li>
+            <li><a href="feedback.php">Feedback</a></li>
             <li><a href="settings.php" class="black-text">Settings</a></li>
-            <li><a href="feedback.php" class="black-text">Leave feedback</a></li>
             <li><a href="logout.php" class="black-text">Logout</a></li>
           </ul>
         <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons grey-text darken-3">menu</i></a>
@@ -176,47 +180,49 @@ if(isset($_POST['btn-update']))
     <div class="section">
 
       <div class="row">
-        <div class="col s12 center">
-          <h4 class="annotate">Account information</h4>
+        <div class="col s12 left-align">
+          <h1 class="annotate-h1">Submitted feedback</h1>
           <div class="col l12 s16 left-align">         
 
           </div>         
         </div>
       </div>
-      <form class="form-signin" method="post">
-        <div class="row">
-          <div class="col s12 left-align">
-           <label for="userEmail" class="required">Email address</label>
-           <input type="email" id="userEmail" name="userEmail" value=<?php echo $row['userEmail']; ?> />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col s12 left-align">
-           <label for="userName" class="required">Username</label>
-           <input type="text" id="userName" name="userName" value=<?php echo $row['userName']; ?> />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col s12 left-align">
-           <label for="firstName" class="required">First Name</label>
-           <input type="text" id="firstName" name="firstName" value=<?php echo $row['first_name']; ?> />
-          </div>
-        </div>   
-        <div class="row">
-          <div class="col s12 left-align">
-           <label for="lastName" class="required">Last Name</label>
-           <input type="text" id="lastName" name="lastName" value=<?php echo $row['last_name']; ?> />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col s12 left-align">
-            <button class="btn waves-effect waves-light grey darken-3" name="btn-update" style="height: 47px; line-height: 27px;">Update</button>
-          </div>
-        </div> 
-      </form>     
-
-
+      <div id="users">
+        <table class="materialize annotate">
+          <thead>
+            <tr>
+              <th scope="col">User email</th>
+              <th scope="col">Title</th>
+              <th scope="col">Comment</th>
+              <th scope="col">User ID</th>
+              <th scope="col">Submitted</th>
+            </tr>
+          </thead>
+          <tbody>
+          <?php
+            if (!$result) {
+                $message  = 'Invalid query: ' . mysql_error() . "\n";
+                $message .= 'Whole query: ' . $query;
+                echo $message;
+                die($message);
+            }    
+            $results = array();
+            while ($row = mysql_fetch_assoc($result)) {
+              echo "<tr>";
+              echo "<td>".$row['email']."</td>";
+              echo "<td>".$row['title']."</td>";
+              echo "<td>".$row['comment']."</td>";
+              echo "<td>".$row['userID']."</td>";
+              echo "<td>".date("m-d-Y",$row['date_updated'])."</td>";
+              echo "</tr>";
+            }
+            mysql_free_result($result);
+          ?> 
+          </tbody>
+        </table>
+      </div>
     </div>
+    <div class="row" id="results_area"></div>    
   </div>
   <footer class="page-footer grey darken-4 white-text lighter">
     <div class="container">
@@ -246,22 +252,17 @@ if(isset($_POST['btn-update']))
     </div>
   </footer>
 
-
-  <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="js/annotate.js"></script>
+  <script src="js/annotate.js"></script> 
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-81728929-1', 'auto');
-  ga('send', 'pageview');
-
-</script>
-
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-81728929-1', 'auto');
+    ga('send', 'pageview');
+  </script>
   </body>
 </html>

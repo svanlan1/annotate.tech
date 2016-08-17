@@ -17,8 +17,9 @@
     
     $quickname = trim($_POST['quickname']);
     $ex = $_POST['example'];
-    $description = addslashes(trim($_POST['description']));
-    $additional = addslashes(trim($_POST['additional']));
+    $description = trim($_POST['description']);
+    $additional = trim($_POST['additional']);
+    $wcag = $_POST['wcag'];
     
     $global_rec = $_POST['global_rec'];
 
@@ -29,7 +30,7 @@
     }
 
    
-    if($user_home->update_rec($quickname,$ex,$description,$additional,$rec_id,$global_rec))
+    if($user_home->update_rec($quickname,$ex,$description,$additional,$rec_id,$global_rec,$wcag))
     {
       header('Location:recs.php?success');
     }
@@ -53,6 +54,7 @@
       $example = $res['example'];
       $desc = $res['description'];
       $add = $res['additional'];
+      $wcag = $res['wcag'];
       if($res['global_rec'] === 'Y')
       {
         $checked = "checked";
@@ -260,7 +262,13 @@
           </div>
         </div>  
         <div class="row">
-          <div class="col s12 left-align">
+          <div class="input-field col s12 left-align">
+           <label for="wcag">Guideline</label>
+           <textarea id="wcag" class="materialize-textarea" name="wcag"><?php echo $wcag; ?></textarea>
+          </div>
+        </div>         
+        <div class="row">
+          <div class="input-field col s12 left-align">
            <label for="additional">Additional notes</label>
            <textarea id="additional" class="materialize-textarea" name="additional"><?php echo $add; ?></textarea>
           </div>

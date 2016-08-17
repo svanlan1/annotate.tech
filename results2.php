@@ -219,7 +219,12 @@
                     <div class="collapsible-header"><a href="javscript:void(0);" aria-expanded="false" class="ann_expand black-text"><i aria-hidden="true" class="material-icons">add_circle</i><?php echo $row['page_title'] ?></a></div>
                     <div class="collapsible-body">
                       <p>
-                        <a class="black-text" style="font-size: 12px; font-weight:bold;" target="_blank" href=""><?php echo $row['url'] ?><span class="screen-reader-only">, opens in a new window</span>&nbsp;&nbsp;&nbsp;<i class="material-icons" aria-hidden="true" style="font-size: 16px;" onclick="<?php echo $row['url'].'?annotate=true&an_tech_sess_id='.$row['session_id'] ?>, '_new', 'toolbar=yes, location=yes, status=no,menubar=yes,scrollbars=yes,resizable,no,width=<?php echo $row['win_w']?>, height=<?php echo $row['win_h'] ?>'">open_in_new</i></a></p>
+                        <a class="black-text" style="font-size: 12px; font-weight:bold;" target="_blank" href="javascript:void(0);" data-an-url="<?php echo $row['url'] ?>" data-an-wid="<?php echo $row['win_w'] ?>" data-an-height="<?php echo $row['win_h'] ?>"><?php echo $row['url'] ?>
+                          <span class="screen-reader-only">, opens in a new window</span>
+                          &nbsp;&nbsp;&nbsp;
+                          <i class="material-icons" aria-hidden="true" style="font-size: 16px;">open_in_new</i>
+                        </a>
+                      </p>
                       <p class="annotations"><?php echo $row['obj'] ?></p>
                       <p class="drawn-annotations"></p>
                     </div>
@@ -329,16 +334,18 @@
     }
 
     function set_events() {
-      $('.ann_expand, .collapsible-header').click(function() {
+      $('.collapsible-header').click(function(e) {
+        e.preventDefault();
         $('.ann_expand').find('i').text('add_circle');
-        if($(this).attr('aria-expanded') === 'false') {
-          $(this).attr('aria-expanded', 'true');
+        if($(this).find('a').attr('aria-expanded') === 'false') {
+          $(this).find('a').attr('aria-expanded', 'true');
           $(this).find('i').text('remove_circle');
         } else {
-          $(this).attr('aria-expanded', 'false');
+          $(this).find('a').attr('aria-expanded', 'false');
           $(this).find('i').text('add_circle');
         }
       });
+
     }
 
     display_annotations();

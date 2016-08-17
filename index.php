@@ -44,10 +44,11 @@ if(isset($_POST['btn-login-mobile']))
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
   <link href="css/annotate.css" type="text/css" rel="stylesheet" media="screen, projection" />
-  <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/hmapkigpghjemmoodagegimpoimooamc">
+  
   <link rel="icon" 
       type="image/png" 
-      href="images/marker_16_active.png"> 
+      href="images/marker_16_active.png" /> 
+<link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/hmapkigpghjemmoodagegimpoimooamc">      
 </head>
 <body onload="a.run();">
   <div class="navbar-fixed">
@@ -55,22 +56,7 @@ if(isset($_POST['btn-login-mobile']))
       <div class="nav-wrapper container">
         <a id="logo-container" href="http://annotate.tech" class="brand-logo annotate">annotate<span class="small">.tech</span></a>
         <form class="form-signin" method="post">
-          <ul id="nav-mobile" class="side-nav">
-            <li>
-              <h5 style="margin:0; padding: 5px;" class="grey darken-4 white-text lighter annotate">Login</h5>
-            </li>       
-            <li>
-              <label class="screen-reader-only" for="login">Email address</label>
-              <input style="padding-left:1rem;" type="email" id="login" class="white black-text" placeholder="Login/Email address" name="muserEmail" />
-            </li>
-            <li>
-              <label class="screen-reader-only" for="password">Password</label>
-              <input style="padding-left:1rem;"  type="password" id="password" class="white black-text" placeholder="Password" name="muserPass" />
-            </li>
-            <li style="margin-left: 1rem;">
-              <button class="btn-large waves-effect waves-light blue darken-3 white-text" name="btn-login-mobile" style="height: 47px; line-height: 27px;">Login</button>
-            </li>
-          </ul>
+
           <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons grey-text darken-3">menu</i></a>           
           <ul class="right hide-on-med-and-down annotate">
             <li>
@@ -95,22 +81,39 @@ if(isset($_POST['btn-login-mobile']))
                 if(isset($_GET['error']))
                 {
               ?>
-              <input style="margin-left: 1rem; padding-left: 5px;" type="password" id="userPass" class="white black-text annotate-error" placeholder="Password" name="userPass" aria-describedby="password_error" />
+                <input style="margin-left: 1rem; padding-left: 5px;" type="password" id="userPass" class="white black-text annotate-error" placeholder="Password" name="userPass" aria-describedby="password_error" />
               <?php
                 } else {
               ?>
-              <input style="margin-left: 1rem; padding-left: 5px;" type="password" id="userPass" class="white black-text" placeholder="Password" name="userPass" />
+                <input style="margin-left: 1rem; padding-left: 5px;" type="password" id="userPass" class="white black-text" placeholder="Password" name="userPass" />
               <?php
                 }
               ?>  
             </li>
             <li style="margin-left: 1rem;">
-              <button class="btn-large waves-effect waves-light blue darken-3 white-text" name="btn-login" style="margin-left: 1rem; height: 47px; line-height: 27px;">Login</button>
+              <input type="submit" class="btn-small waves-effect waves-light grey darken-3 white-text" value="Login" name="btn-login" style="margin-left: 1rem; height: 47px; line-height: 47px; font-size: 15px; text-align: center; width: 65px; margin-bottom: 5px;" />
+              <!--button class="btn-large waves-effect waves-light blue darken-3 white-text" name="btn-login" >Login</button-->
             </li>   
             <li>
               <a href="signup.php">Sign up</a>
             </li> 
           </ul>
+          <ul id="nav-mobile" class="side-nav">
+            <li>
+              <h5 style="margin:0; padding: 5px;" class="grey darken-4 white-text lighter annotate">Login</h5>
+            </li>       
+            <li>
+              <label class="screen-reader-only" for="mlogin">Email address</label>
+              <input style="padding-left:1rem;" type="email" id="mlogin" class="white black-text" placeholder="Login/Email address" name="muserEmail" />
+            </li>
+            <li>
+              <label class="screen-reader-only" for="mpassword">Password</label>
+              <input style="padding-left:1rem;"  type="password" id="mpassword" class="white black-text" placeholder="Password" name="muserPass" />
+            </li>
+            <li style="margin-left: 1rem;">
+              <button class="btn-large waves-effect waves-light blue darken-3 white-text" name="btn-login-mobile" style="height: 47px; line-height: 27px;">Login</button>
+            </li>
+          </ul>          
         </form>
       </div>
     </nav>
@@ -166,23 +169,19 @@ if(isset($_POST['btn-login-mobile']))
   <div class="container">
     <div class="section">
         <div class="row center">
-          <a href="#" target="_blank" class="btn-large waves-effect waves-light  blue darken-3"><img style="vertical-align: middle; padding-right: 5px;" src="images/chrome.png" alt="" />
-            Get Annotate!
-            <span class="screen-reader-only"> extension for Google Chrome! - opens in a new window</span>
-            <br />
-            <span class="small">for Chrome</span>
-          </a>
-
-          <!--a href="https://chrome.google.com/webstore/detail/annotate/hmapkigpghjemmoodagegimpoimooamc" target="_blank" id="download-button" class="btn-large waves-effect waves-light orange darken-3"><img style="vertical-align: middle; padding-right: 5px;"  src="images/ff.png" alt="" />   Get Annotate!
-            <span class="screen-reader-only"> extension for Firefox! - opens in a new window</span>
-          </a-->
+          <button id="install-button" class="btn-large waves-effect waves-light blue darken-3"><img style="vertical-align: middle; padding-right: 5px;" src="images/chrome.png" alt="" />Get Annotate for Chrome</button>
+          <script>
+          if (chrome.app.isInstalled) {
+            document.getElementById('install-button').style.display = 'none';
+          }
+          </script>
 
         </div>
       <!--   Icon Section   -->
       <div class="row">
         <div class="col s12 m4">
           <div class="icon-block">
-            <h2 class="center light-grey-text annotate-h2"><i class="material-icons" aria-hidden="true">screen_share</i><span class="screen-reader-only">What is Annotate!</span></h2>
+            <h2 class="center light-grey-text"><i class="material-icons" aria-hidden="true">screen_share</i><span class="screen-reader-only">What is Annotate!</span></h2>
             
 
             <p class="light">Annotate is a full suite of end-to-end tools for any role to use in any stage of your timeline.  Make notes, place emoji pins, highlight text, and highlight elements on the screen to share with other users on your team using <a href="http://annotate.tech">annotate.tech</a></p>
@@ -191,7 +190,7 @@ if(isset($_POST['btn-login-mobile']))
 
         <div class="col s12 m4">
           <div class="icon-block">
-            <h2 class="center green-text annotate-h2"><i aria-hidden="true" class="material-icons">done</i><span class="screen-reader-only">Who should use Annotate!</span></h2>
+            <h2 class="center green-text"><i aria-hidden="true" class="material-icons">done</i><span class="screen-reader-only">Who should use Annotate!</span></h2>
 
             <p class="light">Developers?  Check.<br />
               Designers?  Check.<br />
@@ -202,7 +201,7 @@ if(isset($_POST['btn-login-mobile']))
 
         <div class="col s12 m4">
           <div class="icon-block">
-            <h2 class="center light-blue-text annotate-h2"><i class="material-icons">touch_app</i></h2>
+            <h2 class="center light-blue-text"><i class="material-icons">touch_app</i></h2>
 
             <p class="light">Annotate is touch friendly!  Use on your touchscreen computer without a mouse and keyboard.</p>
           </div>
@@ -309,66 +308,21 @@ if(isset($_POST['btn-login-mobile']))
 
     </div>
   </div>
-
-  <div id="where" class="parallax-container valign-wrapper">
-    <div class="section no-pad-bot">
-      <div class="container">
-        <div class="row center">
-          <h2 class="annotate-h2 header col s12 light-blue-text text-darken-3" style="font-size: 2.92rem; color: #fff !important">Where can you use Annotate!</h2>
-
-        </div>
-        <div class="row">
-          <!--p class="center">
-            Annotate! is a suite of tools.  On the front end there is a free extension for either Chrome or Firefox.
-          </p>         
-          <p class="center">
-            After you've installed the extension, sign up for a free account at <a class="white-text" href="http://annotate.tech">annotate.tech</a-->
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="parallax blue darken-1"></div>
-  </div>  
-  <div class="container">
-    <div class="section">
-      <div class="row">
-        <div class="col s16 center">
-          <h4 class="annotate">Get the extension</h4>
-          <div class="col l6 s16 left-align">
-              Annotate! is a free extension that for Google Chrome.  Click the button to the left to get the extension in your current browser.
-          </div>
-          <div class="col l6 s16">
-            <a href="https://chrome.google.com/webstore/detail/annotate/hmapkigpghjemmoodagegimpoimooamc" target="_blank" class="btn-large waves-effect waves-light  blue darken-3"><img style="vertical-align: middle; padding-right: 5px;" src="images/chrome.png" alt="" />
-              Get Annotate!
-              <span class="screen-reader-only"> extension for Google Chrome! - opens in a new window</span>
-              <br />
-              <span class="small">for Chrome</span>
-            </a>
-
-            <!--a href="https://chrome.google.com/webstore/detail/annotate/hmapkigpghjemmoodagegimpoimooamc" target="_blank" id="download-button" class="btn-large waves-effect waves-light orange darken-3"><img style="vertical-align: middle; padding-right: 5px;"  src="images/ff.png" alt="" />   Get Annotate!
-              <span class="screen-reader-only"> extension for Firefox! - opens in a new window</span>
-            </a-->            
-          </div>           
-        </div>
-      </div>
-    </div>
-  </div> 
+ 
   <footer class="page-footer grey darken-4 white-text lighter">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
-          <h5 class="annotate">About svA11y</h5>
-          <p class="text-lighten-4">Annotate! was created and is maintained by Shea VanLaningham.  svA11y.com is a website dedicated to providing quality Web Accessibility and Section 508 consultation and remediation.  Annotate! was created to assist users in making Accessibility notations, but quickly grew into something much bigger and better!</p>
+          <h5 class="annotate-h5">About svA11y</h5>
+          <p class="text-lighten-4 light" style="font-size: 13px;">Annotate! was created and is maintained by Shea VanLaningham.  svA11y.com is a website dedicated to providing quality Web Accessibility and Section 508 consultation and remediation.  Annotate! was created to assist users in making Accessibility notations, but quickly grew into something much bigger and better!</p>
 
 
         </div>
         <div class="col l3 s12">
-          <h5 class="annotate">Connect</h5>
-          <ul>
+          <h5 class="annotate-h5">Connect</h5>
+          <ul style="font-size: 13px;">
             <li><a href="http://annotate.tech">Annotate Tech</a></li>
             <li><a href="http://sva11y.com">svA11y.com</a></li>
-            <li><a href="#!">Get Annotate! for Firefox</a></li>
-            <li><a href="https://chrome.google.com/webstore/detail/annotate/hmapkigpghjemmoodagegimpoimooamc">Get Annotate! for Google Chrome</a></li>
             <li><a href="http://www.sheavanlaningham.com">sheavanlaningham.com</a></li>
             <li><a href="https://www.linkedin.com/in/shea-vanlaningham-b284782b">LinkedIn</a></li>
           </ul>
@@ -388,24 +342,24 @@ if(isset($_POST['btn-login-mobile']))
   <script src="js/annotate.js"></script>
   <script src="js/materialize.js"></script> 
   <script src="js/init.js"></script>
-<script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "Product",
-  "url": "http://annotate.tech",
-  "name": "Annotate"
-}
-</script>  
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  <script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Product",
+    "url": "http://annotate.tech",
+    "name": "Annotate"
+  }
+  </script>  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-81728929-1', 'auto');
-  ga('send', 'pageview');
+    ga('create', 'UA-81728929-1', 'auto');
+    ga('send', 'pageview');
 
-</script>
+  </script>
 
   </body>
 </html>

@@ -110,7 +110,15 @@ $query = sprintf("SELECT * FROM news");
               </div>              
               Users
             </a>
-          </li>          
+          </li> 
+          <li>
+            <a href="feedback.php" class="black-text">
+              <div class="chip" style="display: inline; background: none; padding: 0;">
+                <img src="images/chat.png" alt="" style="border-radius: 0;" />
+              </div>              
+              Feedback
+            </a>
+          </li>                    
           <li>
             <a href="settings.php" class="black-text">
               <div class="chip" style="display: inline; background: none; padding: 0;">
@@ -133,19 +141,11 @@ $query = sprintf("SELECT * FROM news");
               <a href="home.php" style="padding-left: 10px;"><span class="small black-text"><?php echo $row['userEmail']; ?></span></a>
             </li> 
             <li class="divider"></li>
-            <li><a href="results.php" class="black-text">Annotations</a>
-            <?php
-              if($row['admin'] === 'Y')
-              {
-                ?>
-                  <li><a href="add_news.php" class="black-text">Add News</a></li>
-                <?php
-              } 
-            ?>
             <li><a href="add_news.php">Add News</a></li>
             <li><a href="results.php">Annotations</a></li>             
             <li><a href="recs.php">Recommendations</a></li>
             <li><a href="users.php">Users</a></li>
+            <li><a href="feedback.php">Feedback</a></li>
             <li><a href="settings.php" class="black-text">Settings</a></li>
             <li><a href="logout.php" class="black-text">Logout</a></li>
           </ul>

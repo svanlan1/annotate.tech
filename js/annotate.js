@@ -79,3 +79,13 @@ function validate_stuff() {
 
 	return retVal;	
 }
+
+
+  function setEvents() {
+    $('#install-button').click(function(e) {
+      e.preventDefault();
+      chrome.webstore.install()      
+    });
+  }
+
+  setEvents();

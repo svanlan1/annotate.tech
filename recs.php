@@ -23,6 +23,7 @@
     $additional = $_POST['additional'];
     $rec_id = trim($_POST['rec_id']);
     $global_rec = $_POST['global_rec'];
+    $wcag = $_POST['wcag'];
 
     if($global_rec === 'on') {
       $global_rec = 'Y';
@@ -33,7 +34,7 @@
     if($rec_id === "") {
       $rec_id = md5(uniqid(rand()));
     }    
-    if($user_home->add_recommendation($userID,$quickname,$ex,$description,$additional,$rec_id,$global_rec))
+    if($user_home->add_recommendation($userID,$quickname,$ex,$description,$additional,$rec_id,$global_rec,$wcag))
     {
       header('Location:recs.php?success');
     }
@@ -246,6 +247,7 @@
             <table>
               <thead>
                 <tr>
+                  <!--th scope="col" class="screen-reader-only">Include</th-->
                   <th scope="col">Name</th>
                   <th scope="col">Description</th>
                   <th scope="col">Example</th>
@@ -263,7 +265,7 @@
                         die($message);
                     }
                     while ($res = mysql_fetch_assoc($result)) {
-                      echo "<tr><th scope='row' style='vertical-align:top; font-weight: bold;'>".$res['quickname']."</td>";
+                      echo "<tr><!--td><form><p><label class='screen-reader-only' for='an-check-".trim($res['quickname'])."'>Include ".$res['quickname']." in your recommendations</label><input style='position:relative; left: auto; top: auto; vertical-align: top; opacity: 1; height: 15px; width: 15px;' type='checkbox' class='annotate-checkbox-rec-include' id='an-check-". trim($res['quickname'])."' /></p></form></td--><th scope='row' style='vertical-align:top; font-weight: bold;'>".$res['quickname']."</td>";
                       $desc = stripslashes($res['description']);
                       $ex = $res['example'];
                       $examp = str_replace("<", "&lt;", $ex);
@@ -292,7 +294,7 @@
                   if($row['admin'] === 'Y')
                   {
                 ?>
-                  <div class="row">
+                  <div class="row" style="height: 58px;">
                     <div class="input-field col s12 left-align">
                       <div class="switch">
                           <label>
@@ -328,6 +330,12 @@
                 </div>  
                 <div class="row">
                   <div class="input-field col s12 left-align">
+                   <label for="example">Guideline</label>
+                   <textarea id="wcag" class="materialize-textarea" name="wcag"></textarea>
+                  </div>
+                </div>                  
+                <div class="row">
+                  <div class="input-field col s12 left-align">
                    <label for="additional">Additional notes</label>
                    <textarea id="additional" class="materialize-textarea" name="additional"></textarea>
                   </div>
@@ -351,17 +359,16 @@
       <div class="row">
         <div class="col l6 s12">
           <h5 class="annotate-h5">About svA11y</h5>
-          <p class="text-lighten-4">Annotate! was created and is maintained by Shea VanLaningham.  svA11y.com is a website dedicated to providing quality Web Accessibility and Section 508 consultation and remediation.  Annotate! was created to assist users in making Accessibility notations, but quickly grew into something much bigger and better!</p>
+          <p class="text-lighten-4 light" style="font-size: 13px;">Annotate! was created and is maintained by Shea VanLaningham.  svA11y.com is a website dedicated to providing quality Web Accessibility and Section 508 consultation and remediation.  Annotate! was created to assist users in making Accessibility notations, but quickly grew into something much bigger and better!</p>
 
 
         </div>
         <div class="col l3 s12">
           <h5 class="annotate-h5">Connect</h5>
-          <ul>
+          <ul style="font-size: 13px;">
             <li><a href="http://annotate.tech">Annotate Tech</a></li>
             <li><a href="http://sva11y.com">svA11y.com</a></li>
-            <li><a href="javascript:void(0);">Get Annotate! for Firefox</a></li>
-            <li><a href="https://chrome.google.com/webstore/detail/annotate/hmapkigpghjemmoodagegimpoimooamc">Get Annotate! for Google Chrome</a></li>
+            <li><a href="javascript:void(0);" id="install-button">Get Annotate! for Google Chrome</a></li>
             <li><a href="http://www.sheavanlaningham.com">sheavanlaningham.com</a></li>
             <li><a href="https://www.linkedin.com/in/shea-vanlaningham-b284782b">LinkedIn</a></li>
           </ul>

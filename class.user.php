@@ -83,6 +83,7 @@ class USER
 			else
 			{
 				header("Location: index.php?error");
+
 				exit;
 			}		
 		}
@@ -110,12 +111,12 @@ class USER
 		
 	}
 
-	public function add_recommendation($userID,$quickname,$example,$description,$additional,$rec_id,$global_rec)
+	public function add_recommendation($userID,$quickname,$example,$description,$additional,$rec_id,$global_rec,$wcag)
 	{
 		try
 		{
-			$stmt = $this->conn->prepare("INSERT INTO recs(userID,quickname,example,description,additional,rec_id, global_rec) 
-			                                             VALUES(:user_id, :qn, :ex, :descr, :add, :rec_id, :global)");
+			$stmt = $this->conn->prepare("INSERT INTO recs(userID,quickname,example,description,additional,rec_id, global_rec, wcag) 
+			                                             VALUES(:user_id, :qn, :ex, :descr, :add, :rec_id, :global, :wcag)");
 			$stmt->bindparam(":user_id",$userID);
 			$stmt->bindparam(":qn",$quickname);
 			$stmt->bindparam(":ex",$example);
@@ -123,6 +124,7 @@ class USER
 			$stmt->bindparam(":add",$additional);
 			$stmt->bindparam(":rec_id",$rec_id);
 			$stmt->bindparam(":global",$global_rec);
+			$stmt->bindparam(":wcag", $wcag);
 			$stmt->execute();	
 			return $stmt;
 		}
@@ -134,16 +136,17 @@ class USER
 		}
 	}
 
-	public function update_rec($quickname,$example,$description,$additional,$rec_id,$global_rec)
+	public function update_rec($quickname,$example,$description,$additional,$rec_id,$global_rec, $wcag)
 	{
 		try
 		{
-			$stmt = $this->conn->prepare("UPDATE recs SET quickname=:qn,example=:ex,description=:descr,additional=:add,global_rec=:global WHERE rec_id='$rec_id'");
+			$stmt = $this->conn->prepare("UPDATE recs SET quickname=:qn,example=:ex,description=:descr,additional=:add,global_rec=:global, wcag=:wcag WHERE rec_id='$rec_id'");
 			$stmt->bindparam(":qn",$quickname);
 			$stmt->bindparam(":ex",$example);
 			$stmt->bindparam(":descr",$description);
 			$stmt->bindparam(":add",$additional);
 			$stmt->bindparam(":global",$global_rec);
+			$stmt->bindparam(":wcag", $wcag);
 			$stmt->execute();	
 			return $stmt;
 		} 

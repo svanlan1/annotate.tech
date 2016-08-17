@@ -220,17 +220,16 @@ if(isset($_POST['btn-update']))
       <div class="row">
         <div class="col l6 s12">
           <h5 class="annotate-h5">About svA11y</h5>
-          <p class="text-lighten-4">Annotate! was created and is maintained by Shea VanLaningham.  svA11y.com is a website dedicated to providing quality Web Accessibility and Section 508 consultation and remediation.  Annotate! was created to assist users in making Accessibility notations, but quickly grew into something much bigger and better!</p>
+          <p class="text-lighten-4 light" style="font-size: 13px;">Annotate! was created and is maintained by Shea VanLaningham.  svA11y.com is a website dedicated to providing quality Web Accessibility and Section 508 consultation and remediation.  Annotate! was created to assist users in making Accessibility notations, but quickly grew into something much bigger and better!</p>
 
 
         </div>
         <div class="col l3 s12">
           <h5 class="annotate-h5">Connect</h5>
-          <ul>
+          <ul style="font-size: 13px;">
             <li><a href="http://annotate.tech">Annotate Tech</a></li>
             <li><a href="http://sva11y.com">svA11y.com</a></li>
-            <li><a href="javascript:void(0);">Get Annotate! for Firefox</a></li>
-            <li><a href="https://chrome.google.com/webstore/detail/annotate/hmapkigpghjemmoodagegimpoimooamc">Get Annotate! for Google Chrome</a></li>
+            <li><a href="javascript:void(0);" id="install-button">Get Annotate! for Google Chrome</a></li>
             <li><a href="http://www.sheavanlaningham.com">sheavanlaningham.com</a></li>
             <li><a href="https://www.linkedin.com/in/shea-vanlaningham-b284782b">LinkedIn</a></li>
           </ul>
