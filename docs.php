@@ -163,7 +163,7 @@ $query = sprintf("SELECT * FROM news");
           <h1 class="annotate-h1 left-align" style="font-size: 2rem;">Documentation</h1>
             <ul class="collapsible popout" data-collapsible="accordion">
                 <li>
-                  <div class="collapsible-header"><i class="material-icons" aria-hidden="true" >web</i><h2 class="docs annotate-h2" style="font-weight: 300;">Getting Started</h2></div>
+                  <div class="collapsible-header active"><i class="material-icons" aria-hidden="true" >web</i><h2 class="docs annotate-h2" style="font-weight: 300;">Getting Started</h2></div>
                   <div class="collapsible-body">
                     <h3 class="annotate annotate-h3">What is Annotate?</h3>
                     <p>
@@ -181,16 +181,13 @@ $query = sprintf("SELECT * FROM news");
                             <th scope="row">Add/edit custom recommendations</th><td>August 15th, 2016</td>
                           </tr>                         
                           <tr>
-                            <th scope="row">Firefox Extension completion date</th><td>September 1st, 2016</td>
+                            <th scope="row">Firefox Extension completion date</th><td>November 1st, 2016</td>
                           </tr>
                           <tr>
-                            <th scope="row">Share annotations with other users</th><td>October 1st, 2016</td>
+                            <th scope="row">Share annotations with other users</th><td>November 15th, 2016</td>
                           </tr> 
                           <tr>
-                            <th scope="row">Microsoft Edge extension completion date</th><td>October 1st, 2016</td>
-                          </tr> 
-                          <tr>
-                            <th scope="row">Share annotations with other users</th><td>October 1st, 2016</td>
+                            <th scope="row">Microsoft Edge extension completion date</th><td>November 1st, 2016</td>
                           </tr> 
                         </tbody>
                       </table>                         
@@ -208,7 +205,7 @@ $query = sprintf("SELECT * FROM news");
                     <h3 class="annotate annotate-h3">Where do I get the Chrome extension?</h3>
                     <p>
                       Getting Annotate is easy.  Simply click the button below to install the extension to Chrome.<br />
-                      <buton class="blue white-text">COMING SOON</buton>
+                      <button id="install-button" class="btn-large waves-effect waves-light blue darken-3"><img style="vertical-align: middle; padding-right: 5px;" src="images/chrome.png" alt="" />Get Annotate for Chrome</button>
                     </p>
                     <h3 class="annotate annotate-h3">What if I hate Chrome and want to use Firefox or Edge?</h3>
                     <p>
@@ -222,7 +219,7 @@ $query = sprintf("SELECT * FROM news");
                   </div>
                 </li>
                 <li>
-                  <div class="collapsible-header active"><i class="material-icons" aria-hidden="true" >extension</i><h2 class="docs annotate-h2" style="font-weight: 300;">Extension</h2></div>
+                  <div class="collapsible-header"><i class="material-icons" aria-hidden="true" >extension</i><h2 class="docs annotate-h2" style="font-weight: 300;">Extension</h2></div>
                   <div class="collapsible-body">
                     <h3 class="annotate annotate-h3">Installing the extension</h3>
                     <p style="display:block;">

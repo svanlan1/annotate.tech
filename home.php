@@ -185,7 +185,7 @@ $query = sprintf("SELECT * FROM news ORDER BY date_updated desc");
   </div>
 
   <div class="container z-depth-2">
-    <div class="section" style="padding-left:1rem; padding-right: 1rem;">
+    <div class="section an_news_section" style="padding-left:1rem; padding-right: 1rem;">
       <?php
         if (!$result) {
             $message  = 'Invalid query: ' . mysql_error() . "\n";

@@ -26,6 +26,16 @@ input[type=email] {
 
 }
 
+.an_news_section a {
+  color: #000;
+  text-decoration: underline;
+}
+
+.an_news_section a:focus, .an_news_section a:hover {
+  outline: dotted 1px #000;
+  outline-offset: 3px;
+}
+
 
 footer a:focus, footer a:hover {
 	outline: solid 2px #fff;
@@ -160,4 +170,75 @@ img.blue-border {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; 
+}
+
+.an-card {
+  display: inline-block;
+  width: 48%;
+  margin: 1%;
+  height: 250px;
+  vertical-align: top;
+  box-shadow: #666 1px 2px 3px 1px;
+}
+
+.an-card-title {
+  width: 100%;
+  display: block;
+  font-size: 1rem;
+  padding: 5px;
+  height: 43px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.an-card-title::first-letter {
+    font-size: 1.5rem;
+    color: #222;
+    text-shadow: #666 1px 1px 2px;
+    border: solid 2px #dbdbdb;
+    padding: 3px 7px;
+    border-radius: 50%;
+    background: #eee;
+}
+
+.an-card-url {
+  border-top: solid 1px #cecece;
+  padding: 5px;
+  height: 35px;
+}
+
+.an-card-url a {
+  font-weight: 700;
+  color: #000080;
+  font-size: .8rem;
+  display: block;
+}
+
+.an-card-info {
+  width: 100%;
+  display: block;
+  padding: 5px;
+  font-size: .8rem;
+  display:none;
+}
+
+.an-card-annotation {
+  overflow-y: auto;
+  height: 171px;
+}
+
+.an-card-session {
+  display: none;
+}
+
+.annotate-res-width {
+  width: 95%;
+}
+
+.delete-card {
+  position: absolute;
+  margin-left: 31.5%;
+  color: #444;
+  display: inline;
+  margin-top: 5px;
 }

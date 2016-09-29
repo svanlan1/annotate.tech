@@ -158,7 +158,7 @@ $query = sprintf("SELECT * FROM news");
     <div class="section">
       <div class="row">
         <div class="col s12 center">
-          <h1 class="annotate left-align annotate-h1">Welcome <?php echo $row['first_name'].' '.$row['last_name'] ?></h1>
+          <h1 class="left-align annotate-h1">Welcome <?php echo $row['first_name'].' '.$row['last_name'] ?></h1>
           <div class="col l12 s16 left-align">         
             Thanks for using Annotate!
           </div>          
@@ -178,7 +178,7 @@ $query = sprintf("SELECT * FROM news");
         }    
 
         while ($row = mysql_fetch_assoc($result)) {
-            $msg = "<div class='row'><div class='col s12'><h2 class='annotate annotate-h2' style='padding-left:0;'>".$row['title']."</h2>
+            $msg = "<div class='row'><div class='col s12'><h2 class='annotate-h2' style='padding-left:0;'>".$row['title']."</h2>
                     <span class='article-date'>Date: " . date("Y-m-d",$row['date_updated']) . "</span>
                     <span class='article-by'>by ".$row['created_first_name'] . " " . $row['created_last_name'] . "</span>
                     <p>".$row['story']."</p></div></div>";

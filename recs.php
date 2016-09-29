@@ -242,6 +242,10 @@
             <li class="tab col s3"><a href="#saved_recs" class="active">Saved</a></li>
             <li class="tab col s3"><a href="#add_rec">Add</a></li>
           </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
           <div id="saved_recs" class="col s12">
             <h3 class="screen-reader-only">Stored recommendations</h3>
             <table>

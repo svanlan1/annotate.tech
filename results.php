@@ -191,13 +191,10 @@
 
       <div class="row">
         <div class="col s12 left-align">
-          <h1 class="annotate-h1"><?php echo $row['first_name']. " ". $row['last_name'] ?>'s annotations</h1>
-          <div class="col l12 s16 left-align">         
-
-          </div>         
+          <h1 class="annotate-h1"><?php echo $row['first_name']. " ". $row['last_name'] ?>'s annotations</h1>     
         </div>
       </div>
-      <div id="annotations" style="display:none;">
+      <div id="annotations">
         <?php
           if (!$result) {
               $message  = 'Invalid query: ' . mysql_error() . "\n";
@@ -212,10 +209,13 @@
               if($row['obj'] !== "[]")
               {
                 $msg = array($row['session_id']=>json_decode($row['obj']), 'url'=>$row['url'], 'username'=>$row['username'], 'page_title'=>$row['page_title']);
-                array_push($results, $msg);
+               array_push($results, $msg);
+                $str = "<div class=\"an-card\"><a class=\"delete-card\" data-ann-val=\"".$row['session_id']."\" href=\"javascript:void(0);\"><i class=\"material-icons\">delete_forever</i></a><div class=\"an-card-title\">".$row['page_title']."</div><div class=\"an-card-url\"><a>".$row['url']."</a></div><div class=\"an-card-info\">".$row['obj']."</div><div class=\"an-card-annotation\"></div><div class=\"an-card-session\">".$row['session_id']."</div></div>";
+                echo $str;
+
               }
           }
-          echo json_encode($results);
+          //echo json_encode($results);
 
           mysql_free_result($result);
 
@@ -224,7 +224,7 @@
   
 
     </div>
-    <div class="row" id="results_area"></div>    
+    <div class="row" id="results_area"></div> 
   </div>
   <footer class="page-footer grey darken-4 white-text lighter">
     <div class="container">
@@ -376,9 +376,92 @@
               }              
             }
           }
-        }     
+        } 
 
-        convert_obj();
+        function convert_page() {
+          var cards = $('.an-card');
+          $(cards).each(function(i,v) {
+            var info = JSON.parse($(v).find('.an-card-info').text()),
+              link = $(v).find('.an-card-url a'),
+              urlText = $(link).text(),
+              sess_id = $(v).find('.an-card-session').text(),
+              area = $(v).find('.an-card-annotation');
+              if(info) {
+                var win_w = info[0].win_w,
+                    win_h = info[0].win_h;
+              } else {
+                var win_w = "1366",
+                  win_h = "768";
+              }
+
+              $(info).each(function(i,v) {
+                //$('<span style="display:block;">' + v.type + '</span>').appendTo(area);
+                var thing = $('<div />').addClass('annotate-res-width').appendTo(area);
+                  if(v.type === 'pin') {
+                    $(thing).css('display', 'inline');
+                    var p_type = v['flag_color'];
+                    var img = $('<img />').attr('src', 'ext/images/pins/pin_24_' + p_type + '.png').css({
+                      'width': v['pin_size'],
+                      'display': 'inline-block',
+                      'margin': '5px'
+                    }).appendTo(thing);
+                  } else if (v.type === 'box') {
+                    var box = $('<div />').css({
+                      'width': '100%',
+                      'height': '50px',
+                      'border-width': v['box_width'],
+                      'border-style': 'solid',
+                      'border-color': v['box_color'],
+                      'background-color': v['box_bg_color'],
+                      'margin': '5px'
+                    }).appendTo(thing);
+                  } else if (v.type === 'text') {
+                      var textbox = $('<div />').css({
+                        'font-family': v['font_family'],
+                        'border-width': v['border_w'],
+                        'border-color': v['border_c'],
+                        'font-size': v['font'],
+                        'text-shadow': v['shadow'],
+                        'padding': '1rem',
+                        'display': 'block'
+                      }).text(unescape(v['text'])).appendTo(thing)
+                  } else if (v.type === 'context') {
+                    var wrap = $('<div />').css({
+                      'padding': '10px',
+                      'border': 'solid 1px #777',
+                      'margin': '5px',
+                      'border-radius': '3px'
+                    }).appendTo(thing);
+                  }
+
+              });
+              var src = "window.open('"+urlText+"?annotate=true&an_tech_sess_id="+sess_id+"','_new', 'toolbar=yes, location=yes, status=no,menubar=yes,scrollbars=yes,resizable=no,width=" +win_w+",height=" +win_h+"')";
+            $(link).attr('href', 'javascript:void(0);').attr('onclick', src);
+            $(v).find('.delete-card').click(function() {
+                  if(confirm('Are you sure want to remove this annotation?  This is non-reversable')) {
+                   var $session_id=$(this).attr('data-ann-val');
+                   var parent = $(this).parent();
+                    $.ajax({
+                      url: "http://annotate.tech/delete_ann_service.php",
+                      type: "POST",
+                      data: {session_id: $session_id},
+                      success: function (response) {
+                        $(parent).remove();
+                        return false;     
+                      },
+                      error: function (error) {
+                        console.log(error);
+                        return false;
+                      }
+                    });
+                  } 
+                });
+          });
+        }
+
+
+        convert_page(); 
+        //convert_obj();
       </script>  
  
   <script src="js/materialize.js"></script>
