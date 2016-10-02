@@ -184,8 +184,8 @@ $query = sprintf("SELECT * FROM news ORDER BY date_updated desc");
     </div>
   </div>
 
-  <div class="container z-depth-2">
-    <div class="section an_news_section" style="padding-left:1rem; padding-right: 1rem;">
+  
+    
       <?php
         if (!$result) {
             $message  = 'Invalid query: ' . mysql_error() . "\n";
@@ -195,19 +195,19 @@ $query = sprintf("SELECT * FROM news ORDER BY date_updated desc");
         }    
 
         while ($row = mysql_fetch_assoc($result)) {
-            $msg = "<div class='row'><div class='col s12'><h2 class='annotate-h2' style='padding-left:0;'>".$row['title']."</h2>
+            $msg = "<div class='container z-depth-2'>
+                    <div class='section an_news_section' style='padding-left:1rem; padding-right: 1rem;'>
+                    <div class='row'><div class='col s12'><h2 class='annotate-h2' style='padding-left:0;'>".$row['title']."</h2>
                     <span class='article-date'>Date: " . date("Y-m-d",$row['date_updated']) . "</span>
                     <span class='article-by'>by ".$row['created_first_name'] . " " . $row['created_last_name'] . "</span>
-                    <p>".$row['story']."</p></div></div>";
+                    <p>".$row['story']."</p></div></div></div></div>";
             echo $msg;
         }
 
         mysql_free_result($result);
 
       ?>
-
-    </div>
-  </div>    
+ 
 
   <!--div class='container'>
     <div class='section'>

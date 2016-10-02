@@ -2674,7 +2674,8 @@ a {
 }
 
 .z-depth-2 {
-  box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: #888 1px 1px 2px 1px;
+  margin-top: 2rem !important;
 }
 
 .z-depth-3 {
@@ -3437,7 +3438,7 @@ input[type=range] + .thumb {
 
 .section {
   padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding-bottom: 0;
 }
 
 .section.no-pad {
