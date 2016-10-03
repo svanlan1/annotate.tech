@@ -2613,7 +2613,7 @@ th {
 }
 
 tr {
-  border-bottom: solid 2px #666;
+  border: solid 1px #dbdbdb;
 }
 
 html {
@@ -4858,8 +4858,8 @@ small {
   position: absolute;
   bottom: 0;
   height: 2px;
-  background-color: #666;
-  box-shadow: #666 0 0 10px 1px;
+  background-color: #ff0000;
+  box-shadow: #666 0 0 2px 1px;
   will-change: left, right;
 }
 

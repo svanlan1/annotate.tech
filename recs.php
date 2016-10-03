@@ -190,7 +190,7 @@
     </nav>
   </div>
 
-  <div class="container">
+  <div class="container annotate">
     <div class="section">
       <div class="row">
         <div class="col s12">

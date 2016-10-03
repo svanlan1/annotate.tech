@@ -12,8 +12,6 @@ $page_title = trim($_POST['page_title']);
 $session = $_POST['session_id'];
 $date = time();
 
-echo $session;
-
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 // Check connection

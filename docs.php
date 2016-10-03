@@ -156,7 +156,7 @@ $query = sprintf("SELECT * FROM news");
     </nav>
   </div>
 
-  <div class="container an_focus">
+  <div class="container an_focus annotate">
     <div class="section">
       <div class="row">
         <div class="col s12">
